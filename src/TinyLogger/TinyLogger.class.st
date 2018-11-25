@@ -37,11 +37,6 @@ TinyLogger >> allLoggers [
 	self fileLogger}
 ]
 
-{ #category : #logging }
-TinyLogger >> crRecord: aString [
-	self allLoggers do: [ :each | each crRecord: aString ]
-]
-
 { #category : #nesting }
 TinyLogger >> decreaseDepthLevel [
 	self depth: self depth - 1
@@ -146,11 +141,6 @@ TinyLogger >> initialize [
 { #category : #logging }
 TinyLogger >> record: aString [
 	self allLoggers do: [ :each | each record: aString ]
-]
-
-{ #category : #logging }
-TinyLogger >> recordCr: aString [
-	self allLoggers do: [ :each | each recordCr: aString ]
 ]
 
 { #category : #accessing }

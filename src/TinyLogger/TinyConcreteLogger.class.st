@@ -19,12 +19,6 @@ TinyConcreteLogger class >> isAbstract [
 	^ self = TinyConcreteLogger
 ]
 
-{ #category : #logging }
-TinyConcreteLogger >> crRecord: aString on: aStream [
-	aStream << self newLine.
-	self record: aString on: aStream
-]
-
 { #category : #accessing }
 TinyConcreteLogger >> depth [
 	^ self parentLogger depth
@@ -48,13 +42,7 @@ TinyConcreteLogger >> parentLogger: aLogger [
 { #category : #logging }
 TinyConcreteLogger >> record: aString on: aStream [
 	self recordPreambleOn: aStream.
-	aStream << aString
-]
-
-{ #category : #logging }
-TinyConcreteLogger >> recordCr: aString on: aStream [
-	self record: aString on: aStream.
-	aStream << self newLine
+	aStream << aString << self newLine
 ]
 
 { #category : #accessing }

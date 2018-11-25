@@ -10,17 +10,7 @@ TinyAbstractLogger class >> isAbstract [
 ]
 
 { #category : #logging }
-TinyAbstractLogger >> crRecord: aString [
-	self subclassResponsibility
-]
-
-{ #category : #logging }
 TinyAbstractLogger >> record: aString [
-	self subclassResponsibility
-]
-
-{ #category : #logging }
-TinyAbstractLogger >> recordCr: aString [
 	self subclassResponsibility
 ]
 

@@ -7,11 +7,6 @@ Class {
 	#category : #'TinyLogger-Core'
 }
 
-{ #category : #logging }
-TinyFileLogger >> crRecord: aString [
-	self fileStreamDo: [ :aStream | self crRecord: aString on: aStream ]
-]
-
 { #category : #accessing }
 TinyFileLogger >> fileName [
 	^ fileName
@@ -42,9 +37,4 @@ TinyFileLogger >> parentLogger: aTinyLogger [
 { #category : #logging }
 TinyFileLogger >> record: aString [
 	self fileStreamDo: [ :aStream | self record: aString on: aStream ]
-]
-
-{ #category : #logging }
-TinyFileLogger >> recordCr: aString [
-	self fileStreamDo: [ :aStream | self recordCr: aString on: aStream ]
 ]
