@@ -7,6 +7,18 @@ Class {
 	#category : #'TinyLogger-Core'
 }
 
+{ #category : #'instance creation' }
+TinyFileLogger class >> for: aLogger named: aString [
+	^ (self for: aLogger)
+		fileName: aString;
+		yourself
+]
+
+{ #category : #accessing }
+TinyFileLogger class >> kind [
+	^ 'file'
+]
+
 { #category : #accessing }
 TinyFileLogger >> fileName [
 	^ fileName

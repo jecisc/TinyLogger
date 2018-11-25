@@ -4,10 +4,8 @@ Class {
 	#instVars : [
 		'timestampFormatBlock',
 		'defaultFileName',
-		'transcriptLogger',
 		'depth',
-		'stdOutLogger',
-		'fileLogger'
+		'loggersMap'
 	],
 	#classVars : [
 		'Default'
@@ -25,16 +23,39 @@ TinyLogger class >> default: anObject [
 	Default := anObject
 ]
 
+{ #category : #accessing }
+TinyLogger class >> defaultFileName [
+	^ 'Application.log'
+]
+
 { #category : #initialization }
 TinyLogger class >> reset [
 	^ self default: nil
 ]
 
-{ #category : #accessing }
-TinyLogger >> allLoggers [
-	^ {self transcriptLogger.
-	self stdOutLogger.
-	self fileLogger}
+{ #category : #'adding/removing' }
+TinyLogger >> addFileLogger [
+	self addLogger: (TinyFileLogger for: self)
+]
+
+{ #category : #'adding/removing' }
+TinyLogger >> addFileLoggerNamed: aString [
+	self addLogger: (TinyFileLogger for: self named: aString)
+]
+
+{ #category : #'adding/removing' }
+TinyLogger >> addLogger: aLogger [
+	(self loggersMap at: aLogger kind ifAbsentPut: [ OrderedCollection new ]) add: aLogger
+]
+
+{ #category : #'adding/removing' }
+TinyLogger >> addStdoutLogger [
+	self addLogger: (TinySTDOutLogger for: self)
+]
+
+{ #category : #'adding/removing' }
+TinyLogger >> addTranscriptLogger [
+	self addLogger: (TinyTranscriptLogger for: self)
 ]
 
 { #category : #nesting }
@@ -70,50 +91,6 @@ TinyLogger >> depth: anObject [
 	depth := anObject
 ]
 
-{ #category : #'enable/disable' }
-TinyLogger >> disableFileLogger [
-	self fileLogger: (TinyNilLogger for: self)
-]
-
-{ #category : #'enable/disable' }
-TinyLogger >> disableLogger [
-	self disableFileLogger.
-	self disableTranscriptLogger.
-	self disableSTDOutLogger
-]
-
-{ #category : #'enable/disable' }
-TinyLogger >> disableSTDOutLogger [
-	self stdOutLogger: (TinyNilLogger for: self)
-]
-
-{ #category : #'enable/disable' }
-TinyLogger >> disableTranscriptLogger [
-	self transcriptLogger: (TinyNilLogger for: self)
-]
-
-{ #category : #'enable/disable' }
-TinyLogger >> enableFileLogger [
-	self fileLogger: (TinyFileLogger for: self)
-]
-
-{ #category : #'enable/disable' }
-TinyLogger >> enableLogger [
-	self enableFileLogger.
-	self enableTranscriptLogger.
-	self enbleSTDOutLogger
-]
-
-{ #category : #'enable/disable' }
-TinyLogger >> enableTranscriptLogger [
-	self transcriptLogger: (TinyTranscriptLogger for: self)
-]
-
-{ #category : #'enable/disable' }
-TinyLogger >> enbleSTDOutLogger [
-	self stdOutLogger: (TinySTDOutLogger for: self)
-]
-
 { #category : #logging }
 TinyLogger >> execute: aBlock recordedAs: aString [
 	self increaseDepthLevel.
@@ -125,14 +102,9 @@ TinyLogger >> execute: aBlock recordedAs: aString [
 	self decreaseDepthLevel
 ]
 
-{ #category : #accessing }
-TinyLogger >> fileLogger [
-	^ fileLogger
-]
-
-{ #category : #accessing }
-TinyLogger >> fileLogger: anObject [
-	fileLogger := anObject
+{ #category : #'accessing - loggers' }
+TinyLogger >> fileLoggers [
+	^ self loggersMap at: TinyFileLogger kind ifAbsentPut: [ OrderedCollection new ]
 ]
 
 { #category : #nesting }
@@ -145,23 +117,60 @@ TinyLogger >> initialize [
 	super initialize.
 	self depth: 0.
 	self timestampFormatBlock: self defaultTimestampFormatBlock.
-	self defaultFileName: 'Application.log'.
-	self enableLogger
+	self defaultFileName: self class defaultFileName.
+	self loggersMap: Dictionary new
+]
+
+{ #category : #accessing }
+TinyLogger >> loggers [
+	"Since the loggers variable contains a dictionary of loggers, here we faltten the dictonary."
+
+	^ self loggersMap values flatCollect: #yourself
+]
+
+{ #category : #accessing }
+TinyLogger >> loggersMap [
+	^ loggersMap
+]
+
+{ #category : #accessing }
+TinyLogger >> loggersMap: anObject [
+	loggersMap := anObject
 ]
 
 { #category : #logging }
 TinyLogger >> record: aString [
-	self allLoggers do: [ :each | each record: aString ]
+	self loggers do: [ :each | each record: aString ]
 ]
 
-{ #category : #accessing }
-TinyLogger >> stdOutLogger [
-	^ stdOutLogger
+{ #category : #'adding/removing' }
+TinyLogger >> removeAllLoggers [
+	self loggers do: [ :each | self removeLogger: each ]
 ]
 
-{ #category : #accessing }
-TinyLogger >> stdOutLogger: anObject [
-	stdOutLogger := anObject
+{ #category : #'adding/removing' }
+TinyLogger >> removeFileLoggers [
+	self fileLoggers removeAll
+]
+
+{ #category : #'adding/removing' }
+TinyLogger >> removeLogger: aLogger [
+	(self loggersMap at: aLogger kind ifAbsentPut: [ OrderedCollection new ]) remove: aLogger
+]
+
+{ #category : #'adding/removing' }
+TinyLogger >> removeStdoutLoggers [
+	self stdoutLoggers removeAll
+]
+
+{ #category : #'adding/removing' }
+TinyLogger >> removeTranscriptLoggers [
+	self transcriptLoggers removeAll
+]
+
+{ #category : #'accessing - loggers' }
+TinyLogger >> stdoutLoggers [
+	^ self loggersMap at: TinySTDOutLogger kind ifAbsentPut: [ OrderedCollection new ]
 ]
 
 { #category : #accessing }
@@ -174,12 +183,16 @@ TinyLogger >> timestampFormatBlock: anObject [
 	timestampFormatBlock := anObject
 ]
 
-{ #category : #accessing }
-TinyLogger >> transcriptLogger [
-	^ transcriptLogger
+{ #category : #'accessing - loggers' }
+TinyLogger >> transcriptLoggers [
+	^ self loggersMap at: TinyTranscriptLogger kind ifAbsentPut: [ OrderedCollection new ]
 ]
 
-{ #category : #accessing }
-TinyLogger >> transcriptLogger: anObject [
-	transcriptLogger := anObject
+{ #category : #'adding/removing' }
+TinyLogger >> withDefaultLoggers [
+	self
+		removeAllLoggers;
+		addTranscriptLogger;
+		addStdoutLogger;
+		addFileLogger
 ]

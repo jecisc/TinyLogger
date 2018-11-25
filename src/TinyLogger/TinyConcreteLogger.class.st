@@ -20,8 +20,18 @@ TinyConcreteLogger class >> isAbstract [
 ]
 
 { #category : #accessing }
+TinyConcreteLogger class >> kind [
+	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
 TinyConcreteLogger >> depth [
 	^ self parentLogger depth
+]
+
+{ #category : #accessing }
+TinyConcreteLogger >> kind [
+	^ self class kind
 ]
 
 { #category : #logging }
