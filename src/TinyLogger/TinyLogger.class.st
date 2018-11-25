@@ -30,6 +30,18 @@ TinyLogger class >> reset [
 	^ self default: nil
 ]
 
+{ #category : #accessing }
+TinyLogger >> allLoggers [
+	^ {self transcriptLogger.
+	self stdOutLogger.
+	self fileLogger}
+]
+
+{ #category : #logging }
+TinyLogger >> crRecord: aString [
+	self allLoggers do: [ :each | each crRecord: aString ]
+]
+
 { #category : #nesting }
 TinyLogger >> decreaseDepthLevel [
 	self depth: self depth - 1
@@ -49,7 +61,7 @@ TinyLogger >> defaultFileName: anObject [
 TinyLogger >> defaultTimestampFormatBlock [
 	^ [ :aStream | 
 	Date today printOn: aStream.
-	aStream space.
+	aStream << ' '.	"Cannot use #space because Stdio streams does not implements it."
 	Time now print24: true on: aStream ]
 ]
 
@@ -133,8 +145,12 @@ TinyLogger >> initialize [
 
 { #category : #logging }
 TinyLogger >> record: aString [
-	self transcriptLogger record: aString.
-	self fileLogger record: aString.
+	self allLoggers do: [ :each | each record: aString ]
+]
+
+{ #category : #logging }
+TinyLogger >> recordCr: aString [
+	self allLoggers do: [ :each | each recordCr: aString ]
 ]
 
 { #category : #accessing }
