@@ -10,6 +10,11 @@ TinyAbstractLogger class >> isAbstract [
 ]
 
 { #category : #logging }
+TinyAbstractLogger >> << aString [
+	self record: aString
+]
+
+{ #category : #logging }
 TinyAbstractLogger >> record: aString [
 	self subclassResponsibility
 ]
