@@ -114,6 +114,17 @@ TinyLogger >> enbleSTDOutLogger [
 	self stdOutLogger: (TinySTDOutLogger for: self)
 ]
 
+{ #category : #logging }
+TinyLogger >> execute: aBlock recordedAs: aString [
+	self increaseDepthLevel.
+	self record: 'Begin:	' , aString.
+	self increaseDepthLevel.
+	aBlock cull: aString.
+	self decreaseDepthLevel.
+	self record: 'End:	' , aString.
+	self decreaseDepthLevel
+]
+
 { #category : #accessing }
 TinyLogger >> fileLogger [
 	^ fileLogger
