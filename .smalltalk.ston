@@ -7,7 +7,7 @@ SmalltalkCISpec {
   ],  
   #testing : {
     #coverage : {
-      #packages : [ 'TinyLogger.*' ]
+      #packages : [ 'TinyLogger' ]
     }
 }
 }
