@@ -19,6 +19,8 @@ TinyFileLogger >> fileName: anObject [
 
 { #category : #accessing }
 TinyFileLogger >> fileStreamDo: aBlock [
+	"For now we re-open the file all the time to avoid problems when we change its image of computer/OS or if the user delete the file. Maybe later we can find a better solution but in any case we should test such weird behaviors."
+
 	^ self fileName asFileReference
 		ensureCreateFile;
 		writeStreamDo: [ :s | 
