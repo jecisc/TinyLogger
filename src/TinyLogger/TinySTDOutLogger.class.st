@@ -1,15 +1,15 @@
 Class {
-	#name : #TinySTDOutLogger,
+	#name : #TinyStdoutLogger,
 	#superclass : #TinyConcreteLogger,
 	#category : #'TinyLogger-Core'
 }
 
 { #category : #accessing }
-TinySTDOutLogger class >> kind [
+TinyStdoutLogger class >> kind [
 	^ 'stdout'
 ]
 
 { #category : #logging }
-TinySTDOutLogger >> record: aString [
+TinyStdoutLogger >> record: aString [
 	self record: aString on: Stdio stdout 
 ]

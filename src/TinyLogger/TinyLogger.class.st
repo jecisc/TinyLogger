@@ -33,27 +33,27 @@ TinyLogger class >> reset [
 	^ self default: nil
 ]
 
-{ #category : #'adding/removing' }
+{ #category : #'public API' }
 TinyLogger >> addFileLogger [
 	self addLogger: (TinyFileLogger for: self)
 ]
 
-{ #category : #'adding/removing' }
+{ #category : #'public API' }
 TinyLogger >> addFileLoggerNamed: aString [
 	self addLogger: (TinyFileLogger for: self named: aString)
 ]
 
-{ #category : #'adding/removing' }
+{ #category : #'public API' }
 TinyLogger >> addLogger: aLogger [
 	(self loggersMap at: aLogger kind ifAbsentPut: [ OrderedCollection new ]) add: aLogger
 ]
 
-{ #category : #'adding/removing' }
+{ #category : #'public API' }
 TinyLogger >> addStdoutLogger [
-	self addLogger: (TinySTDOutLogger for: self)
+	self addLogger: (TinyStdoutLogger for: self)
 ]
 
-{ #category : #'adding/removing' }
+{ #category : #'public API' }
 TinyLogger >> addTranscriptLogger [
 	self addLogger: (TinyTranscriptLogger for: self)
 ]
@@ -91,7 +91,7 @@ TinyLogger >> depth: anObject [
 	depth := anObject
 ]
 
-{ #category : #logging }
+{ #category : #'public API' }
 TinyLogger >> execute: aBlock recordedAs: aString [
 	self increaseDepthLevel.
 	self record: 'Begin:	' , aString.
@@ -138,39 +138,39 @@ TinyLogger >> loggersMap: anObject [
 	loggersMap := anObject
 ]
 
-{ #category : #logging }
+{ #category : #'public API' }
 TinyLogger >> record: aString [
 	self loggers do: [ :each | each record: aString ]
 ]
 
-{ #category : #'adding/removing' }
+{ #category : #'public API' }
 TinyLogger >> removeAllLoggers [
 	self loggers do: [ :each | self removeLogger: each ]
 ]
 
-{ #category : #'adding/removing' }
+{ #category : #'public API' }
 TinyLogger >> removeFileLoggers [
 	self fileLoggers removeAll
 ]
 
-{ #category : #'adding/removing' }
+{ #category : #'public API' }
 TinyLogger >> removeLogger: aLogger [
 	(self loggersMap at: aLogger kind ifAbsentPut: [ OrderedCollection new ]) remove: aLogger
 ]
 
-{ #category : #'adding/removing' }
+{ #category : #'public API' }
 TinyLogger >> removeStdoutLoggers [
 	self stdoutLoggers removeAll
 ]
 
-{ #category : #'adding/removing' }
+{ #category : #'public API' }
 TinyLogger >> removeTranscriptLoggers [
 	self transcriptLoggers removeAll
 ]
 
 { #category : #'accessing - loggers' }
 TinyLogger >> stdoutLoggers [
-	^ self loggersMap at: TinySTDOutLogger kind ifAbsentPut: [ OrderedCollection new ]
+	^ self loggersMap at: TinyStdoutLogger kind ifAbsentPut: [ OrderedCollection new ]
 ]
 
 { #category : #accessing }
@@ -188,7 +188,7 @@ TinyLogger >> transcriptLoggers [
 	^ self loggersMap at: TinyTranscriptLogger kind ifAbsentPut: [ OrderedCollection new ]
 ]
 
-{ #category : #'adding/removing' }
+{ #category : #'public API' }
 TinyLogger >> withDefaultLoggers [
 	self
 		removeAllLoggers;
