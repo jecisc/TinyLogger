@@ -1,0 +1,13 @@
+SmalltalkCISpec {
+  #loading : [
+    SCIMetacelloLoadSpec {
+      #baseline : 'TinyLogger',
+      #directory : 'src'
+    }
+  ],  
+  #testing : {
+    #coverage : {
+      #packages : [ 'TinyLogger.*' ]
+    }
+}
+}
