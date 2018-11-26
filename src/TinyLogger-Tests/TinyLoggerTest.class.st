@@ -4,9 +4,6 @@ A TinyLoggerTest is a test class for testing the behavior of TinyLogger
 Class {
 	#name : #TinyLoggerTest,
 	#superclass : #TinyAbstractLoggerTest,
-	#instVars : [
-		'logger'
-	],
 	#category : #'TinyLogger-Tests-Core'
 }
 
@@ -80,6 +77,12 @@ TinyLoggerTest >> testAddTranscriptLogger [
 ]
 
 { #category : #test }
+TinyLoggerTest >> testExecuteRecordedAs [
+	self skip.
+	self flag: #todo. "To do this one I should add a TinyStreamLogger."
+]
+
+{ #category : #test }
 TinyLoggerTest >> testFileLoggers [
 	logger
 		addTranscriptLogger;
@@ -106,8 +109,18 @@ TinyLoggerTest >> testLoggers [
 
 { #category : #test }
 TinyLoggerTest >> testRecord [
-	self skip.
-	self flag: #todo
+	| transcriptContents |
+	logger
+		removeAllLoggers;
+		addStdoutLogger;
+		addTranscriptLogger;
+		addTranscriptLogger.
+	logger record: 'This is a new test'.
+	Transcript stepGlobal.
+	self assert: (Stdio stdout contents asString lines last includesSubstring: 'This is a new test').
+	transcriptContents := Transcript contents asString lines.
+	self assert: (transcriptContents last includesSubstring: 'This is a new test').
+	self assert: ((transcriptContents at: transcriptContents size - 1) includesSubstring: 'This is a new test')
 ]
 
 { #category : #test }

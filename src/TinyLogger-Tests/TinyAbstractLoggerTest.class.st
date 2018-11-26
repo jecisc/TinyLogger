@@ -4,6 +4,9 @@ A TinyAbstractLoggerTest is a test class for testing the behavior of TinyAbstrac
 Class {
 	#name : #TinyAbstractLoggerTest,
 	#superclass : #TestCase,
+	#instVars : [
+		'logger'
+	],
 	#category : #'TinyLogger-Tests-Core'
 }
 
@@ -22,7 +25,7 @@ TinyAbstractLoggerTest >> actualClass [
 	^ self subclassResponsibility
 ]
 
-{ #category : #tests }
+{ #category : #test }
 TinyAbstractLoggerTest >> testRecord [
 	self subclassResponsibility
 ]
