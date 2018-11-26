@@ -126,6 +126,24 @@ TinyLoggerTest >> testRecord [
 ]
 
 { #category : #test }
+TinyLoggerTest >> testRecord2 [
+	| contents stream |
+	logger
+		removeAllLoggers;
+		addStdoutLogger;
+		addStdoutLogger;
+		addTranscriptLogger.
+	stream := '' writeStream.
+	[ Stdio stub stdout willReturn: stream.
+	logger << 'This is a new test'.
+	contents := Stdio stdout contents asString lines.
+	self assert: (contents last includesSubstring: 'This is a new test').
+	self assert: ((contents at: contents size - 1) includesSubstring: 'This is a new test') ]
+		ensure: [ Stdio recoverFromGHMutation.
+			stream close ]
+]
+
+{ #category : #test }
 TinyLoggerTest >> testRemoveAllLoggers [
 	logger
 		addTranscriptLogger;
