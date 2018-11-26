@@ -94,11 +94,11 @@ TinyLogger >> depth: anObject [
 { #category : #'public API' }
 TinyLogger >> execute: aBlock recordedAs: aString [
 	self increaseDepthLevel.
-	self record: 'Begin:	' , aString.
+	self record: 'Begin: ' , aString.
 	self increaseDepthLevel.
 	aBlock cull: aString.
 	self decreaseDepthLevel.
-	self record: 'End:	' , aString.
+	self record: 'End: ' , aString.
 	self decreaseDepthLevel
 ]
 

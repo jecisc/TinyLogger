@@ -78,8 +78,20 @@ TinyLoggerTest >> testAddTranscriptLogger [
 
 { #category : #test }
 TinyLoggerTest >> testExecuteRecordedAs [
-	self skip.
-	self flag: #todo. "To do this one I should add a TinyStreamLogger."
+	| contents stream bool |
+	bool := false.
+	logger
+		removeAllLoggers;
+		addStdoutLogger.
+	stream := '' writeStream.
+	[ Stdio stub stdout willReturn: stream.
+	logger execute: [ bool := true ] recordedAs: 'This is a new test'.
+	contents := Stdio stdout contents asString.
+	self assert: bool.
+	self assert: (contents includesSubstring: 'Begin: This is a new test').
+	self assert: (contents includesSubstring: 'End: This is a new test') ]
+		ensure: [ Stdio recoverFromGHMutation.
+			stream close ]
 ]
 
 { #category : #test }
@@ -105,6 +117,31 @@ TinyLoggerTest >> testLoggers [
 	self assert: (logger loggers anySatisfy: [ :each | each kind = TinyFileLogger kind and: [ each fileName = 'test.log' ] ]).
 	self assert: (logger loggers anySatisfy: [ :each | each kind = TinyFileLogger kind and: [ each fileName = 'test2.log' ] ]).
 	self assert: (logger loggers anySatisfy: [ :each | each kind = TinyTranscriptLogger kind ])
+]
+
+{ #category : #test }
+TinyLoggerTest >> testNestedExecuteRecordedAs [
+	| contents stream bool1 bool2 |
+	bool1 := false.
+	bool2 := false.
+	logger
+		removeAllLoggers;
+		addStdoutLogger.
+	stream := '' writeStream.
+	[ Stdio stub stdout willReturn: stream.
+	logger
+		execute: [ bool1 := true.
+			logger execute: [ bool2 := true ] recordedAs: 'Test2' ]
+		recordedAs: 'Test1'.
+	contents := Stdio stdout contents asString.
+	self assert: bool1.
+	self assert: bool2.
+	self assert: (contents includesSubstring: '	Begin: Test1').
+	self assert: (contents includesSubstring: '	End: Test1').
+	self assert: (contents includesSubstring: '			Begin: Test2').
+	self assert: (contents includesSubstring: '			End: Test2') ]
+		ensure: [ Stdio recoverFromGHMutation.
+			stream close ]
 ]
 
 { #category : #test }
