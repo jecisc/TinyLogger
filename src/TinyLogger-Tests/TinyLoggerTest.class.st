@@ -109,18 +109,20 @@ TinyLoggerTest >> testLoggers [
 
 { #category : #test }
 TinyLoggerTest >> testRecord [
-	| transcriptContents |
+	| contents stream |
 	logger
 		removeAllLoggers;
 		addStdoutLogger;
-		addTranscriptLogger;
+		addStdoutLogger;
 		addTranscriptLogger.
+	stream := '' writeStream.
+	[ Stdio stub stdout willReturn: stream.
 	logger record: 'This is a new test'.
-	Transcript stepGlobal.
-	self assert: (Stdio stdout contents asString lines last includesSubstring: 'This is a new test').
-	transcriptContents := Transcript contents asString lines.
-	self assert: (transcriptContents last includesSubstring: 'This is a new test').
-	self assert: ((transcriptContents at: transcriptContents size - 1) includesSubstring: 'This is a new test')
+	contents := Stdio stdout contents asString lines.
+	self assert: (contents last includesSubstring: 'This is a new test').
+	self assert: ((contents at: contents size - 1) includesSubstring: 'This is a new test') ]
+		ensure: [ Stdio recoverFromGHMutation.
+			stream close ]
 ]
 
 { #category : #test }

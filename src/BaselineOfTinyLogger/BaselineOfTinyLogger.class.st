@@ -18,13 +18,21 @@ BaselineOfTinyLogger >> baseline: spec [
 	spec
 		for: #common
 		do: [
+			"Dependencies"
+			self mocketry: spec.
+			
 			"Packages"
 			spec
 				package: 'TinyLogger';
-				package: 'TinyLogger-Tests' with: [ spec requires: #('TinyLogger') ].
+				package: 'TinyLogger-Tests' with: [ spec requires: #('TinyLogger' 'Mocketry') ].
 			
 			"Groups"
 			spec
 				group: 'Core' with: #('TinyLogger');
 				group: 'Tests' with: #('TinyLogger-Tests') ]
+]
+
+{ #category : #dependencies }
+BaselineOfTinyLogger >> mocketry: spec [
+	spec baseline: 'Mocketry' with: [ spec repository: 'github://dionisiydk/Mocketry:v4.0.x' ]
 ]
