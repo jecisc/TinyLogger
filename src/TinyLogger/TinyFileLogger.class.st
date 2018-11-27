@@ -1,6 +1,6 @@
 Class {
 	#name : #TinyFileLogger,
-	#superclass : #TinyConcreteLogger,
+	#superclass : #TinyLeafLogger,
 	#instVars : [
 		'fileName'
 	],

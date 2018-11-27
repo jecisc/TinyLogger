@@ -1,6 +1,6 @@
 Class {
 	#name : #TinyStdoutLogger,
-	#superclass : #TinyConcreteLogger,
+	#superclass : #TinyLeafLogger,
 	#category : #'TinyLogger-Core'
 }
 

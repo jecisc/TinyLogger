@@ -1,5 +1,5 @@
 Class {
-	#name : #TinyConcreteLogger,
+	#name : #TinyLeafLogger,
 	#superclass : #TinyAbstractLogger,
 	#instVars : [
 		'parentLogger'
@@ -8,55 +8,55 @@ Class {
 }
 
 { #category : #'instance creation' }
-TinyConcreteLogger class >> for: aTinyLogger [
+TinyLeafLogger class >> for: aTinyLogger [
 	^ self new
 		parentLogger: aTinyLogger;
 		yourself
 ]
 
 { #category : #testing }
-TinyConcreteLogger class >> isAbstract [
-	^ self = TinyConcreteLogger
+TinyLeafLogger class >> isAbstract [
+	^ self = TinyLeafLogger
 ]
 
 { #category : #accessing }
-TinyConcreteLogger class >> kind [
+TinyLeafLogger class >> kind [
 	^ self subclassResponsibility
 ]
 
 { #category : #accessing }
-TinyConcreteLogger >> depth [
+TinyLeafLogger >> depth [
 	^ self parentLogger depth
 ]
 
 { #category : #accessing }
-TinyConcreteLogger >> kind [
+TinyLeafLogger >> kind [
 	^ self class kind
 ]
 
 { #category : #logging }
-TinyConcreteLogger >> newLine [
+TinyLeafLogger >> newLine [
 	^ OSPlatform current lineEnding
 ]
 
 { #category : #accessing }
-TinyConcreteLogger >> parentLogger [
+TinyLeafLogger >> parentLogger [
 	^ parentLogger
 ]
 
 { #category : #accessing }
-TinyConcreteLogger >> parentLogger: aLogger [
+TinyLeafLogger >> parentLogger: aLogger [
 	parentLogger := aLogger
 ]
 
 { #category : #logging }
-TinyConcreteLogger >> record: aString on: aStream [
+TinyLeafLogger >> record: aString on: aStream [
 	self recordPreambleOn: aStream.
 	aStream << aString << self newLine
 ]
 
 { #category : #accessing }
-TinyConcreteLogger >> recordPreambleOn: aStream [
+TinyLeafLogger >> recordPreambleOn: aStream [
 	<compilerOptions: #(+ optionInlineTimesRepeat)>
 	
 	self timestampFormatBlock value: aStream.
@@ -65,6 +65,6 @@ TinyConcreteLogger >> recordPreambleOn: aStream [
 ]
 
 { #category : #accessing }
-TinyConcreteLogger >> timestampFormatBlock [
+TinyLeafLogger >> timestampFormatBlock [
 	^ self parentLogger timestampFormatBlock
 ]

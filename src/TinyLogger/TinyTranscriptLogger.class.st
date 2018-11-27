@@ -1,6 +1,6 @@
 Class {
 	#name : #TinyTranscriptLogger,
-	#superclass : #TinyConcreteLogger,
+	#superclass : #TinyLeafLogger,
 	#category : #'TinyLogger-Core'
 }
 

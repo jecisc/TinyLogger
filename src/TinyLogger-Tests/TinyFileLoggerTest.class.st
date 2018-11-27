@@ -3,7 +3,7 @@ A TinyFileLoggerTest is a test class for testing the behavior of TinyFileLogger
 "
 Class {
 	#name : #TinyFileLoggerTest,
-	#superclass : #TinyConcreteLoggerTest,
+	#superclass : #TinyLeafLoggerTest,
 	#category : #'TinyLogger-Tests-Core'
 }
 
