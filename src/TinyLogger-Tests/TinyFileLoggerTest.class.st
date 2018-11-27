@@ -30,6 +30,19 @@ TinyFileLoggerTest >> testFileName [
 ]
 
 { #category : #test }
+TinyFileLoggerTest >> testLoggerCreatesFile [
+	| log |
+	log := (self fileNameNumber: 10) asFileReference.
+	[
+	logger := self actualClass for: parentLogger named: log basename.
+	self deny: log exists.
+	logger record: 'this is a test'.
+	self assert: log exists ]
+		ensure: [ (log isNotNil and: [ log exists ])
+				ifTrue: [ log ensureDelete ] ]
+]
+
+{ #category : #test }
 TinyFileLoggerTest >> testRecord [
 	| log |
 	log := (self fileNameNumber: 1) asFileReference.

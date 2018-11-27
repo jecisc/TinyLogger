@@ -1,3 +1,24 @@
+"
+Description
+--------------------
+
+I am an abstract class that should be subclasses by the concrete loggers of the project. Each of my subclass represent a different way to log an information (in a file, transcript, stdout...).
+
+Users should not use me or my subclasses directly. The user should manage logging via `TinyLogger` which is a composite of my subclasses.
+
+Public API and Key Messages
+--------------------
+
+- #record: 	Record a string as parameter
+	
+ 
+Internal Representation and Key Implementation Points.
+--------------------
+
+    Instance Variables
+	parentLogger:		<aTinyLogger>	As said before the user should use my subclasses via a `TinyLogger` composite. My parent logger is this `TinyLogger` instance.
+
+"
 Class {
 	#name : #TinyLeafLogger,
 	#superclass : #TinyAbstractLogger,

@@ -1,3 +1,27 @@
+"
+Description
+--------------------
+
+I am a logger that will log the informations in a file on the file system.
+
+I am configured with a file name.
+
+I should not be used directly but via a `TinyLogger`.
+
+Examples
+--------------------
+
+	(TinyFileLogger for: aTinyLogger) record: 'First log'.
+	
+	(TinyFileLogger for: aTinyLogger named: 'anotherFile.log') record: 'First log'.	
+ 
+Internal Representation and Key Implementation Points.
+--------------------
+
+    Instance Variables
+	fileName:		<aString> 	Name of the file in which informations should be logged.
+
+"
 Class {
 	#name : #TinyFileLogger,
 	#superclass : #TinyLeafLogger,
