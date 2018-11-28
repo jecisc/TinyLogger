@@ -5,7 +5,7 @@ Description
 I am the main entry point of the project. This project is build with a composite design pattern and I am the composite. I contains subclasses of TinyLeafLogger.
 
 I am a default instance that is used by default in the image when you send #record to a string for example. This instance should be configured by the user before been used (else it will do nothing). 
-It is also possible to create another instance with different loggers and to use it, but this instance will not be used when sending #record directly to an object. 
+It is also possible to create another instance with different loggers and to use it. You can also change the default logger objects will use to record logs with the `TinyCurrentLogger` dynamic variable (See example bellow). 
 
 The user can configure the timestamp formating via the #timestampFormatBlock paramater.
 
@@ -49,6 +49,12 @@ Examples
 	TinyLogger new
 		addTranscriptLogger;
 		record: 'Test'.
+	
+	""Change the default logger Objects should use during the execution of a subpart of the system""	
+	TinyCurrentLogger value: (TinyLogger new addTranscriptLogger; yourself) during: [ 
+		'test' record.
+		TinyCurrentLogger value record: 'Test2'
+	]
 		
 	""Change the default timestamp format""
 	TinyLogger default timestampFormatBlock: [ :stream | stream << DateAndTime now asString ].

@@ -181,6 +181,22 @@ TinyLoggerTest >> testRecord2 [
 ]
 
 { #category : #test }
+TinyLoggerTest >> testRecord3 [
+	| log |
+	log :=  'testFileForTinyLogger.log' asFileReference.
+	[
+	logger addFileLoggerNamed: log basename.
+	
+	TinyCurrentLogger value: logger during: [ 'this is a test' record ].
+	
+	self assert: log exists.
+	self assert: log contents lines isNotEmpty.
+	self assert: (log contents lines last includesSubstring: 'this is a test') ]
+		ensure: [ (log isNotNil and: [ log exists ])
+				ifTrue: [ log ensureDelete ] ]
+]
+
+{ #category : #test }
 TinyLoggerTest >> testRemoveAllLoggers [
 	logger
 		addTranscriptLogger;
