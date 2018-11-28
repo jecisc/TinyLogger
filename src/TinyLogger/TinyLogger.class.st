@@ -101,27 +101,27 @@ TinyLogger class >> reset [
 TinyLogger >> addFileLogger [
 	"Since no file name is passed as parameter, I will log in a file named `TinyLogger.log` next to the image."
 
-	self addLogger: (TinyFileLogger for: self)
+	self addLogger: TinyFileLogger new
 ]
 
 { #category : #'public API' }
 TinyLogger >> addFileLoggerNamed: aString [
-	self addLogger: (TinyFileLogger for: self named: aString)
+	self addLogger: (TinyFileLogger named: aString)
 ]
 
 { #category : #'public API' }
 TinyLogger >> addLogger: aLogger [
-	(self loggersMap at: aLogger kind ifAbsentPut: [ OrderedCollection new ]) add: aLogger
+	(self loggersMap at: aLogger kind ifAbsentPut: [ OrderedCollection new ]) add: (aLogger parentLogger: self)
 ]
 
 { #category : #'public API' }
 TinyLogger >> addStdoutLogger [
-	self addLogger: (TinyStdoutLogger for: self)
+	self addLogger: TinyStdoutLogger new
 ]
 
 { #category : #'public API' }
 TinyLogger >> addTranscriptLogger [
-	self addLogger: (TinyTranscriptLogger for: self)
+	self addLogger: TinyTranscriptLogger new
 ]
 
 { #category : #nesting }

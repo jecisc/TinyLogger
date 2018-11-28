@@ -67,6 +67,7 @@ TinyLeafLogger >> parentLogger [
 
 { #category : #accessing }
 TinyLeafLogger >> parentLogger: aLogger [
+	parentLogger == aLogger ifTrue: [ ^ self ].
 	parentLogger := aLogger
 ]
 

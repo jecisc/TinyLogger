@@ -43,6 +43,13 @@ TinyFileLogger class >> kind [
 	^ 'file'
 ]
 
+{ #category : #'instance creation' }
+TinyFileLogger class >> named: aString [
+	^ self new
+		fileName: aString;
+		yourself
+]
+
 { #category : #accessing }
 TinyFileLogger >> fileName [
 	^ fileName ifNil: [ fileName := 'TinyLogger.log' ]
