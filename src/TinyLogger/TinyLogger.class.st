@@ -1,3 +1,67 @@
+"
+Description
+--------------------
+
+I am the main entry point of the project. This project is build with a composite design pattern and I am the composite. I contains subclasses of TinyLeafLogger.
+
+I am a default instance that is used by default in the image when you send #record to a string for example. This instance should be configured by the user before been used (else it will do nothing). 
+It is also possible to create another instance with different loggers and to use it, but this instance will not be used when sending #record directly to an object. 
+
+The user can configure the timestamp formating via the #timestampFormatBlock paramater.
+
+Public API and Key Messages
+--------------------
+
+- #record: 						Log the parameter we the sub loggers.
+- #execute:recordedAs: 		Execute a block and log the task when it beging and ends. This will increase the identation of the logging.
+- #addStdoutLogger 			Add a logger on Stdout
+- #addTrascriptLogger 		Add a logger on the Transcript
+- #addFileLogger 				Add a logger that will log in a file named `TinyLogger.log`
+- #addFileLoggerNamed: 		Add a logger on a file whose name is passed as parameter
+- #timestampFormatBlock: 	Give as parameter a block taking a stream as parameter and writing the timestamp you want
+
+Examples
+--------------------
+
+	""Add two file loggers, a stdio logger and a transcript logger to the default logger.""
+	TinyLogger default
+		addTranscriptLogger;
+		addStdoutLogger;
+		addFileLoggerNamed: 'Test.log';
+		addFileLoggerNamed: 'MyOtherLog.log'.
+		
+	""Record a string via the default logger""
+	'My string' record.
+	TinyLogger default record: 'My string'.
+	
+	""Record with nesting via the default logger""
+	self execute: [ 1 to: 10 do: [ :value | value asString record ] ] recordedAs: 'Task with only one nesting.'
+	
+	self execute: [ 
+		1 to: 10 do: [ :value1 | 
+			self execute: [
+				1 to: value1 do: [ :value2 | value2 asString record ]
+				] recordedAs: 'My second nest'
+			 ]
+		 ] recordedAs: 'My first nest'.
+	
+	""Record with a non default logger""
+	TinyLogger new
+		addTranscriptLogger;
+		record: 'Test'.
+		
+	""Change the default timestamp format""
+	TinyLogger default timestampFormatBlock: [ :stream | stream << DateAndTime now asString ].
+ 
+Internal Representation and Key Implementation Points.
+--------------------
+
+    Instance Variables
+	depth:							<anInteger>		I record the depth level of the nesting.
+	loggersMap:					<aDictonary>		I am used to store the loggers. I keep for each kind of loggers a collection of their instances.
+	timestampFormatBlock:		<aBlock>			I am a block defining the way the timestamp should be written.
+
+"
 Class {
 	#name : #TinyLogger,
 	#superclass : #TinyAbstractLogger,
