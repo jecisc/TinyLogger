@@ -81,7 +81,7 @@ TinyLeafLogger >> record: aString on: aStream [
 TinyLeafLogger >> recordPreambleOn: aStream [
 	<compilerOptions: #(+ optionInlineTimesRepeat)>
 	
-	self timestampFormatBlock value: aStream.
+	self timestampFormatBlock cull: aStream cull: DateAndTime now.
 	aStream << ' : '.
 	self depth timesRepeat: [ aStream tab ]
 ]
