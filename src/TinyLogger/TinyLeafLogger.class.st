@@ -83,7 +83,8 @@ TinyLeafLogger >> recordPreambleOn: aStream [
 	
 	self timestampFormatBlock cull: aStream cull: DateAndTime now.
 	aStream << ' : '.
-	self depth timesRepeat: [ aStream tab ]
+	"We use explicit tab writing instead of #tab or #tab: because not all streams understand those methods"
+	self depth timesRepeat: [ aStream nextPut: Character tab ]
 ]
 
 { #category : #accessing }
