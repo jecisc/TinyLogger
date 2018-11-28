@@ -3,7 +3,6 @@ Class {
 	#superclass : #TinyAbstractLogger,
 	#instVars : [
 		'timestampFormatBlock',
-		'defaultFileName',
 		'depth',
 		'loggersMap'
 	],
@@ -23,11 +22,6 @@ TinyLogger class >> default: anObject [
 	Default := anObject
 ]
 
-{ #category : #accessing }
-TinyLogger class >> defaultFileName [
-	^ 'Application.log'
-]
-
 { #category : #initialization }
 TinyLogger class >> reset [
 	^ self default: nil
@@ -35,6 +29,8 @@ TinyLogger class >> reset [
 
 { #category : #'public API' }
 TinyLogger >> addFileLogger [
+	"Since no file name is passed as parameter, I will log in a file named `TinyLogger.log` next to the image."
+
 	self addLogger: (TinyFileLogger for: self)
 ]
 
@@ -61,16 +57,6 @@ TinyLogger >> addTranscriptLogger [
 { #category : #nesting }
 TinyLogger >> decreaseDepthLevel [
 	self depth: self depth - 1
-]
-
-{ #category : #accessing }
-TinyLogger >> defaultFileName [
-	^ defaultFileName
-]
-
-{ #category : #accessing }
-TinyLogger >> defaultFileName: anObject [
-	defaultFileName := anObject
 ]
 
 { #category : #accessing }
@@ -117,7 +103,6 @@ TinyLogger >> initialize [
 	super initialize.
 	self depth: 0.
 	self timestampFormatBlock: self defaultTimestampFormatBlock.
-	self defaultFileName: self class defaultFileName.
 	self loggersMap: Dictionary new
 ]
 

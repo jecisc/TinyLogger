@@ -4,7 +4,7 @@ Description
 
 I am a logger that will log the informations in a file on the file system.
 
-I am configured with a file name.
+I am configured with a file name. If no file name is given to me, I'll use `TinyLogger.log` by default.
 
 I should not be used directly but via a `TinyLogger`.
 
@@ -45,7 +45,7 @@ TinyFileLogger class >> kind [
 
 { #category : #accessing }
 TinyFileLogger >> fileName [
-	^ fileName
+	^ fileName ifNil: [ fileName := 'TinyLogger.log' ]
 ]
 
 { #category : #accessing }
@@ -62,12 +62,6 @@ TinyFileLogger >> fileStreamDo: aBlock [
 		writeStreamDo: [ :s | 
 			s setToEnd.
 			aBlock value: s ]
-]
-
-{ #category : #accessing }
-TinyFileLogger >> parentLogger: aTinyLogger [
-	super parentLogger: aTinyLogger.
-	self fileName: aTinyLogger defaultFileName
 ]
 
 { #category : #logging }
