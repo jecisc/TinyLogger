@@ -4,6 +4,11 @@ This page will cover the developer documentation. It is recomanded to read the [
 
 A first part will cover the design of the project and a second part will be a tutorial to add a new leaf logger.
 
+- [Developer documentation](#developer-documentation)
+  * [Design](#design)
+  * [TinyCurrentLogger dynamic variable](#tinycurrentlogger-dynamic-variable)
+  * [Add a new leaf transcript](#add-a-new-leaf-transcript)
+
 ## Design
 
 ![UML of the project](uml.png?raw=true "UML of the project")
