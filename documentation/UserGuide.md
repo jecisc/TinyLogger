@@ -183,4 +183,21 @@ It will produce this kind of output:
 ```
 
 ## Use another logger than the global logger
->**TODO**
+
+In some case it is possible that we do not want to use the default logger for a part of the application.
+
+`TinyLogger` allows the users to use a custom logger during the execution of a process by changing the value of `TinyCurrentLogger`.
+
+You can do it that way:
+
+```Smalltalk
+	| customLogger |
+	customLogger := TinyLogger new
+		addTranscriptLogger;
+		yourself.
+		
+	TinyCurrentLogger value: customLogger during: [
+		'test' record.
+		TinyCurrentLogger value record: 'Test2'
+	]
+```
