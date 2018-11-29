@@ -57,7 +57,9 @@ Examples
 	]
 		
 	""Change the default timestamp format""
-	TinyLogger default timestampFormatBlock: [ :stream :timestamp | stream << timestamp asString ].
+	TinyLogger default
+		timestampFormatBlock:
+			[ :aStream :timestamp | timestamp asDate printOn: aStream. aStream << ' '. ""Cannot use #space because of Stdio streams"" timestamp asTime print24: true on: aStream ].
  
 Internal Representation and Key Implementation Points.
 --------------------
@@ -131,10 +133,7 @@ TinyLogger >> decreaseDepthLevel [
 
 { #category : #accessing }
 TinyLogger >> defaultTimestampFormatBlock [
-	^ [ :aStream :timestamp |
-	timestamp asDate printOn: aStream.
-	aStream << ' '.	"Cannot use #space because Stdio streams does not implements it."
-	timestamp asTime print24: true on: aStream ]
+	^ [ :aStream :timestamp | aStream << timestamp asString ]
 ]
 
 { #category : #accessing }
