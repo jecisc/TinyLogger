@@ -6,6 +6,17 @@ Users can configure the way the logger works and the image will use this configu
 
 For specific cases, a specialized logger can be used.
 
+- [User documentation of TinyLogger](#user-documentation-of-tinylogger)
+  * [Configure your logger](#configure-your-logger)
+    + [Add sub-loggers to your `TinyLogger`](#add-sub-loggers-to-your--tinylogger-)
+    + [Remove sub-loggers](#remove-sub-loggers)
+    + [List the sub-loggers](#list-the-sub-loggers)
+    + [Configure the timestamp format](#configure-the-timestamp-format)
+  * [Record with your logger](#record-with-your-logger)
+    + [Record a single line log](#record-a-single-line-log)
+    + [Recording the execution of a task](#recording-the-execution-of-a-task)
+  * [Use another logger than the global logger](#use-another-logger-than-the-global-logger)
+
 ## Configure your logger
 
 The first step to use `TinyLogger` will be to configure the default logger that will be used by the image.
