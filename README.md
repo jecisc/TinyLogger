@@ -15,18 +15,18 @@ A really small logger for Pharo application.
 To install TinyLogger on your Pharo image you can just execute the following script: 
 
 ```Smalltalk
-    Metacello new
-    	githubUser: 'jecisc' project: 'TinyLogger' commitish: 'v1.x.x' path: 'src';
-    	baseline: 'TinyLogger';
-    	load
+Metacello new
+	githubUser: 'jecisc' project: 'TinyLogger' commitish: 'v1.x.x' path: 'src';
+	baseline: 'TinyLogger';
+	load
 ```
 
 To add TinyLogger to your baseline just add this:
 
 ```Smalltalk
-    spec
-    	baseline: 'TinyLogger'
-    	with: [ spec repository: 'github://jecisc/TinyLogger:v1.x.x/src' ]
+spec
+	baseline: 'TinyLogger'
+	with: [ spec repository: 'github://jecisc/TinyLogger:v1.x.x/src' ]
 ```
 
 Note that you can replace the #master by another branch as #development or a tag as #v1.0.0, #v1.? or #v1.2.? .
