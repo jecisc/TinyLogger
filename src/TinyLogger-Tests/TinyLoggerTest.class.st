@@ -79,6 +79,7 @@ TinyLoggerTest >> testAddTranscriptLogger [
 { #category : #test }
 TinyLoggerTest >> testExecuteRecordedAs [
 	| contents stream bool |
+	self skipInPharo6.
 	bool := false.
 	logger
 		removeAllLoggers;
@@ -122,6 +123,7 @@ TinyLoggerTest >> testLoggers [
 { #category : #test }
 TinyLoggerTest >> testNestedExecuteRecordedAs [
 	| contents stream bool1 bool2 |
+	self skipInPharo6.
 	bool1 := false.
 	bool2 := false.
 	logger
@@ -147,6 +149,7 @@ TinyLoggerTest >> testNestedExecuteRecordedAs [
 { #category : #test }
 TinyLoggerTest >> testRecord [
 	| contents stream |
+	self skipInPharo6.
 	logger
 		removeAllLoggers;
 		addStdoutLogger;
@@ -165,6 +168,7 @@ TinyLoggerTest >> testRecord [
 { #category : #test }
 TinyLoggerTest >> testRecord2 [
 	| contents stream |
+	self skipInPharo6.
 	logger
 		removeAllLoggers;
 		addStdoutLogger;

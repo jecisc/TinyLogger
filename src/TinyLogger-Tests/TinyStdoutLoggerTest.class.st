@@ -15,6 +15,7 @@ TinyStdoutLoggerTest >> actualClass [
 { #category : #test }
 TinyStdoutLoggerTest >> testRecord [
 	| stream |
+	self skipInPharo6.
 	stream := '' writeStream.
 	[ Stdio stub stdout willReturn: stream.
 	logger record: 'This is a test'.
