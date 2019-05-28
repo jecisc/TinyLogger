@@ -2,7 +2,7 @@
 
 `TinyLogger` is a logger implementation (no kidding?!) for Pharo whose goal is to be small and simple.
 
-Users can configure the way the logger works and the image will use this configured logger as default to record informations. 
+Users can configure the way the logger works and the image will use this configured logger as default to record information. 
 
 For specific cases, a specialized logger can be used.
 
@@ -21,16 +21,16 @@ For specific cases, a specialized logger can be used.
 
 The first step to use `TinyLogger` will be to configure the default logger that will be used by the image.
 
-For most of the cases, the user will only interact with `TinyLogger` class. `TinyLogger` is a composite to which *leaf* loggers can be added. *Leaf* loggers have the responsibility to log informations in a specific manner. For example `TinyLogger` has a *leaf* logger to print informations on Stdout of the application.
+For most of the cases, the user will only interact with `TinyLogger` class. `TinyLogger` is a composite to which *leaf* loggers can be added. *Leaf* loggers have the responsibility to log information in a specific manner. For example `TinyLogger` has a *leaf* logger to print information on Stdout of the application.
 
 ### Add sub-loggers to your `TinyLogger`
 
 The default instance of `TinyLogger` has no logger registered when it is initialized. The first step will be to add one or many loggers to it. 
 
 Here is the list of loggers available by default:
-* `TinyStdoutLogger`: This logger records informations on the *stdout* of the application.
-* `TinyTranscriptLogger`: This logger records informations on the Pharo's `Transcript`.
-* `TinyFileLogger`: This logger records informations in a file on the user file system. By default the file will be named `TinyLogger.log` and located in the image directory, but the file can be customized.
+* `TinyStdoutLogger`: This logger records information on the *stdout* of the application.
+* `TinyTranscriptLogger`: This logger records information on the Pharo's `Transcript`.
+* `TinyFileLogger`: This logger records information in a file on the user file system. By default the file will be named `TinyLogger.log` and located in the image directory, but the file can be customized.
 
 A *leaf* logger can be added to the default logger via the method `addLogger:` like this:
 
@@ -52,15 +52,15 @@ TinyLogger default
 
 ### Remove sub-loggers
 
-If at some point you wants to remove one or multiple loggers, `TineLogger` has some API elements to do that. 
+If at some point you wants to remove one or multiple loggers, `TinyLogger` has some API elements to do that. 
 
-The first way to remove loggers is with the method `removeAllLoggers`. This method will remove all the loggers of each kind.
+The first way to remove loggers is with the method `removeAllLoggers`, which removes all the loggers of each kind.
 
 ```Smalltalk
 TinyLogger default removeAllLoggers
 ```
 
-A second way to remove loggers is to remove all the loggers of one kind with the methods:
+A second way to remove loggers is to remove them by kind:
 * `removeFileLoggers`
 * `removeTranscriptLoggers`
 * `removeStdoutLoggers`
@@ -69,7 +69,7 @@ A second way to remove loggers is to remove all the loggers of one kind with the
 TinyLogger default removeFileLoggers
 ```
 
-A last way is to use the method `removeLogger:` and giving as parameter the logger to remove.
+A last way is to use the method `removeLogger:` with the logger to remove.
 
 ```Smalltalk
 TinyLogger default fileLoggers
@@ -79,9 +79,7 @@ TinyLogger default fileLoggers
 
 ### List the sub-loggers
 
-If you wish to get the list of loggers in a `TinyLogger` you can use different ways.
-
-To get the list of all sub-loggers, you can use the `loggers` method:
+If you wish to get the list of loggers in a `TinyLogger` you can use the `loggers` method:
 
 ```Smalltalk
 TinyLogger default loggers
@@ -100,13 +98,13 @@ If you with to know all the loggers of a kind, you can use:
 
 ### Configure the timestamp format
 
-By default, the preamble of the log will be a timestamp with a human readable format like this: 
+By default, the preamble of the log will be a timestamp with a human readable format, e.g.: 
 
 ```
 2018-11-29T23:19:55.511775+01:00 : Test
 ```
 
-But this format is configurable. The `timestampFormatBlock:` method can be use with a parameter that is a block taking a stream as parameter and the timestamp (instance of DateAndTime) and use that to write the preamble on the stream.
+But this format is configurable. The `timestampFormatBlock:` method can be used with a parameter that is a block taking a stream as parameter and the timestamp (instance of `DateAndTime`) and use that to write the preamble on the stream.
 
 ```Smalltalk
 TinyLogger default
@@ -124,11 +122,11 @@ This will produce logs of this format:
 
 ## Record with your logger
 
-This section will cover the API to record informations. 
+This section will cover the API to record information. 
 
 ### Record a single line log
 
-To record a single line log you can just use the method `record`:
+To record a single line on a log, you can just use the method `record`:
 
 ```Smalltalk
 'This is a string to log' record
@@ -160,7 +158,7 @@ Will produce a log like this:
 2018-11-29T23:21:04.909775+01:00 : 	End: Task with only one nesting.
 ```
 
-It is also possible to nest them like that:
+It is also possible to nest them:
 
 ```Smalltalk
 self execute: [ 
@@ -197,13 +195,11 @@ It will produce this kind of output:
 2018-11-29T23:21:20.180775+01:00 : 	End: My first nest
 ```
 
-## Use another logger than the global logger
+## Use a logger other than the global logger
 
-In some case it is possible that we do not want to use the default logger for a part of the application.
+In some cases we may not want to use the default logger for a part of the application.
 
-`TinyLogger` allows the users to use a custom logger during the execution of a process by changing the value of `TinyCurrentLogger`.
-
-You can do it that way:
+`TinyLogger` allows using a custom logger during the execution of a process by changing the value of `TinyCurrentLogger`:
 
 ```Smalltalk
 | customLogger |
