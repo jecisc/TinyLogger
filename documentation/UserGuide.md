@@ -17,6 +17,7 @@ For specific cases, a specialized logger can be used.
     + [Record a single line log](#record-a-single-line-log)
     + [Recording the execution of a task](#recording-the-execution-of-a-task)
   * [Use another logger than the global logger](#use-another-logger-than-the-global-logger)
+  * [Clear your logger](#clear-your-logger)
   
 ## Quick start
 
@@ -259,4 +260,16 @@ TinyCurrentLogger value: customLogger during: [
 	'test' record.
 	TinyCurrentLogger value record: 'Test2'
 ]
+```
+
+## Clear your logger
+
+Each logger can understand the method `#clearLogger`. This method will have as effet to clear the output of the loggers. The actual effect can be slightly different depending on the kind of logger:
+- `TinyLogger` will send the message to all its sub loggers
+- `Transcript` logger will clear the Transcript of Pharo
+- `Stdout` logger will do nothing because it is not possible to clean a stdout
+- `File` logger will erase the file used to log
+
+```Smalltalk
+TinyLogger default clearLogger
 ```
