@@ -13,6 +13,11 @@ TinyStdoutLoggerTest >> actualClass [
 ]
 
 { #category : #test }
+TinyStdoutLoggerTest >> testClearLogger [
+	"Do nothing because stdio cannot be clear"
+]
+
+{ #category : #test }
 TinyStdoutLoggerTest >> testRecord [
 	| stream |
 	self skipInPharo6.
