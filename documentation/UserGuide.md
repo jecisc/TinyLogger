@@ -9,7 +9,7 @@ For specific cases, a specialized logger can be used.
 - [User documentation of TinyLogger](#user-documentation-of-tinylogger)
   * [Quick start](#quick-start)
   * [Configure your logger](#configure-your-logger)
-    + [Add sub-loggers to your `TinyLogger`](#add-sub-loggers-to-your--tinylogger-)
+    + [Add sub-loggers to your `TinyLogger`](#add-sub-loggers-to-your-tinylogger-)
     + [Remove sub-loggers](#remove-sub-loggers)
     + [List the sub-loggers](#list-the-sub-loggers)
     + [Configure the timestamp format](#configure-the-timestamp-format)
