@@ -79,6 +79,7 @@ TinyLoggerTest >> testAddTranscriptLogger [
 { #category : #test }
 TinyLoggerTest >> testClearLogger [
 	logger
+		addTranscriptLogger;
 		addFileLoggerNamed: 'testFileForTinyLogger.log';
 		addFileLoggerNamed: 'testFileForTinyLogger2.log'.
 
