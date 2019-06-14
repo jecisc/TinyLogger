@@ -27,6 +27,11 @@ TinyFileLoggerTest >> tearDown [
 ]
 
 { #category : #test }
+TinyFileLoggerTest >> testCanHaveDefaultFile [
+	self shouldnt: [ self actualClass new fileReference ] raise: Error
+]
+
+{ #category : #test }
 TinyFileLoggerTest >> testClearLogger [
 	log := (self fileNameNumber: 1) asFileReference.
 	logger := self actualClass for: parentLogger named: log basename.
