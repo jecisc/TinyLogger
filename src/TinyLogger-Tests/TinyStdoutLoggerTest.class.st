@@ -14,7 +14,7 @@ TinyStdoutLoggerTest >> actualClass [
 
 { #category : #test }
 TinyStdoutLoggerTest >> testClearLogger [
-	"Do nothing because stdio cannot be clear"
+	self shouldnt: [ logger clearLogger ] raise: Error
 ]
 
 { #category : #test }

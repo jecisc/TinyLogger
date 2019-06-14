@@ -31,6 +31,11 @@ Class {
 	#category : #'TinyLogger-Core'
 }
 
+{ #category : #accessing }
+TinyFileLogger class >> defaultFileName [
+	^ 'TinyLogger.log'
+]
+
 { #category : #'instance creation' }
 TinyFileLogger class >> for: aLogger named: aString [
 	^ (self for: aLogger)
@@ -56,8 +61,13 @@ TinyFileLogger >> clearLogger [
 ]
 
 { #category : #accessing }
+TinyFileLogger >> defaultFileName [
+	^ self class defaultFileName
+]
+
+{ #category : #accessing }
 TinyFileLogger >> fileName [
-	^ fileName ifNil: [ fileName := 'TinyLogger.log' ]
+	^ fileName ifNil: [ fileName := self defaultFileName ]
 ]
 
 { #category : #accessing }

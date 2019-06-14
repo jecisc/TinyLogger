@@ -152,6 +152,32 @@ TinyLogger >> depth: anObject [
 ]
 
 { #category : #'public API' }
+TinyLogger >> ensureFileLogger [
+	"Ensure a file logger to `TinyLogger.log` is in the logger. In case one already exists, does nothing."
+
+	self ensureFileLoggerNamed: TinyFileLogger defaultFileName
+]
+
+{ #category : #'public API' }
+TinyLogger >> ensureFileLoggerNamed: aString [
+	"Ensure a file logger to a file whose name is given as parameter is in the logger. In case one already exists, does nothing."
+
+	self fileLoggers
+		detect: [ :e | e fileName = aString ]
+		ifNone: [ self addFileLoggerNamed: aString ]
+]
+
+{ #category : #'public API' }
+TinyLogger >> ensureStdoutLogger [
+	self stdoutLoggers ifEmpty: [ self addStdoutLogger ]
+]
+
+{ #category : #'public API' }
+TinyLogger >> ensureTranscriptLogger [
+	self transcriptLoggers ifEmpty: [ self addTranscriptLogger ]
+]
+
+{ #category : #'public API' }
 TinyLogger >> execute: aBlock recordedAs: aString [
 	self increaseDepthLevel.
 	self record: 'Begin: ' , aString.
