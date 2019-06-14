@@ -53,7 +53,7 @@ Thus, it should be safe to depend on a fixed major version and moving minor vers
 
 | MDL version 	| Compatible Pharo versions 	|
 |-------------	|---------------------------	|
-| 1.x.x       	| Pharo 61, 70        				|
+| 1.x.x       	| Pharo 61, 70, 80		|
 
 ## Contact
 
