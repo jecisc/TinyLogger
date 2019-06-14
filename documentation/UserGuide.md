@@ -85,6 +85,19 @@ TinyLogger default
 	addFileLoggerNamed: '../logs/MyOtherLog.log'.
 ```
 
+Additionaly to those methods, `TinyLogger` also propose ways to add loggers only if they have no equivalent already registered.
+
+In order to archieve this result, you can use the equivalent of the methods previously explained, replacing `add` by `ensure`:
+```Smalltalk
+TinyLogger default
+	ensureStdoutLogger;
+	ensureTranscriptLogger;
+	ensureFileLogger;
+	ensureFileLoggerNamed: '../logs/MyOtherLog.log'.
+```
+
+With those methods, Transcript and Stdout loggers will be limited to one, and file loggers will be limited to one by file name.
+
 ### Remove sub-loggers
 
 If at some point you wants to remove one or multiple loggers, `TinyLogger` has some API elements to do that. 
