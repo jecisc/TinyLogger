@@ -34,6 +34,13 @@ TinyAbstractLogger >> << aString [
 ]
 
 { #category : #logging }
+TinyAbstractLogger >> clearLogger [
+	"Whe called, this method should clear the previous logs"
+
+	self subclassResponsibility
+]
+
+{ #category : #logging }
 TinyAbstractLogger >> record: aString [
 	self subclassResponsibility
 ]

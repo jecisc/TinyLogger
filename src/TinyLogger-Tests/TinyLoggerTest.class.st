@@ -77,6 +77,20 @@ TinyLoggerTest >> testAddTranscriptLogger [
 ]
 
 { #category : #test }
+TinyLoggerTest >> testClearLogger [
+	logger
+		addTranscriptLogger;
+		addFileLoggerNamed: 'testFileForTinyLogger.log';
+		addFileLoggerNamed: 'testFileForTinyLogger2.log'.
+
+	logger record: 'Test'.
+	self assert: (logger fileLoggers allSatisfy: [ :fileLogger | fileLogger fileReference exists ]).
+
+	logger clearLogger.
+	self assert: (logger fileLoggers noneSatisfy: [ :fileLogger | fileLogger fileReference exists ])
+]
+
+{ #category : #test }
 TinyLoggerTest >> testExecuteRecordedAs [
 	| contents stream bool |
 	self skipInPharo6.

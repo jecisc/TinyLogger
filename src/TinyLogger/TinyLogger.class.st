@@ -126,6 +126,11 @@ TinyLogger >> addTranscriptLogger [
 	self addLogger: TinyTranscriptLogger new
 ]
 
+{ #category : #logging }
+TinyLogger >> clearLogger [
+	self loggers do: #clearLogger
+]
+
 { #category : #nesting }
 TinyLogger >> decreaseDepthLevel [
 	self depth: self depth - 1

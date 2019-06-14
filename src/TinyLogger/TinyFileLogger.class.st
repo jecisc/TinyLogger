@@ -50,6 +50,11 @@ TinyFileLogger class >> named: aString [
 		yourself
 ]
 
+{ #category : #logging }
+TinyFileLogger >> clearLogger [
+	self fileReference ensureDelete
+]
+
 { #category : #accessing }
 TinyFileLogger >> fileName [
 	^ fileName ifNil: [ fileName := 'TinyLogger.log' ]
@@ -61,10 +66,15 @@ TinyFileLogger >> fileName: anObject [
 ]
 
 { #category : #accessing }
+TinyFileLogger >> fileReference [
+	^ self fileName asFileReference
+]
+
+{ #category : #accessing }
 TinyFileLogger >> fileStreamDo: aBlock [
 	"For now we re-open the file all the time to avoid problems when we change its image of computer/OS or if the user delete the file. Maybe later we can find a better solution but in any case we should test such weird behaviors."
 
-	^ self fileName asFileReference
+	^ self fileReference
 		ensureCreateFile;
 		writeStreamDo: [ :s | 
 			s setToEnd.
