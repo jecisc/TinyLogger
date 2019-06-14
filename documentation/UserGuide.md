@@ -7,6 +7,7 @@ Users can configure the way the logger works and the image will use this configu
 For specific cases, a specialized logger can be used.
 
 - [User documentation of TinyLogger](#user-documentation-of-tinylogger)
+  * [Quick start](#quick-start)
   * [Configure your logger](#configure-your-logger)
     + [Add sub-loggers to your `TinyLogger`](#add-sub-loggers-to-your--tinylogger-)
     + [Remove sub-loggers](#remove-sub-loggers)
@@ -17,9 +18,24 @@ For specific cases, a specialized logger can be used.
     + [Recording the execution of a task](#recording-the-execution-of-a-task)
   * [Use another logger than the global logger](#use-another-logger-than-the-global-logger)
 
+## Quick start
+
+Here's an example to create a logger using a file `Progress.log`:
+
+```Smalltalk
+TinyLogger default removeFileLoggers; "remove any existing file loggers"
+    addFileLoggerNamed: 'Progress.log'.
+```
+
+Then write a message to the log using `record`:
+
+```Smalltalk
+'Uh oh. Something happened.' record
+```
+
 ## Configure your logger
 
-The first step to use `TinyLogger` will be to configure the default logger that will be used by the image.
+The first step to use `TinyLogger` will be to configure the default logger that will be used by the image. 
 
 For most of the cases, the user will only interact with `TinyLogger` class. `TinyLogger` is a composite to which *leaf* loggers can be added. *Leaf* loggers have the responsibility to log information in a specific manner. For example `TinyLogger` has a *leaf* logger to print information on Stdout of the application.
 
