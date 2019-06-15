@@ -7,7 +7,6 @@ Users can configure the way the logger works and the image will use this configu
 For specific cases, a specialized logger can be used.
 
 - [User documentation of TinyLogger](#user-documentation-of-tinylogger)
-  * [Quick start](#quick-start)
   * [Configure your logger](#configure-your-logger)
     + [Add sub-loggers to your `TinyLogger`](#add-sub-loggers-to-your-tinylogger-)
     + [Remove sub-loggers](#remove-sub-loggers)
@@ -18,40 +17,7 @@ For specific cases, a specialized logger can be used.
     + [Recording the execution of a task](#recording-the-execution-of-a-task)
   * [Use another logger than the global logger](#use-another-logger-than-the-global-logger)
   * [Clear your logger](#clear-your-logger)
-  
-## Quick start
-
-This section will explain in 30 seconds how to create a logger for an application and use it. Then we will explore more advance features.
-
-Here is an example fo snippet to create a logger using a file `Progress.log`:
-
-```Smalltalk
-TinyLogger default 
-    addFileLoggerNamed: 'Progress.log'.
-```
-
-This code need to be executed **one time** in the image. For an application, it will probably be added to a method *initialize* on the class side of a class to be executed one time at the loading of the project in the image.
-
-In case you need to execute the code multiple times you can use this snippet instead:
-
-```Smalltalk
-TinyLogger default 
-    ensureFileLoggerNamed: 'Progress.log'.
-```
-
-Then write a message to the log using `record`:
-
-```Smalltalk
-'Uh oh. Something happened.' record
-```
-
-Or wrap the execution of an action by logs using `execute:recordedAs:`:
-
-```Smalltalk
-self execute: [ "Some code doing something" ] recordedAs: 'Launching bananas.'
-```
-
-Now, if you want to know more about the project, let's proceed on a more detailed documentation.
+ 
 
 ## Configure your logger
 
