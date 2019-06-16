@@ -13,6 +13,11 @@ TinyStdoutLoggerTest >> actualClass [
 ]
 
 { #category : #test }
+TinyStdoutLoggerTest >> testClearLog [
+	self shouldnt: [ logger clearLog ] raise: Error
+]
+
+{ #category : #test }
 TinyStdoutLoggerTest >> testRecord [
 	| stream |
 	self skipInPharo6.

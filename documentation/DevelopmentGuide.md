@@ -45,23 +45,23 @@ Generates the accessors for the `url` variable and you can add a constructor:
 
 ```Smalltalk
 TinyHTTPLogger class>>url: aString
-  ^ self new
-      url: aString;
-      yourself
+	^ self new
+		url: aString;
+		yourself
 ```
 
 Since `TinyLogger` groups its loggers by kinds, you need to define a `kind` method on the class side.
 
 ```Smalltalk
  TinyHTTPLogger class>>kind
-  ^ 'HTTP'
+	^ 'HTTP'
 ```
 
-Next step is to define the `record:` method to actually write the log. The superclass manages the preamble and formating directly via the method `record:on:` that needs to be called in your `record:` method. 
+Next step is to define the `record:` method to actually write the log. The superclass manages the preamble and formatting directly via the method `record:on:` that needs to be called in your `record:` method. 
 
 ```Smalltalk
 TinyHTTPLogger>>record: aString
-   ZnEasy post: self url data: (String streamContents: [ :s | self record: aString on: s ])
+	ZnEasy post: self url data: (String streamContents: [ :s | self record: aString on: s ])
 ```
 
 At this point, our new logger is usable. You can add a new instance to your `TinyLogger` this way:
@@ -76,7 +76,7 @@ The first one is to create and add a new HTTP logger:
 
 ```Smalltalk
 TinyLogger>>addHTTPLogger: aString
-  self addLogger: (TinyHTTPLogger url: aString)
+	self addLogger: (TinyHTTPLogger url: aString)
 ```
 
 The logger can now be used like this:
@@ -89,20 +89,33 @@ Another method to add as extension is a method to get all the HTTP loggers:
 
 ```Smalltalk
 TinyLogger>>httpLoggers
-  ^ self loggersMap at: TinyHTTPLogger kind ifAbsentPut: [ OrderedCollection new ]
+	^ self loggersMap at: TinyHTTPLogger kind ifAbsentPut: [ OrderedCollection new ]
 ```
 
-And the last method will be used to remove all HTTP loggers of the logger:
+Now that we have `httpLoggers`, we can easily add an `ensureHTTPLogger:` method matching `addHTTPLogger:`:
+
+```Smalltalk
+TinyLogger>>ensureHTTPLogger: aString
+	self httpLoggers
+		detect: [ :e | e url = aString ]
+		ifNone: [ self addHTTPLogger: aString ]
+```
+
+And the last method to add as extension will be used to remove all HTTP loggers of the logger:
 
 ```Smalltalk
  TinyLogger>>removeHTTPLoggers
 	self httpLoggers removeAll
 ```
 
+One last method to implement is `clearLogger` to clean the previous logs if the user want it:
+
+```Smalltalk
+TinyHTTPLogger>>record: aString
+	ZnClient new
+		beOneShot;
+		url: self url;
+		delete
+```
+
 At this point you have one new logger kind available!
-
-
-
-
-
-

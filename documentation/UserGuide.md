@@ -8,7 +8,7 @@ For specific cases, a specialized logger can be used.
 
 - [User documentation of TinyLogger](#user-documentation-of-tinylogger)
   * [Configure your logger](#configure-your-logger)
-    + [Add sub-loggers to your `TinyLogger`](#add-sub-loggers-to-your--tinylogger-)
+    + [Add sub-loggers to your `TinyLogger`](#add-sub-loggers-to-your-tinylogger-)
     + [Remove sub-loggers](#remove-sub-loggers)
     + [List the sub-loggers](#list-the-sub-loggers)
     + [Configure the timestamp format](#configure-the-timestamp-format)
@@ -16,6 +16,8 @@ For specific cases, a specialized logger can be used.
     + [Record a single line log](#record-a-single-line-log)
     + [Recording the execution of a task](#recording-the-execution-of-a-task)
   * [Use another logger than the global logger](#use-another-logger-than-the-global-logger)
+  * [Clear your logger](#clear-your-logger)
+ 
 
 ## Configure your logger
 
@@ -50,9 +52,22 @@ TinyLogger default
 	addFileLoggerNamed: '../logs/MyOtherLog.log'.
 ```
 
+Additionaly to those methods, `TinyLogger` also propose ways to add loggers only if they have no equivalent already registered.
+
+To archieve this result, use the equivalent of the methods previously explained, replacing `add` by `ensure`:
+```Smalltalk
+TinyLogger default
+	ensureStdoutLogger;
+	ensureTranscriptLogger;
+	ensureFileLogger;
+	ensureFileLoggerNamed: '../logs/MyOtherLog.log'.
+```
+
+With those methods, Transcript and Stdout loggers will be limited to one, and file loggers will be limited to one by file name.
+
 ### Remove sub-loggers
 
-If at some point you wants to remove one or multiple loggers, `TinyLogger` has some API elements to do that. 
+If at some point you want to remove one or multiple loggers, `TinyLogger` has an API for that. 
 
 The first way to remove loggers is with the method `removeAllLoggers`, which removes all the loggers of each kind.
 
@@ -211,4 +226,16 @@ TinyCurrentLogger value: customLogger during: [
 	'test' record.
 	TinyCurrentLogger value record: 'Test2'
 ]
+```
+
+## Clear your logger
+
+Each logger understands the method `#clearLog`. This method will have as effect to clear the output of the loggers. The actual effect is different depending on the kind of logger:
+- `TinyLogger` will send the message to all its sub loggers
+- `Transcript` logger will clear the Transcript of Pharo
+- `Stdout` logger will do nothing because it is not possible to clean a stdout
+- `File` logger will erase the file used to log
+
+```Smalltalk
+TinyLogger default clearLogger
 ```

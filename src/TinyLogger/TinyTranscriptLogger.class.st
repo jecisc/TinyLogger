@@ -23,6 +23,11 @@ TinyTranscriptLogger class >> kind [
 ]
 
 { #category : #logging }
+TinyTranscriptLogger >> clearLog [
+	Transcript clear
+]
+
+{ #category : #logging }
 TinyTranscriptLogger >> record: aString [
 	Transcript log: (String streamContents: [ :s | self record: aString on: s ])
 ]

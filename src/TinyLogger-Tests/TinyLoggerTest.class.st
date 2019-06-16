@@ -77,6 +77,71 @@ TinyLoggerTest >> testAddTranscriptLogger [
 ]
 
 { #category : #test }
+TinyLoggerTest >> testClearLog [
+	logger
+		addTranscriptLogger;
+		addFileLoggerNamed: 'testFileForTinyLogger.log';
+		addFileLoggerNamed: 'testFileForTinyLogger2.log'.
+
+	logger record: 'Test'.
+	self assert: (logger fileLoggers allSatisfy: [ :fileLogger | fileLogger fileReference exists ]).
+
+	logger clearLog.
+	self assert: (logger fileLoggers noneSatisfy: [ :fileLogger | fileLogger fileReference exists ])
+]
+
+{ #category : #test }
+TinyLoggerTest >> testEnsureFileLogger [
+	logger removeAllLoggers.
+	self assert: logger loggers isEmpty.
+
+	logger ensureFileLogger.
+	self assert: logger loggers size equals: 1.
+	self assert: logger fileLoggers size equals: 1.
+
+	logger ensureFileLogger.
+	self assert: logger loggers size equals: 1.
+	self assert: logger fileLoggers size equals: 1
+]
+
+{ #category : #test }
+TinyLoggerTest >> testEnsureFileLoggerNamed [
+	logger removeAllLoggers.
+	self assert: logger loggers isEmpty.
+
+	logger ensureFileLoggerNamed: 'test.log'.
+	self assert: logger fileLoggers size equals: 1.
+
+	logger ensureFileLoggerNamed: 'test.log'.
+	logger ensureFileLoggerNamed: 'test2.log'.
+	self assert: logger fileLoggers size equals: 2
+]
+
+{ #category : #test }
+TinyLoggerTest >> testEnsureStdoutLogger [
+	logger removeAllLoggers.
+	self assert: logger loggers isEmpty.
+
+	logger
+		ensureStdoutLogger;
+		ensureStdoutLogger.
+	self assert: logger loggers size equals: 1.
+	self assert: logger stdoutLoggers size equals: 1
+]
+
+{ #category : #test }
+TinyLoggerTest >> testEnsureTranscriptLogger [
+	logger removeAllLoggers.
+	self assert: logger loggers isEmpty.
+	
+	logger
+		ensureTranscriptLogger;
+		ensureTranscriptLogger.
+	self assert: logger loggers size equals: 1.
+	self assert: logger transcriptLoggers size equals: 1
+]
+
+{ #category : #test }
 TinyLoggerTest >> testExecuteRecordedAs [
 	| contents stream bool |
 	self skipInPharo6.

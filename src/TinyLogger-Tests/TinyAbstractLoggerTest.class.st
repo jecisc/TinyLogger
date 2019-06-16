@@ -27,8 +27,13 @@ TinyAbstractLoggerTest >> actualClass [
 
 { #category : #helpers }
 TinyAbstractLoggerTest >> skipInPharo6 [
-	self flag: #pharo6. "There is a bug with stdout in Pharo 6 and a hack to manage it. But it breaks the tests so we skip the tests using Stdio streams. Remove that when compatibility with P6 will be dropped."
+	self flag: #pharo6. "There is a bug with stdout in Pharo 6 and a hack to manage it. But it breaks the tests so we skip the tests using Stdio streams. Remove that when compatibility with P6 will be dropped."
 	SystemVersion current major < 7 ifTrue: [ self skip ]
+]
+
+{ #category : #test }
+TinyAbstractLoggerTest >> testClearLog [
+	self subclassResponsibility
 ]
 
 { #category : #test }

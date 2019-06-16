@@ -25,6 +25,13 @@ TinyStdoutLogger class >> kind [
 	^ 'stdout'
 ]
 
+{ #category : #logging }
+TinyStdoutLogger >> clearLog [
+	"We do nothing here since we cannot clear stdout"
+
+	
+]
+
 { #category : #initialization }
 TinyStdoutLogger >> initialize [
 	super initialize.
