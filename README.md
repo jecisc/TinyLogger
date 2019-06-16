@@ -55,7 +55,7 @@ Then write a message to the log using `record`:
 'Uh oh. Something happened.' record
 ```
 
-Or wrap the execution of an action by logs using `execute:recordedAs:`:
+Or write a message to the log for the execution of an action using `execute:recordedAs:`:
 
 ```Smalltalk
 self execute: [ "Some code doing something" ] recordedAs: 'Launching bananas.'
