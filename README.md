@@ -34,20 +34,19 @@ Note you can replace the #master by another branch such as #development or a tag
 
 ## Quick start
 
-Here is a snippet to create a logger using a file `Progress.log`:
+To create a file logger using a file `Progress.log` and records all messages as soon as the project is loaded in a a Pharo image, in the initialize method (class side) of a project put the following:
 
 ```Smalltalk
 TinyLogger default 
     addFileLoggerNamed: 'Progress.log'.
 ```
 
-This code need to be executed **one time** in the image. For an application, it will probably be added to a method *initialize* on the class side of a class to be executed one time at the loading of the project in the image.
-
-In case you need to execute the code multiple times you can use this snippet instead:
+To create a file logger that is reset each time you run an application. Put the following in the method that is run:
 
 ```Smalltalk
 TinyLogger default 
-    ensureFileLoggerNamed: 'Progress.log'.
+    ensureFileLoggerNamed: 'Progress.log'; "Add the file logger only if not already"
+    clearLog "This will delete the previous 'Progress.log' file".
 ```
 
 Then write a message to the log using `record`:
