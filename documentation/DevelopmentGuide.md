@@ -57,7 +57,7 @@ Since `TinyLogger` groups its loggers by kinds, you need to define a `kind` met
 	^ 'HTTP'
 ```
 
-Next step is to define the `record:` method to actually write the log. The superclass manages the preamble and formating directly via the method `record:on:` that needs to be called in your `record:` method. 
+Next step is to define the `record:` method to actually write the log. The superclass manages the preamble and formatting directly via the method `record:on:` that needs to be called in your `record:` method. 
 
 ```Smalltalk
 TinyHTTPLogger>>record: aString
