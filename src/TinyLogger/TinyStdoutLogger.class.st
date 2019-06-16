@@ -26,7 +26,7 @@ TinyStdoutLogger class >> kind [
 ]
 
 { #category : #logging }
-TinyStdoutLogger >> clearLogger [
+TinyStdoutLogger >> clearLog [
 	"We do nothing here since we cannot clear stdout"
 
 	

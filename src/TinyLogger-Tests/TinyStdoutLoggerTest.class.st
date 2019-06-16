@@ -13,8 +13,8 @@ TinyStdoutLoggerTest >> actualClass [
 ]
 
 { #category : #test }
-TinyStdoutLoggerTest >> testClearLogger [
-	self shouldnt: [ logger clearLogger ] raise: Error
+TinyStdoutLoggerTest >> testClearLog [
+	self shouldnt: [ logger clearLog ] raise: Error
 ]
 
 { #category : #test }

@@ -32,13 +32,13 @@ TinyFileLoggerTest >> testCanHaveDefaultFile [
 ]
 
 { #category : #test }
-TinyFileLoggerTest >> testClearLogger [
+TinyFileLoggerTest >> testClearLog [
 	log := (self fileNameNumber: 1) asFileReference.
 	logger := self actualClass for: parentLogger named: log basename.
 	logger record: 'this is a test'.
 
 	self assert: log exists.
-	logger clearLogger.
+	logger clearLog.
 	self deny: log exists
 ]
 

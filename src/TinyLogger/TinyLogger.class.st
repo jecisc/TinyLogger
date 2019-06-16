@@ -12,12 +12,14 @@ The user can configure the timestamp formating via the #timestampFormatBlock par
 Public API and Key Messages
 --------------------
 
-- #record: 						Log the parameter we the sub loggers.
-- #execute:recordedAs: 		Execute a block and log the task when it beging and ends. This will increase the identation of the logging.
+- #record: 						Log the parameter of the sub loggers
+- #clearLog 						Clear the output of the sub loggers
+- #execute:recordedAs: 		Execute a block and log the task when it beging and ends. This will increase the identation of the logging
 - #addStdoutLogger 			Add a logger on Stdout
 - #addTrascriptLogger 		Add a logger on the Transcript
 - #addFileLogger 				Add a logger that will log in a file named `TinyLogger.log`
 - #addFileLoggerNamed: 		Add a logger on a file whose name is passed as parameter
+- #ensure: 						Variant of all previous #addX message. This one will add the new logger only if there is not equivalent logger already present
 - #timestampFormatBlock: 	Give as parameter a block taking a stream as parameter and writing the timestamp you want
 
 Examples
@@ -127,8 +129,8 @@ TinyLogger >> addTranscriptLogger [
 ]
 
 { #category : #logging }
-TinyLogger >> clearLogger [
-	self loggers do: #clearLogger
+TinyLogger >> clearLog [
+	self loggers do: #clearLog
 ]
 
 { #category : #nesting }

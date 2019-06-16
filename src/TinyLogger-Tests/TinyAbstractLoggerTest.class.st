@@ -32,7 +32,7 @@ TinyAbstractLoggerTest >> skipInPharo6 [
 ]
 
 { #category : #test }
-TinyAbstractLoggerTest >> testClearLogger [
+TinyAbstractLoggerTest >> testClearLog [
 	self subclassResponsibility
 ]
 
