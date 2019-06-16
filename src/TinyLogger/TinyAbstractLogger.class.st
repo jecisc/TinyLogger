@@ -13,8 +13,9 @@ Users should configure a `TinyLogger` with the concrete loggers they want and u
 Public API and Key Messages
 --------------------
 
-- #record: 	Takes a string and record it.
-- #<< 			Alias of #record:
+- #record: 		Takes a string and record it.
+- #<< 				Alias of #record:.
+- #clearLog 		Clear the output of the logger. Will have different effect depending on the logger.
 
 "
 Class {
@@ -34,7 +35,7 @@ TinyAbstractLogger >> << aString [
 ]
 
 { #category : #logging }
-TinyAbstractLogger >> clearLogger [
+TinyAbstractLogger >> clearLog [
 	"Whe called, this method should clear the previous logs"
 
 	self subclassResponsibility

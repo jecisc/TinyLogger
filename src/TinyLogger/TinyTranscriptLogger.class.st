@@ -23,7 +23,7 @@ TinyTranscriptLogger class >> kind [
 ]
 
 { #category : #logging }
-TinyTranscriptLogger >> clearLogger [
+TinyTranscriptLogger >> clearLog [
 	Transcript clear
 ]
 

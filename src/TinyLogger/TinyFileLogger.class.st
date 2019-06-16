@@ -56,7 +56,7 @@ TinyFileLogger class >> named: aString [
 ]
 
 { #category : #logging }
-TinyFileLogger >> clearLogger [
+TinyFileLogger >> clearLog [
 	self fileReference ensureDelete
 ]
 

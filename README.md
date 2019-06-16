@@ -5,6 +5,7 @@
 A really small logger for Pharo applications.
 
   - [Installation](#installation)
+  - [Quick start](#quick-start)
   - [Documentation](#documentation)
   - [Version management](#version-management)
   - [Smalltalk versions compatibility](#smalltalk-versions-compatibility)
@@ -31,6 +32,37 @@ spec
 
 Note you can replace the #master by another branch such as #development or a tag such as #v1.0.0, #v1.? or #v1.2.? .
 
+## Quick start
+
+To create a file logger using a file `Progress.log` and records all messages as soon as the project is loaded in a a Pharo image, in the initialize method (class side) of a project put the following:
+
+```Smalltalk
+TinyLogger default 
+    addFileLoggerNamed: 'Progress.log'.
+```
+
+To create a file logger that is reset each time you run an application. Put the following in the method that is run:
+
+```Smalltalk
+TinyLogger default 
+    ensureFileLoggerNamed: 'Progress.log'; "Add the file logger only if not already"
+    clearLog "This will delete the previous 'Progress.log' file".
+```
+
+Then write a message to the log using `record`:
+
+```Smalltalk
+'Uh oh. Something happened.' record
+```
+
+Or write a message to the log for the execution of an action using `execute:recordedAs:`:
+
+```Smalltalk
+self execute: [ "Some code doing something" ] recordedAs: 'Launching bananas.'
+```
+
+Now, if you want to know more about the project, let's proceed on a more detailed documentation.
+
 ## Documentation
 
 Documentation is split into separate links as follows:
@@ -51,9 +83,9 @@ Thus, it should be safe to depend on a fixed major version and moving minor vers
 
 ## Smalltalk versions compatibility
 
-| MDL version 	| Compatible Pharo versions 	|
+| Version 	| Compatible Pharo versions 	|
 |-------------	|---------------------------	|
-| 1.x.x       	| Pharo 61, 70        				|
+| 1.x.x       	| Pharo 61, 70, 80		|
 
 ## Contact
 
