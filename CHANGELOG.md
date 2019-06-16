@@ -1,3 +1,25 @@
+<!-- git log --pretty="* %s ([%h](https://github.com/jecisc/TinyLogger/commit/%H))" v1.0.1...HEAD --grep="Merge " 
+('Content' copyWithRegex: 'Merge pull request #[0-9]+ from [^/]+/[0-9]*' matchesReplacedWith: ' ') copyReplaceAll: '-' with: ' '
+-->
+
+# [v1.1.0](https://github.com/jecisc/TinyLogger/compare/v1.0.1...v1.1.0) (2019-06-16)
+
+## New Features
+
+* Add way to add a logger only if not already existing ([ed94153](https://github.com/jecisc/TinyLogger/commit/ed94153d9f086fed3a4f801cfe2029db383514c6))
+* Add way to initialize remove old log like ensureDelete  ([6529cc8](https://github.com/jecisc/TinyLogger/commit/6529cc8a99360d93ad80a3badff5066021b6053f))
+
+## Infrastructure
+
+* Add pharo 8 to ci ([2b7aded](https://github.com/jecisc/TinyLogger/commit/2b7adede42186b3aca18aea4c910421fc4b13558))
+
+## Documentation
+
+* Documentation v1.1.0 ([e928f63](https://github.com/jecisc/TinyLogger/commit/e928f635134e2081c6a85f24adb7b11bd4261fdf))
+* Grammar review ([25b41de](https://github.com/jecisc/TinyLogger/commit/25b41de42009092ef15ba258ba70ea12b8b2384b))
+* Grammar review 2 ([10e1a87](https://github.com/jecisc/TinyLogger/commit/10e1a87c45b54f07d9a5dd0205a29277447bbfc8))
+* Grammar review 3 ([e279a10](https://github.com/jecisc/TinyLogger/commit/e279a10121503d0cddcb645c765773c14c68c457))
+
 # [v1.0.1](https://github.com/jecisc/TinyLogger/compare/v1.0.0...v1.0.1) (2018-12-08)
 
 ## Bug fix
