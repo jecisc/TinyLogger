@@ -54,7 +54,7 @@ TinyLogger default
 
 Additionaly to those methods, `TinyLogger` also propose ways to add loggers only if they have no equivalent already registered.
 
-In order to archieve this result, you can use the equivalent of the methods previously explained, replacing `add` by `ensure`:
+To archieve this result, use the equivalent of the methods previously explained, replacing `add` by `ensure`:
 ```Smalltalk
 TinyLogger default
 	ensureStdoutLogger;
@@ -67,7 +67,7 @@ With those methods, Transcript and Stdout loggers will be limited to one, and fi
 
 ### Remove sub-loggers
 
-If at some point you wants to remove one or multiple loggers, `TinyLogger` has some API elements to do that. 
+If at some point you want to remove one or multiple loggers, `TinyLogger` has an API for that. 
 
 The first way to remove loggers is with the method `removeAllLoggers`, which removes all the loggers of each kind.
 
@@ -230,7 +230,7 @@ TinyCurrentLogger value: customLogger during: [
 
 ## Clear your logger
 
-Each logger can understand the method `#clearLogger`. This method will have as effet to clear the output of the loggers. The actual effect can be slightly different depending on the kind of logger:
+Each logger understands the method `#clearLog`. This method will have as effect to clear the output of the loggers. The actual effect is different depending on the kind of logger:
 - `TinyLogger` will send the message to all its sub loggers
 - `Transcript` logger will clear the Transcript of Pharo
 - `Stdout` logger will do nothing because it is not possible to clean a stdout
