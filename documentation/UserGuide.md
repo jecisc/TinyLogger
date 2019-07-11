@@ -17,6 +17,7 @@ For specific cases, a specialized logger can be used.
     + [Recording the execution of a task](#recording-the-execution-of-a-task)
   * [Use another logger than the global logger](#use-another-logger-than-the-global-logger)
   * [Clear your logger](#clear-your-logger)
+  * [Use special logger for tests](#use-special-logger-for-tests)
  
 
 ## Configure your logger
@@ -239,3 +240,21 @@ Each logger understands the method `#clearLog`. This method will have as effect 
 ```Smalltalk
 TinyLogger default clearLogger
 ```
+
+## Use special logger for tests
+
+It is probable that you might not want to have your default logger for tests. It is possible to archive this by overriding the #performTest method of your TestCase like this:
+
+````Smalltalk
+MyTestCase>>performTest
+	| testLogger |
+	testLogger := TinyLogger new
+		addTranscriptLogger;
+		yourself.
+		
+	TinyCurrentLogger value: testLogger during: [
+		super performTest
+	]
+```
+
+Doing this, your tests will use the `testLogger` instead of the default logger in the image.
