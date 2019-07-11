@@ -245,7 +245,7 @@ TinyLogger default clearLogger
 
 It is probable that you might not want to have your default logger for tests. It is possible to archive this by overriding the #performTest method of your TestCase like this:
 
-````Smalltalk
+```Smalltalk
 MyTestCase>>performTest
 	| testLogger |
 	testLogger := TinyLogger new
