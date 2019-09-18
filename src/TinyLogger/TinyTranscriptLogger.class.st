@@ -29,5 +29,5 @@ TinyTranscriptLogger >> clearLog [
 
 { #category : #logging }
 TinyTranscriptLogger >> record: aString [
-	Transcript log: (String streamContents: [ :s | self record: aString on: s ])
+	Transcript trace: (String streamContents: [ :s | self record: aString on: s ])
 ]
