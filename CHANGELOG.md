@@ -2,6 +2,16 @@
 ('Content' copyWithRegex: 'Merge pull request #[0-9]+ from [^/]+/[0-9]*' matchesReplacedWith: ' ') copyReplaceAll: '-' with: ' '
 -->
 
+# [v1.1.1](https://github.com/jecisc/TinyLogger/compare/v1.1.0...v1.1.1) (2019-09-18)
+
+# Bug fixes
+
+*   Do not depend on whole Mocketry ([a50d354](https://github.com/jecisc/TinyLogger/commit/a50d3543bf00e76d780d7d3f2fb205280364b637))
+
+# Infrastructure
+
+*   Deprecated method in Pharo 8 ([7f2ab1c](https://github.com/jecisc/TinyLogger/commit/7f2ab1c7a6fc43d23801faed40383e2b6d4279c3))
+
 # [v1.1.0](https://github.com/jecisc/TinyLogger/compare/v1.0.1...v1.1.0) (2019-06-16)
 
 ## New Features
