@@ -34,5 +34,9 @@ BaselineOfTinyLogger >> baseline: spec [
 
 { #category : #dependencies }
 BaselineOfTinyLogger >> mocketry: spec [
-	spec baseline: 'Mocketry' with: [ spec repository: 'github://dionisiydk/Mocketry:v4.0.x' ]
+	spec
+		baseline: 'Mocketry'
+		with: [ spec
+				loads: #('Core');
+				repository: 'github://dionisiydk/Mocketry:v4.0.x' ]
 ]
