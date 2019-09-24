@@ -2,11 +2,17 @@
 ('Content' copyWithRegex: 'Merge pull request #[0-9]+ from [^/]+/[0-9]*' matchesReplacedWith: ' ') copyReplaceAll: '-' with: ' '
 -->
 
+# [v1.1.2](https://github.com/jecisc/TinyLogger/compare/v1.1.1...v1.1.2) (2019-09-25)
+
+## Infrastructure
+
+* Update Mocketry dependency to v6.0.x ([c114fea](https://github.com/jecisc/TinyLogger/commit/c114feac2ff65bd11e11fcd7f188e09e90022465))
+
 # [v1.1.1](https://github.com/jecisc/TinyLogger/compare/v1.1.0...v1.1.1) (2019-09-18)
 
 # Bug fixes
 
-*   Do not depend on whole Mocketry ([a50d354](https://github.com/jecisc/TinyLogger/commit/a50d3543bf00e76d780d7d3f2fb205280364b637))
+* Do not depend on whole Mocketry ([a50d354](https://github.com/jecisc/TinyLogger/commit/a50d3543bf00e76d780d7d3f2fb205280364b637))
 
 # Infrastructure
 
