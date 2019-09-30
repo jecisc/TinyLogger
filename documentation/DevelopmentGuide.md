@@ -7,7 +7,7 @@ A first part will cover the design of the project and a second part will be a tu
 - [Developer documentation](#developer-documentation)
   * [Design](#design)
   * [TinyCurrentLogger dynamic variable](#tinycurrentlogger-dynamic-variable)
-  * [Add a new leaf transcript](#add-a-new-leaf-transcript)
+  * [Add a new leaf logger](#add-a-new-leaf-logger)
 
 ## Design
 
@@ -28,7 +28,7 @@ To record logs, the user will use extension methods implemented on `Object` as 
 
 The `TinyCurrentLogger` has a default value that is the default instance of `TinyLogger`. This value can be changed using the `value:during:` message as explained in the user documentation.
 
-## Add a new leaf transcript
+## Add a new leaf logger
 
 In this section we will add a new leaf logger recording logs in a remote server via a HTTP request on a REST API.
 
