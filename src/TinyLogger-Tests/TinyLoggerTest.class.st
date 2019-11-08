@@ -181,12 +181,12 @@ TinyLoggerTest >> testExecuteRecordedAs2 [
 
 	"Ensure we have the right indentation."
 	self
-		assert: contents withInternalLineEndings
+		assert: contents withUnixLineEndings
 		equals:
 			'No time : 	Begin: This is a new test
 No time : 		test
 No time : 	End: This is a new test
-' withInternalLineEndings ]
+' withUnixLineEndings ]
 		ensure: [ Stdio recoverFromGHMutation.
 			stream close ]
 ]
