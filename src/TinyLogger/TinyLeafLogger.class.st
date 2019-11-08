@@ -37,11 +37,13 @@ TinyLeafLogger class >> for: aTinyLogger [
 
 { #category : #testing }
 TinyLeafLogger class >> isAbstract [
+	<ignoreForCoverage>
 	^ self = TinyLeafLogger
 ]
 
 { #category : #accessing }
 TinyLeafLogger class >> kind [
+	<ignoreForCoverage>
 	^ self subclassResponsibility
 ]
 
@@ -67,7 +69,6 @@ TinyLeafLogger >> parentLogger [
 
 { #category : #accessing }
 TinyLeafLogger >> parentLogger: aLogger [
-	parentLogger == aLogger ifTrue: [ ^ self ].
 	parentLogger := aLogger
 ]
 

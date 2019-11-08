@@ -22,6 +22,7 @@ Class {
 
 { #category : #accessing }
 TinyStdoutLogger class >> kind [
+	<ignoreForCoverage>
 	^ 'stdout'
 ]
 

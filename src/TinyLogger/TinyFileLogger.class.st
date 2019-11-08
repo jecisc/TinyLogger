@@ -45,6 +45,7 @@ TinyFileLogger class >> for: aLogger named: aString [
 
 { #category : #accessing }
 TinyFileLogger class >> kind [
+	<ignoreForCoverage>
 	^ 'file'
 ]
 
@@ -84,7 +85,7 @@ TinyFileLogger >> fileReference [
 TinyFileLogger >> fileStreamDo: aBlock [
 	"For now we re-open the file all the time to avoid problems when we change its image of computer/OS or if the user delete the file. Maybe later we can find a better solution but in any case we should test such weird behaviors."
 
-	^ self fileReference
+	self fileReference
 		ensureCreateFile;
 		writeStreamDo: [ :s | 
 			s setToEnd.
