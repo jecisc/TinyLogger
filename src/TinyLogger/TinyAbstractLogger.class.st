@@ -26,6 +26,7 @@ Class {
 
 { #category : #testing }
 TinyAbstractLogger class >> isAbstract [
+	<ignoreForCoverage>
 	^ self = TinyAbstractLogger
 ]
 
@@ -48,5 +49,6 @@ TinyAbstractLogger >> record: aString [
 
 { #category : #accessing }
 TinyAbstractLogger >> timestampFormatBlock [
+	<ignoreForCoverage>
 	^ self subclassResponsibility
 ]
