@@ -1,6 +1,14 @@
-<!-- git log --pretty="* %s ([%h](https://github.com/jecisc/TinyLogger/commit/%H))" v1.0.1...HEAD --grep="Merge " 
-('Content' copyWithRegex: 'Merge pull request #[0-9]+ from [^/]+/[0-9]*' matchesReplacedWith: ' ') copyReplaceAll: '-' with: ' '
+<!--
+git log --pretty="* %s ([%h](https://github.com/jecisc/TinyLogger/commit/%H))" v1.1.3...HEAD --grep="Merge pull" 
+('Content' copyWithRegex: 'Merge pull request #[0-9]+ from [^/]+/[0-9]*' matchesReplacedWith: '') copyReplaceAll: '-' with: ' '
 -->
+
+# [v1.1.3](https://github.com/jecisc/TinyLogger/compare/v1.1.2...v1.1.3) (2019-11-08)
+
+## Infrastructure
+
+*  Improve test coverage using MuTalk (mutation testing) ([716cd41](https://github.com/jecisc/TinyLogger/commit/716cd41655614326b4e20a426bdb58ce5f0f2031))
+*  Fix a title in the documentation ([1d6af61](https://github.com/jecisc/TinyLogger/commit/1d6af61b6114533ab20ef3ffaad252f95925d3a8))
 
 # [v1.1.2](https://github.com/jecisc/TinyLogger/compare/v1.1.1...v1.1.2) (2019-09-25)
 
@@ -10,11 +18,11 @@
 
 # [v1.1.1](https://github.com/jecisc/TinyLogger/compare/v1.1.0...v1.1.1) (2019-09-18)
 
-# Bug fixes
+## Bug fixes
 
 * Do not depend on whole Mocketry ([a50d354](https://github.com/jecisc/TinyLogger/commit/a50d3543bf00e76d780d7d3f2fb205280364b637))
 
-# Infrastructure
+## Infrastructure
 
 *   Deprecated method in Pharo 8 ([7f2ab1c](https://github.com/jecisc/TinyLogger/commit/7f2ab1c7a6fc43d23801faed40383e2b6d4279c3))
 
