@@ -26,6 +26,7 @@ Class {
 
 { #category : #testing }
 TinyAbstractLogger class >> isAbstract [
+	<ignoreForCoverage>
 	^ self = TinyAbstractLogger
 ]
 

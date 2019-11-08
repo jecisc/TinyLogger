@@ -37,6 +37,7 @@ TinyLeafLogger class >> for: aTinyLogger [
 
 { #category : #testing }
 TinyLeafLogger class >> isAbstract [
+	<ignoreForCoverage>
 	^ self = TinyLeafLogger
 ]
 
