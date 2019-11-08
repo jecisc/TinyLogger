@@ -180,9 +180,13 @@ TinyLoggerTest >> testExecuteRecordedAs2 [
 	contents := Stdio stdout contents asString.
 
 	"Ensure we have the right indentation."
-	self assert: (contents includesSubstring: 'No time : 	Begin: This is a new test
+	self
+		assert: contents withInternalLineEndings
+		equals:
+			'No time : 	Begin: This is a new test
 No time : 		test
-No time : 	End: This is a new test') ]
+No time : 	End: This is a new test
+' withInternalLineEndings ]
 		ensure: [ Stdio recoverFromGHMutation.
 			stream close ]
 ]
