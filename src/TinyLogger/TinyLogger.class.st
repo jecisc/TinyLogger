@@ -98,7 +98,7 @@ TinyLogger class >> default: anObject [
 
 { #category : #initialization }
 TinyLogger class >> reset [
-	^ self default: nil
+	self default: nil
 ]
 
 { #category : #'public API' }

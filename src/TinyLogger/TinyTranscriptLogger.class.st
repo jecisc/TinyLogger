@@ -19,6 +19,7 @@ Class {
 
 { #category : #accessing }
 TinyTranscriptLogger class >> kind [
+	<ignoreForCoverage>
 	^ 'transcript'
 ]
 

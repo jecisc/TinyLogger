@@ -49,5 +49,6 @@ TinyAbstractLogger >> record: aString [
 
 { #category : #accessing }
 TinyAbstractLogger >> timestampFormatBlock [
+	<ignoreForCoverage>
 	^ self subclassResponsibility
 ]
