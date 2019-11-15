@@ -42,5 +42,10 @@ TinyStdoutLogger >> initialize [
 
 { #category : #logging }
 TinyStdoutLogger >> record: aString [
-	self record: aString on: streamClassProvider stdout 
+	| stream |
+	stream := streamClassProvider stdout.
+	self record: aString on: stream.
+
+	"The flush is needed to send the record in the stdout."
+	stream flush
 ]
