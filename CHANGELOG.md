@@ -1,7 +1,13 @@
 <!--
-git log --pretty="* %s ([%h](https://github.com/jecisc/TinyLogger/commit/%H))" v1.1.3...HEAD --grep="Merge pull" 
+git log --pretty="* %s ([%h](https://github.com/jecisc/TinyLogger/commit/%H))" v1.1.4...HEAD --grep="Merge pull" 
 ('Content' copyWithRegex: 'Merge pull request #[0-9]+ from [^/]+/[0-9]*' matchesReplacedWith: '') copyReplaceAll: '-' with: ' '
 -->
+
+# [v1.1.4](https://github.com/jecisc/TinyLogger/compare/v1.1.3...v1.1.4) (2019-11-15)
+
+## Bug fix
+
+* STDOut logger should flush after recoring ([6e6800a](https://github.com/jecisc/TinyLogger/commit/6e6800a5f167e3606d084290c7b3e4cfc2625985))
 
 # [v1.1.3](https://github.com/jecisc/TinyLogger/compare/v1.1.2...v1.1.3) (2019-11-08)
 
