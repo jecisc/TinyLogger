@@ -1,7 +1,11 @@
 <!--
-git log --pretty="* %s ([%h](https://github.com/jecisc/TinyLogger/commit/%H))" v1.1.4...HEAD --grep="Merge pull" 
+git log --pretty="* %s ([%h](https://github.com/jecisc/TinyLogger/commit/%H))" v1.1.5...HEAD --grep="Merge pull" 
 ('Content' copyWithRegex: 'Merge pull request #[0-9]+ from [^/]+/[0-9]*' matchesReplacedWith: '') copyReplaceAll: '-' with: ' '
 -->
+
+# [v1.1.5](https://github.com/jecisc/TinyLogger/compare/v1.1.4...v1.1.5) (2020-03-16)
+
+* Manage errors inside action logging ([172a181](https://github.com/jecisc/TinyLogger/commit/172a1818df984b08b1ab6ebe60646c0aaf160771))
 
 # [v1.1.4](https://github.com/jecisc/TinyLogger/compare/v1.1.3...v1.1.4) (2019-11-15)
 
