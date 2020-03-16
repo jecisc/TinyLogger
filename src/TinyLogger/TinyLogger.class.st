@@ -184,7 +184,11 @@ TinyLogger >> execute: aBlock recordedAs: aString [
 	self increaseDepthLevel.
 	self record: 'Begin: ' , aString.
 	self increaseDepthLevel.
-	aBlock cull: aString.
+	[ aBlock cull: aString ]
+		ifCurtailed: [ "If there is an error, we ensure we keep the right indentation and we print an end of action with error."
+			self decreaseDepthLevel.
+			self record: 'End with error: ' , aString.
+			self decreaseDepthLevel ].
 	self decreaseDepthLevel.
 	self record: 'End: ' , aString.
 	self decreaseDepthLevel
