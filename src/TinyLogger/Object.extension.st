@@ -2,7 +2,7 @@ Extension { #name : #Object }
 
 { #category : #'*TinyLogger' }
 Object >> execute: aBlock recordedAs: aString [
-	TinyCurrentLogger value execute: aBlock recordedAs: aString
+	^ TinyCurrentLogger value execute: aBlock recordedAs: aString
 ]
 
 { #category : #'*TinyLogger' }

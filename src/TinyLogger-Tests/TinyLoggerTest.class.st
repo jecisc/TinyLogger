@@ -223,6 +223,25 @@ No time : 	End: This is a new test
 ]
 
 { #category : #test }
+TinyLoggerTest >> testExecuteRecordedAsReturnBlockContent [
+	| contents stream bool |
+	self skipInPharo6.
+	bool := false.
+	logger
+		removeAllLoggers;
+		addStdoutLogger.
+	stream := '' writeStream.
+	[ Stdio stub stdout willReturn: stream.
+	bool := logger execute: [ true ] recordedAs: 'This is a new test'.
+	contents := Stdio stdout contents asString.
+	self assert: bool.
+	self assert: (contents includesSubstring: 'Begin: This is a new test').
+	self assert: (contents includesSubstring: 'End: This is a new test') ]
+		ensure: [ Stdio recoverFromGHMutation.
+			stream close ]
+]
+
+{ #category : #test }
 TinyLoggerTest >> testFileLoggers [
 	logger
 		addTranscriptLogger;
