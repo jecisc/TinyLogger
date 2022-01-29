@@ -1,7 +1,11 @@
 <!--
-git log --pretty="* %s ([%h](https://github.com/jecisc/TinyLogger/commit/%H))" v1.1.5...HEAD --grep="Merge pull" 
+git log --pretty="* %s ([%h](https://github.com/jecisc/TinyLogger/commit/%H))" v1.2.0...HEAD --grep="Merge pull" 
 ('Content' copyWithRegex: 'Merge pull request #[0-9]+ from [^/]+/[0-9]*' matchesReplacedWith: '') copyReplaceAll: '-' with: ' '
 -->
+
+# [v1.2.0](https://github.com/jecisc/TinyLogger/compare/v1.1.5...v1.2.0) (2021-10-11)
+
+* #execute:recordedAs: should return the result of its block ([16eaa82](https://github.com/jecisc/TinyLogger/commit/16eaa82e22e803ca4226150dc047c5ff61bf5434))
 
 # [v1.1.5](https://github.com/jecisc/TinyLogger/compare/v1.1.4...v1.1.5) (2020-03-16)
 
