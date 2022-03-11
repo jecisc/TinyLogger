@@ -11,9 +11,10 @@ A first part will cover the design of the project and a second part will be a tu
 
 ## Design
 
+
 ![UML of the project](uml.png?raw=true "UML of the project")
 
-`TinyLogger` project is based on the (Composite design pattern)[https://en.wikipedia.org/wiki/Composite_pattern]. The logger to used, instance of `TinyLogger` is a composite containing `TinyLeafLogger`s. 
+`TinyLogger` project is based on the [Composite design pattern](https://en.wikipedia.org/wiki/Composite_pattern). The logger to used, instance of `TinyLogger` is a composite containing `TinyLeafLogger`s. 
 
 To add a new logger kind, `TinyLeafLogger` needs to be overriden.
 
