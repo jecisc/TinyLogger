@@ -110,12 +110,16 @@ TinyLogger >> addFileLogger [
 
 { #category : #'public API' }
 TinyLogger >> addFileLoggerNamed: aString [
-	self addLogger: (TinyFileLogger named: aString)
+	^ self addLogger: (TinyFileLogger named: aString)
 ]
 
 { #category : #'public API' }
 TinyLogger >> addLogger: aLogger [
-	(self loggersMap at: aLogger kind ifAbsentPut: [ OrderedCollection new ]) add: (aLogger parentLogger: self)
+
+	^ (self loggersMap
+		 at: aLogger kind
+		 ifAbsentPut: [ OrderedCollection new ]) add:
+		(aLogger parentLogger: self)
 ]
 
 { #category : #'public API' }
@@ -164,7 +168,7 @@ TinyLogger >> ensureFileLogger [
 TinyLogger >> ensureFileLoggerNamed: aString [
 	"Ensure a file logger to a file whose name is given as parameter is in the logger. In case one already exists, does nothing."
 
-	self fileLoggers
+	^ self fileLoggers
 		detect: [ :e | e fileName = aString ]
 		ifNone: [ self addFileLoggerNamed: aString ]
 ]
