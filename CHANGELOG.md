@@ -3,6 +3,11 @@ git log --pretty="* %s ([%h](https://github.com/jecisc/TinyLogger/commit/%H))" v
 ('Content' copyWithRegex: 'Merge pull request #[0-9]+ from [^/]+/[0-9]*' matchesReplacedWith: '') copyReplaceAll: '-' with: ' '
 -->
 
+# [v1.3.0](https://github.com/jecisc/TinyLogger/compare/v1.2.1...v1.3.0) (2022-06-02)
+
+* Add an option to open the log in a dedicatedl window (for terminal this is only on Windows currently)
+* #execute:recordedAs: now print a potential error that stopped the execution
+
 # [v1.2.1](https://github.com/jecisc/TinyLogger/compare/v1.2.0...v1.2.1) (2022-01-29)
 
 * Migrate CI to Github actions + support Pharo 9 ([c49255e](https://github.com/jecisc/TinyLogger/commit/c49255ebd6aa325ca335fe17fdd1041ff51b4f3a))
