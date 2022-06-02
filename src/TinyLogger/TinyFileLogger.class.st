@@ -92,6 +92,11 @@ TinyFileLogger >> fileStreamDo: aBlock [
 			aBlock value: s ]
 ]
 
+{ #category : #opening }
+TinyFileLogger >> open [
+	TinyOpenTerminalVisitor openTerminalForFileLogger: self
+]
+
 { #category : #logging }
 TinyFileLogger >> record: aString [
 	self fileStreamDo: [ :aStream | self record: aString on: aStream ]

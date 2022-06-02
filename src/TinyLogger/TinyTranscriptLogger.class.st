@@ -28,6 +28,11 @@ TinyTranscriptLogger >> clearLog [
 	Transcript clear
 ]
 
+{ #category : #opening }
+TinyTranscriptLogger >> open [
+	Transcript open
+]
+
 { #category : #logging }
 TinyTranscriptLogger >> record: aString [
 	Transcript trace: (String streamContents: [ :s | self record: aString on: s ])

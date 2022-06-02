@@ -62,6 +62,11 @@ TinyLeafLogger >> newLine [
 	^ OSPlatform current lineEnding
 ]
 
+{ #category : #opening }
+TinyLeafLogger >> open [
+	self subclassResponsibility
+]
+
 { #category : #accessing }
 TinyLeafLogger >> parentLogger [
 	^ parentLogger
