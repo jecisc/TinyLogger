@@ -13,3 +13,8 @@ Class {
 	#superclass : #PackageManifest,
 	#category : #'TinyLogger-Manifest'
 }
+
+{ #category : #'code-critics' }
+ManifestTinyLogger class >> ruleTempsReadBeforeWrittenRuleV1FalsePositive [
+	^ #(#(#(#RGMethodDefinition #(#TinyLogger #execute:recordedAs: #false)) #'2022-06-02T15:28:59.459+02:00') )
+]

@@ -193,33 +193,33 @@ No time : 	End: This is a new test
 
 { #category : #test }
 TinyLoggerTest >> testExecuteRecordedAsKeepRightIndentation [
-	| contents stream |
+
+	| contents stream errorDetected |
 	self skipInPharo6.
+	errorDetected := false.
 	logger
 		timestampFormatBlock: [ :s | s nextPutAll: 'No time' ];
 		removeAllLoggers;
 		addStdoutLogger.
 	stream := '' writeStream.
-	[ Stdio stub stdout willReturn: stream.
-	TinyCurrentLogger
-		value: logger
-		during: [ [ Object new execute: [ Error signal: 'test' ] recordedAs: 'This is a new test' ]
-				on: Error
-				do: [ "nothing" ].
-			Object new execute: [ 'test' record ] recordedAs: 'This is a new test' ].
+	[ 
+	Stdio stub stdout willReturn: stream.
+	TinyCurrentLogger value: logger during: [ 
+		[ Object new execute: [ Error signal: 'test' ] recordedAs: 'This is a new test' ]
+			on: Error
+			do: [ errorDetected := true ].
+		Object new execute: [ 'test' record ] recordedAs: 'This is a new test' ].
 	contents := Stdio stdout contents asString.
 	"Ensure we have the right indentation."
-	self
-		assert: contents withUnixLineEndings
-		equals:
-			'No time : 	Begin: This is a new test
-No time : 	End: This is a new test. With error: test
+	self assert: errorDetected.
+	self assert: contents withUnixLineEndings equals: 'No time : 	Begin: This is a new test
+No time : 	End with error: This is a new test.Error message: test
 No time : 	Begin: This is a new test
 No time : 		test
 No time : 	End: This is a new test
-' withUnixLineEndings ]
-		ensure: [ Stdio recoverFromGHMutation.
-			stream close ]
+' withUnixLineEndings ] ensure: [ 
+		Stdio recoverFromGHMutation.
+		stream close ]
 ]
 
 { #category : #test }
