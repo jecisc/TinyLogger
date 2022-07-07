@@ -3,6 +3,10 @@ git log --pretty="* %s ([%h](https://github.com/jecisc/TinyLogger/commit/%H))" v
 ('Content' copyWithRegex: 'Merge pull request #[0-9]+ from [^/]+/[0-9]*' matchesReplacedWith: '') copyReplaceAll: '-' with: ' '
 -->
 
+# [v1.3.1](https://github.com/jecisc/TinyLogger/compare/v1.3.0...v1.3.1) (2022-07-07)
+
+* Better error printing in #execute:recordedAs:
+
 # [v1.3.0](https://github.com/jecisc/TinyLogger/compare/v1.2.1...v1.3.0) (2022-06-02)
 
 * Add an option to open the log in a dedicatedl window (for terminal this is only on Windows currently)
