@@ -213,7 +213,7 @@ TinyLoggerTest >> testExecuteRecordedAsKeepRightIndentation [
 	"Ensure we have the right indentation."
 	self assert: errorDetected.
 	self assert: contents withUnixLineEndings equals: 'No time : 	Begin: This is a new test
-No time : 	End with error: This is a new test.Error message: test
+No time : 	End with error: This is a new test.Error message: "Error: test"
 No time : 	Begin: This is a new test
 No time : 		test
 No time : 	End: This is a new test
