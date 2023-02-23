@@ -83,9 +83,9 @@ Thus, it should be safe to depend on a fixed major version and moving minor vers
 
 ## Smalltalk versions compatibility
 
-| Version 	| Compatible Pharo versions 		|
-|-------------	|---------------------------	|
-| 1.x.x       	| Pharo 61, 70, 80, 90, 10			|
+| Version 	| Compatible Pharo versions    |
+|-------------	|------------------------------|
+| 1.x.x       	| Pharo 61, 70, 80, 90, 10, 11 |
 
 ## Contact
 
