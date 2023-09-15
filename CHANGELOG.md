@@ -3,6 +3,10 @@ git log --pretty="* %s ([%h](https://github.com/jecisc/TinyLogger/commit/%H))" v
 ('Content' copyWithRegex: 'Merge pull request #[0-9]+ from [^/]+/[0-9]*' matchesReplacedWith: '') copyReplaceAll: '-' with: ' '
 -->
 
+# [v1.3.2](https://github.com/jecisc/TinyLogger/compare/v1.3.1...v1.3.2) (2023-09-15)
+
+* Depend on more recent version of Mocktry ([8bbdf6b0](https://github.com/jecisc/TinyLogger/commit/8bbdf6b0a025dab104085b9ff5060c84d7239b58))
+
 # [v1.3.1](https://github.com/jecisc/TinyLogger/compare/v1.3.0...v1.3.1) (2022-07-07)
 
 * Better error printing in #execute:recordedAs:
