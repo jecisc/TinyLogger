@@ -12,35 +12,37 @@ Examples
 	(TinyStdoutLogger for: aTinyLogger) record: 'First log'
 "
 Class {
-	#name : #TinyStdoutLogger,
-	#superclass : #TinyLeafLogger,
+	#name : 'TinyStdoutLogger',
+	#superclass : 'TinyLeafLogger',
 	#instVars : [
 		'streamClassProvider'
 	],
-	#category : #'TinyLogger-Core'
+	#category : 'TinyLogger-Core',
+	#package : 'TinyLogger',
+	#tag : 'Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyStdoutLogger class >> kind [
 	<ignoreForCoverage>
 	^ 'stdout'
 ]
 
-{ #category : #logging }
+{ #category : 'logging' }
 TinyStdoutLogger >> clearLog [
 	"We do nothing here since we cannot clear stdout"
 
 	
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TinyStdoutLogger >> initialize [
 	super initialize.
 	self flag: #pharo6. "This is needed because in Pharo 6.1 Stdio does not works well. When Pharo 7 will be the minimum supported, remove this hack."
 	streamClassProvider := SystemVersion current major < 7 ifTrue: [ FileStream ] ifFalse: [ Stdio ]
 ]
 
-{ #category : #logging }
+{ #category : 'logging' }
 TinyStdoutLogger >> record: aString [
 	| stream |
 	stream := streamClassProvider stdout.

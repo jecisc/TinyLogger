@@ -13,12 +13,14 @@ Examples
 	]
 "
 Class {
-	#name : #TinyCurrentLogger,
-	#superclass : #DynamicVariable,
-	#category : #'TinyLogger-Core'
+	#name : 'TinyCurrentLogger',
+	#superclass : 'DynamicVariable',
+	#category : 'TinyLogger-Core',
+	#package : 'TinyLogger',
+	#tag : 'Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyCurrentLogger >> default [
 	^ TinyLogger default
 ]

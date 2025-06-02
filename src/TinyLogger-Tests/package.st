@@ -1,1 +1,1 @@
-Package { #name : #'TinyLogger-Tests' }
+Package { #name : 'TinyLogger-Tests' }

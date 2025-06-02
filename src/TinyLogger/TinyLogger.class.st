@@ -73,8 +73,8 @@ Internal Representation and Key Implementation Points.
 
 "
 Class {
-	#name : #TinyLogger,
-	#superclass : #TinyAbstractLogger,
+	#name : 'TinyLogger',
+	#superclass : 'TinyAbstractLogger',
 	#instVars : [
 		'timestampFormatBlock',
 		'depth',
@@ -83,37 +83,39 @@ Class {
 	#classVars : [
 		'Default'
 	],
-	#category : #'TinyLogger-Core'
+	#category : 'TinyLogger-Core',
+	#package : 'TinyLogger',
+	#tag : 'Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyLogger class >> default [
 	^ Default ifNil: [ Default := self new ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyLogger class >> default: anObject [
 	Default := anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TinyLogger class >> reset [
 	self default: nil
 ]
 
-{ #category : #'public API' }
+{ #category : 'public API' }
 TinyLogger >> addFileLogger [
 	"Since no file name is passed as parameter, I will log in a file named `TinyLogger.log` next to the image."
 
 	self addLogger: TinyFileLogger new
 ]
 
-{ #category : #'public API' }
+{ #category : 'public API' }
 TinyLogger >> addFileLoggerNamed: aString [
 	^ self addLogger: (TinyFileLogger named: aString)
 ]
 
-{ #category : #'public API' }
+{ #category : 'public API' }
 TinyLogger >> addLogger: aLogger [
 
 	^ (self loggersMap
@@ -122,49 +124,49 @@ TinyLogger >> addLogger: aLogger [
 		(aLogger parentLogger: self)
 ]
 
-{ #category : #'public API' }
+{ #category : 'public API' }
 TinyLogger >> addStdoutLogger [
 	self addLogger: TinyStdoutLogger new
 ]
 
-{ #category : #'public API' }
+{ #category : 'public API' }
 TinyLogger >> addTranscriptLogger [
 	self addLogger: TinyTranscriptLogger new
 ]
 
-{ #category : #logging }
+{ #category : 'logging' }
 TinyLogger >> clearLog [
 	self loggers do: #clearLog
 ]
 
-{ #category : #nesting }
+{ #category : 'nesting' }
 TinyLogger >> decreaseDepthLevel [
 	self depth: self depth - 1
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyLogger >> defaultTimestampFormatBlock [
 	^ [ :aStream :timestamp | aStream << timestamp asString ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyLogger >> depth [
 	^ depth
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyLogger >> depth: anObject [
 	depth := anObject
 ]
 
-{ #category : #'public API' }
+{ #category : 'public API' }
 TinyLogger >> ensureFileLogger [
 	"Ensure a file logger to `TinyLogger.log` is in the logger. In case one already exists, does nothing."
 
 	self ensureFileLoggerNamed: TinyFileLogger defaultFileName
 ]
 
-{ #category : #'public API' }
+{ #category : 'public API' }
 TinyLogger >> ensureFileLoggerNamed: aString [
 	"Ensure a file logger to a file whose name is given as parameter is in the logger. In case one already exists, does nothing."
 
@@ -173,17 +175,17 @@ TinyLogger >> ensureFileLoggerNamed: aString [
 		ifNone: [ self addFileLoggerNamed: aString ]
 ]
 
-{ #category : #'public API' }
+{ #category : 'public API' }
 TinyLogger >> ensureStdoutLogger [
 	self stdoutLoggers ifEmpty: [ self addStdoutLogger ]
 ]
 
-{ #category : #'public API' }
+{ #category : 'public API' }
 TinyLogger >> ensureTranscriptLogger [
 	self transcriptLoggers ifEmpty: [ self addTranscriptLogger ]
 ]
 
-{ #category : #'public API' }
+{ #category : 'public API' }
 TinyLogger >> execute: aBlock recordedAs: aString [
 
 	| result errorMessage |
@@ -208,17 +210,22 @@ TinyLogger >> execute: aBlock recordedAs: aString [
 	^ result
 ]
 
-{ #category : #'accessing - loggers' }
+{ #category : 'accessing - loggers' }
 TinyLogger >> fileLoggers [
 	^ self loggersMap at: TinyFileLogger kind ifAbsentPut: [ OrderedCollection new ]
 ]
 
-{ #category : #nesting }
+{ #category : 'testing' }
+TinyLogger >> hasLoggers [
+	^ self loggersMap isNotEmpty
+]
+
+{ #category : 'nesting' }
 TinyLogger >> increaseDepthLevel [
 	self depth: self depth + 1
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TinyLogger >> initialize [
 	super initialize.
 	self depth: 0.
@@ -226,74 +233,82 @@ TinyLogger >> initialize [
 	self loggersMap: Dictionary new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyLogger >> loggers [
 	"Since the loggers variable contains a dictionary of loggers, here we faltten the dictonary."
 
 	^ self loggersMap values flatCollect: #yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyLogger >> loggersMap [
 	^ loggersMap
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyLogger >> loggersMap: anObject [
 	loggersMap := anObject
 ]
 
-{ #category : #'public API' }
-TinyLogger >> record: aString [
+{ #category : 'public API' }
+TinyLogger >> record: aBlockOrString [
+	"If a block is provided, it is only evaluated if a logger is present.
+	The block must return a string that will be recorded."
+
+	| aString |
+	self hasLoggers ifFalse: [ ^ self ].
+	aString := aBlockOrString isBlock
+		           ifTrue: [ aBlockOrString value ]
+		           ifFalse: [ aBlockOrString ].
 	self loggers do: [ :each | each record: aString ]
 ]
 
-{ #category : #'public API' }
+{ #category : 'public API' }
 TinyLogger >> removeAllLoggers [
 	self loggers do: [ :each | self removeLogger: each ]
 ]
 
-{ #category : #'public API' }
+{ #category : 'public API' }
 TinyLogger >> removeFileLoggers [
 	self fileLoggers removeAll
 ]
 
-{ #category : #'public API' }
+{ #category : 'public API' }
 TinyLogger >> removeLogger: aLogger [
 	(self loggersMap at: aLogger kind ifAbsentPut: [ OrderedCollection new ]) remove: aLogger
 ]
 
-{ #category : #'public API' }
+{ #category : 'public API' }
 TinyLogger >> removeStdoutLoggers [
 	self stdoutLoggers removeAll
 ]
 
-{ #category : #'public API' }
+{ #category : 'public API' }
 TinyLogger >> removeTranscriptLoggers [
 	self transcriptLoggers removeAll
 ]
 
-{ #category : #'accessing - loggers' }
+{ #category : 'accessing - loggers' }
 TinyLogger >> stdoutLoggers [
 	^ self loggersMap at: TinyStdoutLogger kind ifAbsentPut: [ OrderedCollection new ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyLogger >> timestampFormatBlock [
 	^ timestampFormatBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyLogger >> timestampFormatBlock: anObject [
 	timestampFormatBlock := anObject
 ]
 
-{ #category : #'accessing - loggers' }
+{ #category : 'accessing - loggers' }
 TinyLogger >> transcriptLoggers [
 	^ self loggersMap at: TinyTranscriptLogger kind ifAbsentPut: [ OrderedCollection new ]
 ]
 
-{ #category : #'public API' }
+{ #category : 'public API' }
 TinyLogger >> withDefaultLoggers [
 	self
 		removeAllLoggers;

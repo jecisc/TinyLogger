@@ -1,16 +1,16 @@
-Extension { #name : #Object }
+Extension { #name : 'Object' }
 
-{ #category : #'*TinyLogger' }
+{ #category : '*TinyLogger' }
 Object >> execute: aBlock recordedAs: aString [
 	^ TinyCurrentLogger value execute: aBlock recordedAs: aString
 ]
 
-{ #category : #'*TinyLogger' }
+{ #category : '*TinyLogger' }
 Object >> record [
 	self record: self asString
 ]
 
-{ #category : #'*TinyLogger' }
+{ #category : '*TinyLogger' }
 Object >> record: aString [
 	TinyCurrentLogger value record: aString
 ]

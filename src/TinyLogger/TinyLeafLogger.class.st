@@ -20,70 +20,72 @@ Internal Representation and Key Implementation Points.
 
 "
 Class {
-	#name : #TinyLeafLogger,
-	#superclass : #TinyAbstractLogger,
+	#name : 'TinyLeafLogger',
+	#superclass : 'TinyAbstractLogger',
 	#instVars : [
 		'parentLogger'
 	],
-	#category : #'TinyLogger-Core'
+	#category : 'TinyLogger-Core',
+	#package : 'TinyLogger',
+	#tag : 'Core'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TinyLeafLogger class >> for: aTinyLogger [
 	^ self new
 		parentLogger: aTinyLogger;
 		yourself
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 TinyLeafLogger class >> isAbstract [
 	<ignoreForCoverage>
 	^ self = TinyLeafLogger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyLeafLogger class >> kind [
 	<ignoreForCoverage>
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyLeafLogger >> depth [
 	^ self parentLogger depth
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyLeafLogger >> kind [
 	^ self class kind
 ]
 
-{ #category : #logging }
+{ #category : 'logging' }
 TinyLeafLogger >> newLine [
 	^ OSPlatform current lineEnding
 ]
 
-{ #category : #opening }
+{ #category : 'opening' }
 TinyLeafLogger >> open [
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyLeafLogger >> parentLogger [
 	^ parentLogger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyLeafLogger >> parentLogger: aLogger [
 	parentLogger := aLogger
 ]
 
-{ #category : #logging }
+{ #category : 'logging' }
 TinyLeafLogger >> record: aString on: aStream [
 	self recordPreambleOn: aStream.
 	aStream << aString << self newLine
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyLeafLogger >> recordPreambleOn: aStream [
 	<compilerOptions: #(+ optionInlineTimesRepeat)>
 	
@@ -93,7 +95,7 @@ TinyLeafLogger >> recordPreambleOn: aStream [
 	self depth timesRepeat: [ aStream nextPut: Character tab ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyLeafLogger >> timestampFormatBlock [
 	^ self parentLogger timestampFormatBlock
 ]
