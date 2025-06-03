@@ -1,9 +1,10 @@
 # TinyLogger
 
-[![Build Status](https://travis-ci.org/jecisc/TinyLogger.svg?branch=master)](https://travis-ci.org/jecisc/TinyLogger) [![Coverage Status](https://coveralls.io/repos/github/jecisc/TinyLogger/badge.svg)](https://coveralls.io/github/jecisc/TinyLogger)
+[![CI](https://github.com/jecisc/TinyLogger/actions/workflows/continuous.yml/badge.svg)](https://github.com/jecisc/TinyLogger/actions/workflows/continuous.yml) [![Coverage Status](https://coveralls.io/repos/github/jecisc/TinyLogger/badge.svg)](https://coveralls.io/github/jecisc/TinyLogger)
 
 A really small logger for Pharo applications.
 
+- [TinyLogger](#tinylogger)
   - [Installation](#installation)
   - [Quick start](#quick-start)
   - [Documentation](#documentation)
@@ -85,7 +86,7 @@ Thus, it should be safe to depend on a fixed major version and moving minor vers
 
 | Version 	| Compatible Pharo versions    |
 |-------------	|------------------------------|
-| 1.x.x       	| Pharo 61, 70, 80, 90, 10, 11 |
+| 1.x.x       	| Pharo 61, 70, 80, 90, 10, 11, 12, 13, 14 |
 
 ## Contact
 
