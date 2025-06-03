@@ -256,6 +256,13 @@ TinyLoggerTest >> testFileLoggers [
 	self assert: (logger fileLoggers anySatisfy: [ :each | each kind = TinyFileLogger kind and: [ each fileName = 'test2.log' ] ])
 ]
 
+{ #category : 'tests' }
+TinyLoggerTest >> testHasLoggers [
+	self deny: logger hasLoggers.
+	logger addFileLogger.
+	self assert: logger hasLoggers
+]
+
 { #category : 'test' }
 TinyLoggerTest >> testLoggers [
 	logger
@@ -344,6 +351,60 @@ TinyLoggerTest >> testRecord3 [
 	self assert: log exists.
 	self assert: log contents lines isNotEmpty.
 	self assert: (log contents lines last includesSubstring: 'this is a test') ]
+		ensure: [ (log isNotNil and: [ log exists ])
+				ifTrue: [ log ensureDelete ] ]
+]
+
+{ #category : 'tests' }
+TinyLoggerTest >> testRecordBlock [
+	| log |
+	log := 'testFileForTinyLogger.log' asFileReference.
+	[
+	TinyCurrentLogger value: logger during: [ logger record: [ self fail ] ].
+
+	self deny: log exists ]
+		ensure: [ (log isNotNil and: [ log exists ])
+				ifTrue: [ log ensureDelete ] ]
+]
+
+{ #category : 'tests' }
+TinyLoggerTest >> testRecordBlock2 [
+	| log |
+	log := 'testFileForTinyLogger.log' asFileReference.
+	[
+	logger addFileLoggerNamed: log basename.
+
+	TinyCurrentLogger value: logger during: [ logger record: [ 'this is a test' ] ].
+
+	self assert: log exists.
+	self assert: (log contents includesSubstring: 'this is a test') ]
+		ensure: [ (log isNotNil and: [ log exists ])
+				ifTrue: [ log ensureDelete ] ]
+]
+
+{ #category : 'tests' }
+TinyLoggerTest >> testRecordBlockReceiver [
+	| log |
+	log := 'testFileForTinyLogger.log' asFileReference.
+	[
+	TinyCurrentLogger value: logger during: [ [ self fail ] record ].
+
+	self deny: log exists ]
+		ensure: [ (log isNotNil and: [ log exists ])
+				ifTrue: [ log ensureDelete ] ]
+]
+
+{ #category : 'tests' }
+TinyLoggerTest >> testRecordBlockReceiver2 [
+	| log |
+	log := 'testFileForTinyLogger.log' asFileReference.
+	[
+	logger addFileLoggerNamed: log basename.
+
+	TinyCurrentLogger value: logger during: [ [ 'this is a test' ] record ].
+
+	self assert: log exists.
+	self assert: (log contents includesSubstring: 'this is a test') ]
 		ensure: [ (log isNotNil and: [ log exists ])
 				ifTrue: [ log ensureDelete ] ]
 ]

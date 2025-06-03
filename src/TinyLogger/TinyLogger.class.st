@@ -215,6 +215,11 @@ TinyLogger >> fileLoggers [
 	^ self loggersMap at: TinyFileLogger kind ifAbsentPut: [ OrderedCollection new ]
 ]
 
+{ #category : 'testing' }
+TinyLogger >> hasLoggers [
+	^ self loggersMap isNotEmpty
+]
+
 { #category : 'nesting' }
 TinyLogger >> increaseDepthLevel [
 	self depth: self depth + 1
@@ -246,7 +251,16 @@ TinyLogger >> loggersMap: anObject [
 ]
 
 { #category : 'public API' }
-TinyLogger >> record: aString [
+TinyLogger >> record: aBlockOrString [
+	"If a block is provided, it is only evaluated if a logger is present.
+	The block must return a string that will be recorded."
+
+	| aString |
+	self hasLoggers ifFalse: [ ^ self ].
+	aString := aBlockOrString isBlock
+		           ifTrue: [ aBlockOrString value ]
+		           ifFalse: [ aBlockOrString ].
+
 	self loggers do: [ :each | each record: aString ]
 ]
 
