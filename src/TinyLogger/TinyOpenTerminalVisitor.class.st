@@ -1,13 +1,15 @@
 Class {
-	#name : #TinyOpenTerminalVisitor,
-	#superclass : #OSPlatformVisitor,
+	#name : 'TinyOpenTerminalVisitor',
+	#superclass : 'OSPlatformVisitor',
 	#instVars : [
 		'logger'
 	],
-	#category : #'TinyLogger-System'
+	#category : 'TinyLogger-System',
+	#package : 'TinyLogger',
+	#tag : 'System'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 TinyOpenTerminalVisitor class >> openTerminalForFileLogger: aTinyFileLogger [
 
 	^ self new
@@ -15,19 +17,19 @@ TinyOpenTerminalVisitor class >> openTerminalForFileLogger: aTinyFileLogger [
 		  visit
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyOpenTerminalVisitor >> logger [
 
 	^ logger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyOpenTerminalVisitor >> logger: anObject [
 
 	logger := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyOpenTerminalVisitor >> visitWindows: aPlatform [
 
 	LibC runCommand:

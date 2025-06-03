@@ -2,36 +2,38 @@
 A TinyFileLoggerTest is a test class for testing the behavior of TinyFileLogger
 "
 Class {
-	#name : #TinyFileLoggerTest,
-	#superclass : #TinyLeafLoggerTest,
+	#name : 'TinyFileLoggerTest',
+	#superclass : 'TinyLeafLoggerTest',
 	#instVars : [
 		'log'
 	],
-	#category : #'TinyLogger-Tests-Core'
+	#category : 'TinyLogger-Tests-Core',
+	#package : 'TinyLogger-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #helpers }
+{ #category : 'helpers' }
 TinyFileLoggerTest >> actualClass [
 	^ TinyFileLogger
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyFileLoggerTest >> fileNameNumber: number [
 	^ 'testFile' , number asString , 'ForTinyLogger.log'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 TinyFileLoggerTest >> tearDown [
 	log ifNotNil: #ensureDelete.
 	super tearDown
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyFileLoggerTest >> testCanHaveDefaultFile [
 	self shouldnt: [ self actualClass new fileReference ] raise: Error
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyFileLoggerTest >> testClearLog [
 	log := (self fileNameNumber: 1) asFileReference.
 	logger := self actualClass for: parentLogger named: log basename.
@@ -42,7 +44,7 @@ TinyFileLoggerTest >> testClearLog [
 	self deny: log exists
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyFileLoggerTest >> testFileName [
 	log := (self fileNameNumber: 4) asFileReference.
 	logger := self actualClass for: parentLogger named: log basename.
@@ -51,7 +53,7 @@ TinyFileLoggerTest >> testFileName [
 	self assert: (self fileNameNumber: 4) asFileReference exists
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyFileLoggerTest >> testLoggerCreatesFile [
 	log := (self fileNameNumber: 10) asFileReference.
 	logger := self actualClass for: parentLogger named: log basename.
@@ -61,7 +63,7 @@ TinyFileLoggerTest >> testLoggerCreatesFile [
 	self assert: log exists
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyFileLoggerTest >> testRecord [
 	log := (self fileNameNumber: 1) asFileReference.
 	logger := self actualClass for: parentLogger named: log basename.
@@ -72,7 +74,7 @@ TinyFileLoggerTest >> testRecord [
 	self assert: (log contents lines last includesSubstring: 'this is a test')
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyFileLoggerTest >> testRecordSetFileToTheEnd [
 	log := (self fileNameNumber: 1) asFileReference.
 	logger := self actualClass for: parentLogger named: log basename.

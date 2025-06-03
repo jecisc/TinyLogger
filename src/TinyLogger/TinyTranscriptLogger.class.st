@@ -12,28 +12,30 @@ Examples
 	(TinyTranscriptLogger for: aTinyLogger) record: 'First log'
 "
 Class {
-	#name : #TinyTranscriptLogger,
-	#superclass : #TinyLeafLogger,
-	#category : #'TinyLogger-Core'
+	#name : 'TinyTranscriptLogger',
+	#superclass : 'TinyLeafLogger',
+	#category : 'TinyLogger-Core',
+	#package : 'TinyLogger',
+	#tag : 'Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyTranscriptLogger class >> kind [
 	<ignoreForCoverage>
 	^ 'transcript'
 ]
 
-{ #category : #logging }
+{ #category : 'logging' }
 TinyTranscriptLogger >> clearLog [
 	Transcript clear
 ]
 
-{ #category : #opening }
+{ #category : 'opening' }
 TinyTranscriptLogger >> open [
 	Transcript open
 ]
 
-{ #category : #logging }
+{ #category : 'logging' }
 TinyTranscriptLogger >> record: aString [
 	Transcript trace: (String streamContents: [ :s | self record: aString on: s ])
 ]

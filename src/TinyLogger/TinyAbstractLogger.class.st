@@ -19,35 +19,37 @@ Public API and Key Messages
 
 "
 Class {
-	#name : #TinyAbstractLogger,
-	#superclass : #Object,
-	#category : #'TinyLogger-Core'
+	#name : 'TinyAbstractLogger',
+	#superclass : 'Object',
+	#category : 'TinyLogger-Core',
+	#package : 'TinyLogger',
+	#tag : 'Core'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 TinyAbstractLogger class >> isAbstract [
 	<ignoreForCoverage>
 	^ self = TinyAbstractLogger
 ]
 
-{ #category : #logging }
+{ #category : 'logging' }
 TinyAbstractLogger >> << aString [
 	self record: aString
 ]
 
-{ #category : #logging }
+{ #category : 'logging' }
 TinyAbstractLogger >> clearLog [
 	"Whe called, this method should clear the previous logs"
 
 	self subclassResponsibility
 ]
 
-{ #category : #logging }
+{ #category : 'logging' }
 TinyAbstractLogger >> record: aString [
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TinyAbstractLogger >> timestampFormatBlock [
 	<ignoreForCoverage>
 	^ self subclassResponsibility

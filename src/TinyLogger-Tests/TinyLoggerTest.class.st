@@ -2,23 +2,25 @@
 A TinyLoggerTest is a test class for testing the behavior of TinyLogger
 "
 Class {
-	#name : #TinyLoggerTest,
-	#superclass : #TinyAbstractLoggerTest,
-	#category : #'TinyLogger-Tests-Core'
+	#name : 'TinyLoggerTest',
+	#superclass : 'TinyAbstractLoggerTest',
+	#category : 'TinyLogger-Tests-Core',
+	#package : 'TinyLogger-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #helpers }
+{ #category : 'helpers' }
 TinyLoggerTest >> actualClass [
 	^ TinyLogger
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 TinyLoggerTest >> setUp [
 	super setUp.
 	logger := TinyLogger new
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testAddFileLogger [
 	logger removeAllLoggers.
 	self assert: logger loggers isEmpty.
@@ -30,7 +32,7 @@ TinyLoggerTest >> testAddFileLogger [
 	self assert: logger fileLoggers size equals: 2
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testAddFileLoggerNamed [
 	logger removeAllLoggers.
 	self assert: logger loggers isEmpty.
@@ -40,7 +42,7 @@ TinyLoggerTest >> testAddFileLoggerNamed [
 	self assert: logger loggers anyOne fileName equals: 'test.log'
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testAddLogger [
 	logger removeAllLoggers.
 	self assert: logger loggers isEmpty.
@@ -52,7 +54,7 @@ TinyLoggerTest >> testAddLogger [
 	self assert: logger fileLoggers size equals: 2
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testAddStdoutLogger [
 	logger removeAllLoggers.
 	self assert: logger loggers isEmpty.
@@ -64,7 +66,7 @@ TinyLoggerTest >> testAddStdoutLogger [
 	self assert: logger stdoutLoggers size equals: 2
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testAddTranscriptLogger [
 	logger removeAllLoggers.
 	self assert: logger loggers isEmpty.
@@ -76,7 +78,7 @@ TinyLoggerTest >> testAddTranscriptLogger [
 	self assert: logger transcriptLoggers size equals: 2
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testClearLog [
 	logger
 		addTranscriptLogger;
@@ -90,13 +92,13 @@ TinyLoggerTest >> testClearLog [
 	self assert: (logger fileLoggers noneSatisfy: [ :fileLogger | fileLogger fileReference exists ])
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testCurrentLogger [
 	self assert: TinyCurrentLogger value isNotNil.
 	self assert: TinyCurrentLogger value class equals: TinyLogger
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testEnsureFileLogger [
 	logger removeAllLoggers.
 	self assert: logger loggers isEmpty.
@@ -110,7 +112,7 @@ TinyLoggerTest >> testEnsureFileLogger [
 	self assert: logger fileLoggers size equals: 1
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testEnsureFileLoggerNamed [
 	logger removeAllLoggers.
 	self assert: logger loggers isEmpty.
@@ -123,7 +125,7 @@ TinyLoggerTest >> testEnsureFileLoggerNamed [
 	self assert: logger fileLoggers size equals: 2
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testEnsureStdoutLogger [
 	logger removeAllLoggers.
 	self assert: logger loggers isEmpty.
@@ -135,7 +137,7 @@ TinyLoggerTest >> testEnsureStdoutLogger [
 	self assert: logger stdoutLoggers size equals: 1
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testEnsureTranscriptLogger [
 	logger removeAllLoggers.
 	self assert: logger loggers isEmpty.
@@ -147,7 +149,7 @@ TinyLoggerTest >> testEnsureTranscriptLogger [
 	self assert: logger transcriptLoggers size equals: 1
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testExecuteRecordedAs [
 	| contents stream bool |
 	self skipInPharo6.
@@ -166,7 +168,7 @@ TinyLoggerTest >> testExecuteRecordedAs [
 			stream close ]
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testExecuteRecordedAs2 [
 	| contents stream |
 	self skipInPharo6.
@@ -191,7 +193,7 @@ No time : 	End: This is a new test
 			stream close ]
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testExecuteRecordedAsKeepRightIndentation [
 
 	| contents stream errorDetected |
@@ -222,7 +224,7 @@ No time : 	End: This is a new test
 		stream close ]
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testExecuteRecordedAsReturnBlockContent [
 	| contents stream bool |
 	self skipInPharo6.
@@ -241,7 +243,7 @@ TinyLoggerTest >> testExecuteRecordedAsReturnBlockContent [
 			stream close ]
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testFileLoggers [
 	logger
 		addTranscriptLogger;
@@ -254,7 +256,7 @@ TinyLoggerTest >> testFileLoggers [
 	self assert: (logger fileLoggers anySatisfy: [ :each | each kind = TinyFileLogger kind and: [ each fileName = 'test2.log' ] ])
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testLoggers [
 	logger
 		addTranscriptLogger;
@@ -266,7 +268,7 @@ TinyLoggerTest >> testLoggers [
 	self assert: (logger loggers anySatisfy: [ :each | each kind = TinyTranscriptLogger kind ])
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testNestedExecuteRecordedAs [
 	| contents stream bool1 bool2 |
 	self skipInPharo6.
@@ -292,7 +294,7 @@ TinyLoggerTest >> testNestedExecuteRecordedAs [
 			stream close ]
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testRecord [
 	| contents stream |
 	self skipInPharo6.
@@ -311,7 +313,7 @@ TinyLoggerTest >> testRecord [
 			stream close ]
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testRecord2 [
 	| contents stream |
 	self skipInPharo6.
@@ -330,7 +332,7 @@ TinyLoggerTest >> testRecord2 [
 			stream close ]
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testRecord3 [
 	| log |
 	log :=  'testFileForTinyLogger.log' asFileReference.
@@ -346,7 +348,7 @@ TinyLoggerTest >> testRecord3 [
 				ifTrue: [ log ensureDelete ] ]
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testRemoveAllLoggers [
 	logger
 		addTranscriptLogger;
@@ -357,7 +359,7 @@ TinyLoggerTest >> testRemoveAllLoggers [
 	self assert: logger loggers isEmpty
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testRemoveFileLoggers [
 	logger
 		addTranscriptLogger;
@@ -368,7 +370,7 @@ TinyLoggerTest >> testRemoveFileLoggers [
 	self assert: logger loggers size equals: 1
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testRemoveLogger [
 	| logger1 logger2 |
 	logger removeAllLoggers.
@@ -387,7 +389,7 @@ TinyLoggerTest >> testRemoveLogger [
 	self assert: logger loggers isEmpty
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testRemoveStdoutLoggers [
 	logger
 		addStdoutLogger;
@@ -398,7 +400,7 @@ TinyLoggerTest >> testRemoveStdoutLoggers [
 	self assert: logger loggers size equals: 1
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testRemoveTranscriptLoggers [
 	logger
 		addTranscriptLogger;
@@ -409,7 +411,7 @@ TinyLoggerTest >> testRemoveTranscriptLoggers [
 	self assert: logger loggers size equals: 1
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testStdoutLoggers [
 	logger
 		addStdoutLogger;
@@ -420,7 +422,7 @@ TinyLoggerTest >> testStdoutLoggers [
 	self assert: (logger stdoutLoggers allSatisfy: [ :each | each kind = TinyStdoutLogger kind ])
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testTranscriptLoggers [
 	logger
 		addTranscriptLogger;
@@ -431,7 +433,7 @@ TinyLoggerTest >> testTranscriptLoggers [
 	self assert: (logger transcriptLoggers allSatisfy: [ :each | each kind = TinyTranscriptLogger kind ])
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyLoggerTest >> testWithDefaultLoggers [
 	| numberOfDefaultLoggers |
 	logger withDefaultLoggers.

@@ -2,22 +2,24 @@
 A TinyStdoutLoggerTest is a test class for testing the behavior of TinyStdoutLogger
 "
 Class {
-	#name : #TinyStdoutLoggerTest,
-	#superclass : #TinyLeafLoggerTest,
-	#category : #'TinyLogger-Tests-Core'
+	#name : 'TinyStdoutLoggerTest',
+	#superclass : 'TinyLeafLoggerTest',
+	#category : 'TinyLogger-Tests-Core',
+	#package : 'TinyLogger-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #helpers }
+{ #category : 'helpers' }
 TinyStdoutLoggerTest >> actualClass [
 	^ TinyStdoutLogger
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyStdoutLoggerTest >> testClearLog [
 	self shouldnt: [ logger clearLog ] raise: Error
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 TinyStdoutLoggerTest >> testRecord [
 	| stream |
 	self skipInPharo6.
