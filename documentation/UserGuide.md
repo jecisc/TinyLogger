@@ -7,17 +7,18 @@ Users can configure the way the logger works and the image will use this configu
 For specific cases, a specialized logger can be used.
 
 - [User documentation of TinyLogger](#user-documentation-of-tinylogger)
-  * [Configure your logger](#configure-your-logger)
-    + [Add sub-loggers to your `TinyLogger`](#add-sub-loggers-to-your-tinylogger-)
-    + [Remove sub-loggers](#remove-sub-loggers)
-    + [List the sub-loggers](#list-the-sub-loggers)
-    + [Configure the timestamp format](#configure-the-timestamp-format)
-  * [Record with your logger](#record-with-your-logger)
-    + [Record a single line log](#record-a-single-line-log)
-    + [Recording the execution of a task](#recording-the-execution-of-a-task)
-  * [Use another logger than the global logger](#use-another-logger-than-the-global-logger)
-  * [Clear your logger](#clear-your-logger)
-  * [Use special logger for tests](#use-special-logger-for-tests)
+	- [Configure your logger](#configure-your-logger)
+		- [Add sub-loggers to your `TinyLogger`](#add-sub-loggers-to-your-tinylogger)
+		- [Remove sub-loggers](#remove-sub-loggers)
+		- [List the sub-loggers](#list-the-sub-loggers)
+		- [Configure the timestamp format](#configure-the-timestamp-format)
+	- [Record with your logger](#record-with-your-logger)
+		- [Record a single line log](#record-a-single-line-log)
+		- [Recording the execution of a task](#recording-the-execution-of-a-task)
+	- [Lazy recording](#lazy-recording)
+	- [Use a logger other than the global logger](#use-a-logger-other-than-the-global-logger)
+	- [Clear your logger](#clear-your-logger)
+	- [Use special logger for tests](#use-special-logger-for-tests)
  
 
 ## Configure your logger
@@ -209,6 +210,17 @@ It will produce this kind of output:
 2018-11-29T23:21:20.177775+01:00 : 				4
 2018-11-29T23:21:20.179775+01:00 : 			End: My second nest
 2018-11-29T23:21:20.180775+01:00 : 	End: My first nest
+```
+
+## Lazy recording
+
+In some cases we might want to record things and it takes time to build the string to record. In that case, it is possible to use a block to do the recording, and this block will be executed if there is at least one logger registered. Like this, if no logger is set, the block will be ignored and the application will not slow down.
+
+```Smalltalk
+
+self record: [ String streamContents: [ :aStream | aStream nextPutAll: '{ something to compute }' ] ].
+
+[ String streamContents: [ :aStream | aStream nextPutAll: '{ something to compute }' ] ] record
 ```
 
 ## Use a logger other than the global logger
