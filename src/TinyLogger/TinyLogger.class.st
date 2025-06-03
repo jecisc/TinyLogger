@@ -259,8 +259,7 @@ TinyLogger >> record: aBlockOrString [
 	self hasLoggers ifFalse: [ ^ self ].
 	aString := aBlockOrString isBlock
 		           ifTrue: [ aBlockOrString value ]
-		           ifFalse: [ aBlockOrString ].
-	self loggers do: [ :each | each record: aString ]
+		           ifFalse: [ aBlockOrString ]
 ]
 
 { #category : 'public API' }

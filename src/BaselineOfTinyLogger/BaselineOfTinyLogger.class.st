@@ -7,12 +7,13 @@ I am a baseline to configure the Tiny logger project.
 https://github.com/jecisc/TinyLogger
 "
 Class {
-	#name : #BaselineOfTinyLogger,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfTinyLogger
+	#name : 'BaselineOfTinyLogger',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfTinyLogger',
+	#package : 'BaselineOfTinyLogger'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfTinyLogger >> baseline: spec [
 	<baseline>
 	spec
@@ -32,7 +33,7 @@ BaselineOfTinyLogger >> baseline: spec [
 				group: 'Tests' with: #('TinyLogger-Tests') ]
 ]
 
-{ #category : #dependencies }
+{ #category : 'dependencies' }
 BaselineOfTinyLogger >> mocketry: spec [
 	spec
 		baseline: 'Mocketry'

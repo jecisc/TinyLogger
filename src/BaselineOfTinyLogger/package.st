@@ -1,1 +1,1 @@
-Package { #name : #BaselineOfTinyLogger }
+Package { #name : 'BaselineOfTinyLogger' }
