@@ -50,12 +50,13 @@ TinyLoggerTest >> testAddFileLoggerNamed [
 
 { #category : 'tests' }
 TinyLoggerTest >> testAddLogger [
+
 	logger removeAllLoggers.
 	self assert: logger loggers isEmpty.
-	
+
 	logger
-		addLogger: (TinyFileLogger for: logger);
-		addLogger: (TinyFileLogger for: logger named: 'test.log').
+		addLogger: TinyFileLogger new;
+		addLogger: (TinyFileLogger named: 'test.log').
 	self assert: logger loggers size equals: 2.
 	self assert: logger fileLoggers size equals: 2
 ]
@@ -459,19 +460,20 @@ TinyLoggerTest >> testRemoveFileLoggers [
 
 { #category : 'tests' }
 TinyLoggerTest >> testRemoveLogger [
+
 	| logger1 logger2 |
 	logger removeAllLoggers.
 	self assert: logger loggers isEmpty.
-	
+
 	logger
-		addLogger: (logger1 := TinyFileLogger for: logger);
-		addLogger: (logger2 := TinyFileLogger for: logger named: 'test.log').
+		addLogger: (logger1 := TinyFileLogger new);
+		addLogger: (logger2 := TinyFileLogger named: 'test.log').
 	self assert: logger loggers size equals: 2.
-	
+
 	logger removeLogger: logger1.
 	self assert: logger loggers size equals: 1.
 	self assert: logger loggers anyOne equals: logger2.
-	
+
 	logger removeLogger: logger2.
 	self assert: logger loggers isEmpty
 ]
