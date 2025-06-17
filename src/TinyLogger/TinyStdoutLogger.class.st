@@ -42,6 +42,12 @@ TinyStdoutLogger >> initialize [
 	streamClassProvider := SystemVersion current major < 7 ifTrue: [ FileStream ] ifFalse: [ Stdio ]
 ]
 
+{ #category : 'opening' }
+TinyStdoutLogger >> open [
+
+	self inform: 'Cannot open STDOut logger.'
+]
+
 { #category : 'logging' }
 TinyStdoutLogger >> record: aString [
 	| stream |

@@ -55,6 +55,12 @@ TinyLeafLogger >> depth [
 ]
 
 { #category : 'accessing' }
+TinyLeafLogger >> identationString [
+
+	^ self parentLogger identationString
+]
+
+{ #category : 'accessing' }
 TinyLeafLogger >> kind [
 	^ self class kind
 ]
@@ -87,12 +93,11 @@ TinyLeafLogger >> record: aString on: aStream [
 
 { #category : 'accessing' }
 TinyLeafLogger >> recordPreambleOn: aStream [
-	<compilerOptions: #(+ optionInlineTimesRepeat)>
-	
+
+	<compilerOptions: #( #+ optionInlineTimesRepeat )>
 	self timestampFormatBlock cull: aStream cull: DateAndTime now.
 	aStream << ' : '.
-	"We use explicit tab writing instead of #tab or #tab: because not all streams understand those methods"
-	self depth timesRepeat: [ aStream nextPut: Character tab ]
+	self depth timesRepeat: [ aStream nextPutAll: self identationString ]
 ]
 
 { #category : 'accessing' }

@@ -11,7 +11,9 @@ For specific cases, a specialized logger can be used.
 		- [Add sub-loggers to your `TinyLogger`](#add-sub-loggers-to-your-tinylogger)
 		- [Remove sub-loggers](#remove-sub-loggers)
 		- [List the sub-loggers](#list-the-sub-loggers)
-		- [Configure the timestamp format](#configure-the-timestamp-format)
+		- [Further configurations](#further-configurations)
+			- [Configure the timestamp](#configure-the-timestamp)
+			- [Configure the identation string](#configure-the-identation-string)
 	- [Record with your logger](#record-with-your-logger)
 		- [Record a single line log](#record-a-single-line-log)
 		- [Recording the execution of a task](#recording-the-execution-of-a-task)
@@ -113,7 +115,9 @@ If you with to know all the loggers of a kind, you can use:
 * `transcriptLoggers`
 * `stdoutLoggers`
 
-### Configure the timestamp format
+### Further configurations
+
+#### Configure the timestamp
 
 By default, the preamble of the log will be a timestamp with a human readable format, e.g.: 
 
@@ -136,6 +140,25 @@ This will produce logs of this format:
 ```
 29 November 2018 00:06:30 : Test
 ```
+
+#### Configure the identation string
+
+By default using #`execute:recordedAs:` will use a tab for identation. It is possible to configure this using `#identationString:` to have, for example, spaces.
+
+```Smalltalk
+TinyLogger default identationString: '  '. "Two spaces"
+self execute: [ 'Log' record ] recordedAs: 'Task'
+```
+
+Will produce a log like this:
+
+```
+2018-11-29T23:21:04.897775+01:00 : 	Begin: Task
+2018-11-29T23:21:04.900775+01:00 : 	  Log
+2018-11-29T23:21:04.909775+01:00 : 	End: Task
+```
+
+On the second line, the identation will use two spaces instead of a tab that is the default value.
 
 ## Record with your logger
 
