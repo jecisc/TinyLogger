@@ -64,7 +64,7 @@ TinyFileLoggerTest >> testIdentationString [
 
 	self assert: log exists.
 	self assert: log contents lines isNotEmpty.
-	self assert: (log contents lines last includesSubstring: '--this is a test')
+	self assert: (log contents lines second includesSubstring: '--this is a test')
 ]
 
 { #category : 'tests' }

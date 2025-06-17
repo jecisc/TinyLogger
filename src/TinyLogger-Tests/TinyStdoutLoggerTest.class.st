@@ -29,7 +29,7 @@ TinyStdoutLoggerTest >> testIdentationString [
 		Stdio stub stdout willReturn: stream.
 		parentLogger identationString: '--'.
 		logger execute: [ logger record: 'This is a test' ] recordedAs: 'block'.
-		self assert: (stream contents asString lines last includesSubstring: '--This is a test') ] ensure: [
+		self assert: (stream contents asString lines second includesSubstring: '--This is a test') ] ensure: [
 			Stdio recoverFromGHMutation.
 			stream close ]
 ]

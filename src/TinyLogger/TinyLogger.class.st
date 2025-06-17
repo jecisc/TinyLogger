@@ -123,10 +123,7 @@ TinyLogger >> addFileLoggerNamed: aString [
 { #category : 'public API' }
 TinyLogger >> addLogger: aLogger [
 
-	^ (self loggersMap
-		 at: aLogger kind
-		 ifAbsentPut: [ OrderedCollection new ]) add:
-		(aLogger parentLogger: self)
+	^ (self loggersMap at: aLogger kind ifAbsentPut: [ OrderedCollection new ]) add: (aLogger parentLogger: self)
 ]
 
 { #category : 'public API' }
