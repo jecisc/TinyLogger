@@ -191,26 +191,31 @@ TinyLogger >> ensureTranscriptLogger [
 ]
 
 { #category : 'public API' }
-TinyLogger >> execute: aBlock recordedAs: aString [
+TinyLogger >> execute: aBlock recordedAs: aBlockOrString [
 
-	| result errorMessage |
+	| logMessage result errorMessage |
+	logMessage := aBlockOrString isBlock
+		              ifTrue: [ aBlockOrString value ]
+		              ifFalse: [ aBlockOrString ].
+	self hasLoggers ifFalse: [ ^ aBlock cull: logMessage ].
+
 	self increaseDepthLevel.
-	self record: 'Begin: ' , aString.
+	self record: 'Begin: ' , logMessage.
 	self increaseDepthLevel.
-	[ 
-	[ result := aBlock cull: aString ]
+	[
+	[ result := aBlock cull: logMessage ]
 		on: Error
 		do: [ :exception | "If there is an error, we keep the message and pass it. The message will be used in the #ifCurtailed: to ensure we keep the right indentation and print a better result to the user."
 			errorMessage := exception printString.
 			exception pass ] ] ifCurtailed: [ "If there is an unexpected termination of the execution, print that there was an error."
 		self decreaseDepthLevel.
-		self record: 'End with error: ' , aString , '.' , (errorMessage
+		self record: 'End with error: ' , logMessage , '.' , (errorMessage
 				 ifNil: [ '' ]
-				 ifNotNil: [ 'Error message: "' , errorMessage , '"' ]).
+				 ifNotNil: [ ' Error message: "' , errorMessage , '"' ]).
 		self decreaseDepthLevel ].
 
 	self decreaseDepthLevel.
-	self record: 'End: ' , aString.
+	self record: 'End: ' , logMessage.
 	self decreaseDepthLevel.
 	^ result
 ]

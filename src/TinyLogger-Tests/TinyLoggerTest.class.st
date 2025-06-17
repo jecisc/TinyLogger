@@ -200,6 +200,36 @@ No time : 	End: This is a new test
 ]
 
 { #category : 'tests' }
+TinyLoggerTest >> testExecuteRecordedAsBlock [
+	| log |
+	self skipInPharo6.
+	log := 'testFileForTinyLogger.log' asFileReference.
+	[
+
+	logger execute: [  ] recordedAs: [ 'this is a test' ].
+
+	self deny: log exists ]
+		ensure: [ (log isNotNil and: [ log exists ])
+				ifTrue: [ log ensureDelete ] ]
+]
+
+{ #category : 'tests' }
+TinyLoggerTest >> testExecuteRecordedAsBlock2 [
+	| log |
+	self skipInPharo6.
+	log := 'testFileForTinyLogger.log' asFileReference.
+	[
+	logger addFileLoggerNamed: log basename.
+
+	logger execute: [  ] recordedAs: [ 'this is a test' ].
+
+	self assert: log exists.
+	self assert: (log contents includesSubstring: 'this is a test') ]
+		ensure: [ (log isNotNil and: [ log exists ])
+				ifTrue: [ log ensureDelete ] ]
+]
+
+{ #category : 'tests' }
 TinyLoggerTest >> testExecuteRecordedAsKeepRightIndentation [
 
 	| contents stream errorDetected |
@@ -386,7 +416,7 @@ TinyLoggerTest >> testRecordBlock [
 	| log |
 	log := 'testFileForTinyLogger.log' asFileReference.
 	[
-	TinyCurrentLogger value: logger during: [ logger record: [ self fail ] ].
+	logger record: [ self fail ].
 
 	self deny: log exists ]
 		ensure: [ (log isNotNil and: [ log exists ])
@@ -400,7 +430,7 @@ TinyLoggerTest >> testRecordBlock2 [
 	[
 	logger addFileLoggerNamed: log basename.
 
-	TinyCurrentLogger value: logger during: [ logger record: [ 'this is a test' ] ].
+	logger record: [ 'this is a test' ].
 
 	self assert: log exists.
 	self assert: (log contents includesSubstring: 'this is a test') ]
@@ -413,7 +443,7 @@ TinyLoggerTest >> testRecordBlockReceiver [
 	| log |
 	log := 'testFileForTinyLogger.log' asFileReference.
 	[
-	TinyCurrentLogger value: logger during: [ [ self fail ] record ].
+	[ self fail ] record.
 
 	self deny: log exists ]
 		ensure: [ (log isNotNil and: [ log exists ])
@@ -427,7 +457,7 @@ TinyLoggerTest >> testRecordBlockReceiver2 [
 	[
 	logger addFileLoggerNamed: log basename.
 
-	TinyCurrentLogger value: logger during: [ [ 'this is a test' ] record ].
+	[ 'this is a test' ] record.
 
 	self assert: log exists.
 	self assert: (log contents includesSubstring: 'this is a test') ]
