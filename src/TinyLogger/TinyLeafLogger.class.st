@@ -32,9 +32,11 @@ Class {
 
 { #category : 'instance creation' }
 TinyLeafLogger class >> for: aTinyLogger [
+
 	^ self new
-		parentLogger: aTinyLogger;
-		yourself
+		  parentLogger: aTinyLogger;
+		  in: [ :logger | aTinyLogger addLogger: logger ];
+		  yourself
 ]
 
 { #category : 'testing' }
