@@ -17,6 +17,12 @@ TinyLeafLoggerTest class >> isAbstract [
 	^ self = TinyLeafLoggerTest
 ]
 
+{ #category : 'private' }
+TinyLeafLoggerTest >> performTest [
+
+	TinyCurrentLogger value: parentLogger during: [ super performTest ]
+]
+
 { #category : 'running' }
 TinyLeafLoggerTest >> setUp [
 	super setUp.
@@ -24,7 +30,7 @@ TinyLeafLoggerTest >> setUp [
 	logger := self actualClass for: parentLogger
 ]
 
-{ #category : 'test' }
+{ #category : 'tests' }
 TinyLeafLoggerTest >> testRecordPreambleOn [
 	parentLogger timestampFormatBlock: [ :s | s << 'this is a test' ].
 	self assert: (String streamContents: [ :s | logger recordPreambleOn: s]) equals: 'this is a test : '.

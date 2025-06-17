@@ -44,6 +44,13 @@ TinyAbstractLogger >> clearLog [
 	self subclassResponsibility
 ]
 
+{ #category : 'accessing' }
+TinyAbstractLogger >> identationString [
+
+	<ignoreForCoverage>
+	^ self subclassResponsibility
+]
+
 { #category : 'logging' }
 TinyAbstractLogger >> record: aString [
 	self subclassResponsibility

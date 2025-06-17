@@ -14,12 +14,27 @@ TinyStdoutLoggerTest >> actualClass [
 	^ TinyStdoutLogger
 ]
 
-{ #category : 'test' }
+{ #category : 'tests' }
 TinyStdoutLoggerTest >> testClearLog [
 	self shouldnt: [ logger clearLog ] raise: Error
 ]
 
-{ #category : 'test' }
+{ #category : 'tests' }
+TinyStdoutLoggerTest >> testIdentationString [
+
+	| stream |
+	self skipInPharo6.
+	stream := '' writeStream.
+	[
+		Stdio stub stdout willReturn: stream.
+		parentLogger identationString: '--'.
+		logger execute: [ logger record: 'This is a test' ] recordedAs: 'block'.
+		self assert: (stream contents asString lines last includesSubstring: '--This is a test') ] ensure: [
+			Stdio recoverFromGHMutation.
+			stream close ]
+]
+
+{ #category : 'tests' }
 TinyStdoutLoggerTest >> testRecord [
 	| stream |
 	self skipInPharo6.

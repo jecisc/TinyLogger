@@ -33,12 +33,17 @@ TinyAbstractLoggerTest >> skipInPharo6 [
 	SystemVersion current major < 7 ifTrue: [ self skip ]
 ]
 
-{ #category : 'test' }
+{ #category : 'tests' }
 TinyAbstractLoggerTest >> testClearLog [
 	self subclassResponsibility
 ]
 
-{ #category : 'test' }
+{ #category : 'tests' }
+TinyAbstractLoggerTest >> testIdentationString [
+	self subclassResponsibility
+]
+
+{ #category : 'tests' }
 TinyAbstractLoggerTest >> testRecord [
 	self subclassResponsibility
 ]

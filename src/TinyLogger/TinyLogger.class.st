@@ -21,10 +21,12 @@ Public API and Key Messages
 - #addFileLoggerNamed: 		Add a logger on a file whose name is passed as parameter
 - #ensure: 						Variant of all previous #addX message. This one will add the new logger only if there is not equivalent logger already present
 - #timestampFormatBlock: 	Give as parameter a block taking a stream as parameter and writing the timestamp you want
+- #identationString: 			Allow to customize the identation string. By default it is a tab, but you can use spaces instead.
 
 Examples
 --------------------
 
+```Smalltalk
 	""Add two file loggers, a stdio logger and a transcript logger to the default logger.""
 	TinyLogger default
 		addTranscriptLogger;
@@ -58,10 +60,11 @@ Examples
 		TinyCurrentLogger value record: 'Test2'
 	]
 		
-	""Change the default timestamp format""
+	""Change the default timestamp format or identation string""
 	TinyLogger default
-		timestampFormatBlock:
-			[ :aStream :timestamp | timestamp asDate printOn: aStream. aStream << ' '. ""Cannot use #space because of Stdio streams"" timestamp asTime print24: true on: aStream ].
+		timestampFormatBlock: [ :aStream :timestamp | timestamp asDate printOn: aStream. aStream << ' '. ""Cannot use #space because of Stdio streams"" timestamp asTime print24: true on: aStream ];
+		identationString: '  '.
+```
  
 Internal Representation and Key Implementation Points.
 --------------------
@@ -70,6 +73,7 @@ Internal Representation and Key Implementation Points.
 	depth:							<anInteger>		I record the depth level of the nesting.
 	loggersMap:					<aDictonary>		I am used to store the loggers. I keep for each kind of loggers a collection of their instances.
 	timestampFormatBlock:		<aBlock>			I am a block defining the way the timestamp should be written.
+	identationString				<aString>			I am a String used to ident logs.
 
 "
 Class {
@@ -77,6 +81,7 @@ Class {
 	#superclass : 'TinyAbstractLogger',
 	#instVars : [
 		'timestampFormatBlock',
+		'identationString',
 		'depth',
 		'loggersMap'
 	],
@@ -220,6 +225,18 @@ TinyLogger >> hasLoggers [
 	^ self loggersMap isNotEmpty
 ]
 
+{ #category : 'accessing' }
+TinyLogger >> identationString [
+
+	^ identationString
+]
+
+{ #category : 'accessing' }
+TinyLogger >> identationString: anObject [
+
+	identationString := anObject
+]
+
 { #category : 'nesting' }
 TinyLogger >> increaseDepthLevel [
 	self depth: self depth + 1
@@ -227,10 +244,12 @@ TinyLogger >> increaseDepthLevel [
 
 { #category : 'initialization' }
 TinyLogger >> initialize [
+
 	super initialize.
 	self depth: 0.
 	self timestampFormatBlock: self defaultTimestampFormatBlock.
-	self loggersMap: Dictionary new
+	self loggersMap: Dictionary new.
+	self identationString: String tab
 ]
 
 { #category : 'accessing' }
