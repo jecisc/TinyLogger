@@ -551,13 +551,13 @@ TinyLoggerTest >> testTranscriptLoggers [
 { #category : 'tests' }
 TinyLoggerTest >> testValueDuringRestoresOriginalLogger [
 
-	self assert: TinyCurrentLogger value identicalTo: logger.
+	self assert: TinyCurrentLogger value equals: logger.
 
 	TinyCurrentLogger
 		value: TinyLogger new
-		during: [ self deny: TinyCurrentLogger value identicalTo: logger ].
+		during: [ self deny: TinyCurrentLogger value equals: logger ].
 
-	self assert: TinyCurrentLogger value identicalTo: logger
+	self assert: TinyCurrentLogger value equals: logger
 ]
 
 { #category : 'tests' }
