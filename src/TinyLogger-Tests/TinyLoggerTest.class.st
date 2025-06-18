@@ -271,7 +271,7 @@ TinyLoggerTest >> testHasLoggers [
 ]
 
 { #category : 'tests' }
-TinyLoggerTest >> testIdentationString [
+TinyLoggerTest >> testIndentationString [
 
 	| contents stream bool |
 	self skipInPharo6.
@@ -279,7 +279,7 @@ TinyLoggerTest >> testIdentationString [
 	logger
 		removeAllLoggers;
 		addStdoutLogger;
-		identationString: '--'.
+		indentationString: '--'.
 	stream := '' writeStream.
 	[
 		Stdio stub stdout willReturn: stream.

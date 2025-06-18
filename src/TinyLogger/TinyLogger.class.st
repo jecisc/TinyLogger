@@ -81,7 +81,7 @@ Class {
 	#superclass : 'TinyAbstractLogger',
 	#instVars : [
 		'timestampFormatBlock',
-		'identationString',
+		'indentationString',
 		'depth',
 		'loggersMap'
 	],
@@ -222,21 +222,21 @@ TinyLogger >> hasLoggers [
 	^ self loggersMap isNotEmpty
 ]
 
-{ #category : 'accessing' }
-TinyLogger >> identationString [
-
-	^ identationString
-]
-
-{ #category : 'accessing' }
-TinyLogger >> identationString: anObject [
-
-	identationString := anObject
-]
-
 { #category : 'nesting' }
 TinyLogger >> increaseDepthLevel [
 	self depth: self depth + 1
+]
+
+{ #category : 'accessing' }
+TinyLogger >> indentationString [
+
+	^ indentationString
+]
+
+{ #category : 'accessing' }
+TinyLogger >> indentationString: aString [
+
+	indentationString := aString
 ]
 
 { #category : 'initialization' }
@@ -246,7 +246,7 @@ TinyLogger >> initialize [
 	self depth: 0.
 	self timestampFormatBlock: self defaultTimestampFormatBlock.
 	self loggersMap: Dictionary new.
-	self identationString: String tab
+	self indentationString: String tab
 ]
 
 { #category : 'accessing' }
