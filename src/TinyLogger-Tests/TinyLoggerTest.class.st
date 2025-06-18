@@ -550,14 +550,15 @@ TinyLoggerTest >> testTranscriptLoggers [
 
 { #category : 'tests' }
 TinyLoggerTest >> testValueDuringRestoresOriginalLogger [
+	"Do not use assert/deny:identicalTo: for compatibility with Pharo 6"
 
-	self assert: TinyCurrentLogger value equals: logger.
+	self assert: TinyCurrentLogger value == logger.
 
 	TinyCurrentLogger
 		value: TinyLogger new
-		during: [ self deny: TinyCurrentLogger value equals: logger ].
+		during: [ self deny: TinyCurrentLogger value == logger ].
 
-	self assert: TinyCurrentLogger value equals: logger
+	self assert: TinyCurrentLogger value == logger
 ]
 
 { #category : 'tests' }
