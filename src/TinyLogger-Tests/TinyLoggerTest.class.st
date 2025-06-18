@@ -184,7 +184,7 @@ TinyLoggerTest >> testExecuteRecordedAs2 [
 		addStdoutLogger.
 	stream := '' writeStream.
 	[ Stdio stub stdout willReturn: stream.
-	TinyCurrentLogger value: logger during: [ Object new execute: [ 'test' record ] recordedAs: 'This is a new test' ].
+	Object new execute: [ 'test' record ] recordedAs: 'This is a new test'.
 	contents := Stdio stdout contents asString.
 
 	"Ensure we have the right indentation."
@@ -205,7 +205,6 @@ TinyLoggerTest >> testExecuteRecordedAsBlock [
 	self skipInPharo6.
 	log := 'testFileForTinyLogger.log' asFileReference.
 	[
-
 	logger execute: [  ] recordedAs: [ 'this is a test' ].
 
 	self deny: log exists ]
@@ -240,22 +239,21 @@ TinyLoggerTest >> testExecuteRecordedAsKeepRightIndentation [
 		removeAllLoggers;
 		addStdoutLogger.
 	stream := '' writeStream.
-	[ 
+	[
 	Stdio stub stdout willReturn: stream.
-	TinyCurrentLogger value: logger during: [ 
-		[ Object new execute: [ Error signal: 'test' ] recordedAs: 'This is a new test' ]
-			on: Error
-			do: [ errorDetected := true ].
-		Object new execute: [ 'test' record ] recordedAs: 'This is a new test' ].
+	[ Object new execute: [ Error signal: 'test' ] recordedAs: 'This is a new test' ]
+		on: Error
+		do: [ errorDetected := true ].
+	Object new execute: [ 'test' record ] recordedAs: 'This is a new test'.
 	contents := Stdio stdout contents asString.
 	"Ensure we have the right indentation."
 	self assert: errorDetected.
 	self assert: contents withUnixLineEndings equals: 'No time : 	Begin: This is a new test
-No time : 	End with error: This is a new test.Error message: "Error: test"
+No time : 	End with error: This is a new test. Error message: "Error: test"
 No time : 	Begin: This is a new test
 No time : 		test
 No time : 	End: This is a new test
-' withUnixLineEndings ] ensure: [ 
+' withUnixLineEndings ] ensure: [
 		Stdio recoverFromGHMutation.
 		stream close ]
 ]
@@ -402,7 +400,7 @@ TinyLoggerTest >> testRecord3 [
 	[
 	logger addFileLoggerNamed: log basename.
 	
-	TinyCurrentLogger value: logger during: [ 'this is a test' record ].
+	'this is a test' record.
 	
 	self assert: log exists.
 	self assert: log contents lines isNotEmpty.
@@ -548,6 +546,18 @@ TinyLoggerTest >> testTranscriptLoggers [
 	self assert: logger loggers size equals: 3.
 	self assert: logger transcriptLoggers size equals: 2.
 	self assert: (logger transcriptLoggers allSatisfy: [ :each | each kind = TinyTranscriptLogger kind ])
+]
+
+{ #category : 'tests' }
+TinyLoggerTest >> testValueDuringRestoresOriginalLogger [
+
+	self assert: TinyCurrentLogger value identicalTo: logger.
+
+	TinyCurrentLogger
+		value: TinyLogger new
+		during: [ self deny: TinyCurrentLogger value identicalTo: logger ].
+
+	self assert: TinyCurrentLogger value identicalTo: logger
 ]
 
 { #category : 'tests' }
