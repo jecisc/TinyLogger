@@ -45,7 +45,7 @@ TinyAbstractLogger >> clearLog [
 ]
 
 { #category : 'accessing' }
-TinyAbstractLogger >> identationString [
+TinyAbstractLogger >> indentationString [
 
 	<ignoreForCoverage>
 	^ self subclassResponsibility

@@ -39,7 +39,7 @@ TinyAbstractLoggerTest >> testClearLog [
 ]
 
 { #category : 'tests' }
-TinyAbstractLoggerTest >> testIdentationString [
+TinyAbstractLoggerTest >> testIndentationString [
 	self subclassResponsibility
 ]
 

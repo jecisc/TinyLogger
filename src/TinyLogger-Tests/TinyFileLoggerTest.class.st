@@ -54,11 +54,11 @@ TinyFileLoggerTest >> testFileName [
 ]
 
 { #category : 'tests' }
-TinyFileLoggerTest >> testIdentationString [
+TinyFileLoggerTest >> testIndentationString [
 
 	log := (self fileNameNumber: 1) asFileReference.
 	logger := self actualClass for: parentLogger named: log basename.
-	parentLogger identationString: '--'.
+	parentLogger indentationString: '--'.
 
 	logger execute: [ logger record: 'this is a test' ] recordedAs: 'block'.
 

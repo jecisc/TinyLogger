@@ -20,14 +20,14 @@ TinyStdoutLoggerTest >> testClearLog [
 ]
 
 { #category : 'tests' }
-TinyStdoutLoggerTest >> testIdentationString [
+TinyStdoutLoggerTest >> testIndentationString [
 
 	| stream |
 	self skipInPharo6.
 	stream := '' writeStream.
 	[
 		Stdio stub stdout willReturn: stream.
-		parentLogger identationString: '--'.
+		parentLogger indentationString: '--'.
 		logger execute: [ logger record: 'This is a test' ] recordedAs: 'block'.
 		self assert: (stream contents asString lines last includesSubstring: '--This is a test') ] ensure: [
 			Stdio recoverFromGHMutation.

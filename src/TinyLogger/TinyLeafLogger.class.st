@@ -55,9 +55,9 @@ TinyLeafLogger >> depth [
 ]
 
 { #category : 'accessing' }
-TinyLeafLogger >> identationString [
+TinyLeafLogger >> indentationString [
 
-	^ self parentLogger identationString
+	^ self parentLogger indentationString
 ]
 
 { #category : 'accessing' }
@@ -97,7 +97,7 @@ TinyLeafLogger >> recordPreambleOn: aStream [
 	<compilerOptions: #( #+ optionInlineTimesRepeat )>
 	self timestampFormatBlock cull: aStream cull: DateAndTime now.
 	aStream << ' : '.
-	self depth timesRepeat: [ aStream nextPutAll: self identationString ]
+	self depth timesRepeat: [ aStream nextPutAll: self indentationString ]
 ]
 
 { #category : 'accessing' }
