@@ -1,8 +1,8 @@
 Extension { #name : 'Object' }
 
 { #category : '*TinyLogger' }
-Object >> execute: aBlock recordedAs: aString [
-	^ TinyCurrentLogger value execute: aBlock recordedAs: aString
+Object >> execute: aBlock recordedAs: aBlockOrString [
+	^ TinyCurrentLogger value execute: aBlock recordedAs: aBlockOrString
 ]
 
 { #category : '*TinyLogger' }
@@ -11,6 +11,6 @@ Object >> record [
 ]
 
 { #category : '*TinyLogger' }
-Object >> record: aString [
-	TinyCurrentLogger value record: aString
+Object >> record: aBlockOrString [
+	TinyCurrentLogger value record: aBlockOrString
 ]
