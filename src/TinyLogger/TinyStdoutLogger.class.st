@@ -14,9 +14,6 @@ Examples
 Class {
 	#name : 'TinyStdoutLogger',
 	#superclass : 'TinyLeafLogger',
-	#instVars : [
-		'streamClassProvider'
-	],
 	#category : 'TinyLogger-Core',
 	#package : 'TinyLogger',
 	#tag : 'Core'
@@ -35,13 +32,6 @@ TinyStdoutLogger >> clearLog [
 	
 ]
 
-{ #category : 'initialization' }
-TinyStdoutLogger >> initialize [
-	super initialize.
-	self flag: #pharo6. "This is needed because in Pharo 6.1 Stdio does not works well. When Pharo 7 will be the minimum supported, remove this hack."
-	streamClassProvider := SystemVersion current major < 7 ifTrue: [ FileStream ] ifFalse: [ Stdio ]
-]
-
 { #category : 'opening' }
 TinyStdoutLogger >> open [
 
@@ -51,7 +41,7 @@ TinyStdoutLogger >> open [
 { #category : 'logging' }
 TinyStdoutLogger >> record: aString [
 	| stream |
-	stream := streamClassProvider stdout.
+	stream := Stdio stdout.
 	self record: aString on: stream.
 
 	"The flush is needed to send the record in the stdout."

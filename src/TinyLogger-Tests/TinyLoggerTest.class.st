@@ -52,6 +52,7 @@ TinyLoggerTest >> testAddFileLoggerNamed [
 TinyLoggerTest >> testAddLogger [
 
 	logger removeAllLoggers.
+	self flag: #Pharo7. "When P7 compatibility will be dropped, use #assertEmpty: here and in other tests."
 	self assert: logger loggers isEmpty.
 
 	logger
@@ -159,7 +160,6 @@ TinyLoggerTest >> testEnsureTranscriptLogger [
 { #category : 'tests' }
 TinyLoggerTest >> testExecuteRecordedAs [
 	| contents stream bool |
-	self skipInPharo6.
 	bool := false.
 	logger
 		removeAllLoggers;
@@ -178,7 +178,6 @@ TinyLoggerTest >> testExecuteRecordedAs [
 { #category : 'tests' }
 TinyLoggerTest >> testExecuteRecordedAs2 [
 	| contents stream |
-	self skipInPharo6.
 	logger
 		timestampFormatBlock: [ :s | s nextPutAll: 'No time' ];
 		removeAllLoggers;
@@ -203,7 +202,6 @@ No time : 	End: This is a new test
 { #category : 'tests' }
 TinyLoggerTest >> testExecuteRecordedAsBlock [
 	| log |
-	self skipInPharo6.
 	log := 'testFileForTinyLogger.log' asFileReference.
 	[
 	logger execute: [  ] recordedAs: [ 'this is a test' ].
@@ -216,7 +214,6 @@ TinyLoggerTest >> testExecuteRecordedAsBlock [
 { #category : 'tests' }
 TinyLoggerTest >> testExecuteRecordedAsBlock2 [
 	| log |
-	self skipInPharo6.
 	log := 'testFileForTinyLogger.log' asFileReference.
 	[
 	logger addFileLoggerNamed: log basename.
@@ -233,7 +230,6 @@ TinyLoggerTest >> testExecuteRecordedAsBlock2 [
 TinyLoggerTest >> testExecuteRecordedAsKeepRightIndentation [
 
 	| contents stream errorDetected |
-	self skipInPharo6.
 	errorDetected := false.
 	logger
 		timestampFormatBlock: [ :s | s nextPutAll: 'No time' ];
@@ -262,7 +258,6 @@ No time : 	End: This is a new test
 { #category : 'tests' }
 TinyLoggerTest >> testExecuteRecordedAsReturnBlockContent [
 	| contents stream bool |
-	self skipInPharo6.
 	bool := false.
 	logger
 		removeAllLoggers;
@@ -302,7 +297,6 @@ TinyLoggerTest >> testHasLoggers [
 TinyLoggerTest >> testIndentationString [
 
 	| contents stream bool |
-	self skipInPharo6.
 	bool := false.
 	logger
 		removeAllLoggers;
@@ -333,7 +327,6 @@ TinyLoggerTest >> testLoggers [
 { #category : 'tests' }
 TinyLoggerTest >> testNestedExecuteRecordedAs [
 	| contents stream bool1 bool2 |
-	self skipInPharo6.
 	bool1 := false.
 	bool2 := false.
 	logger
@@ -359,7 +352,6 @@ TinyLoggerTest >> testNestedExecuteRecordedAs [
 { #category : 'tests' }
 TinyLoggerTest >> testRecord [
 	| contents stream |
-	self skipInPharo6.
 	logger
 		removeAllLoggers;
 		addStdoutLogger;
@@ -378,7 +370,6 @@ TinyLoggerTest >> testRecord [
 { #category : 'tests' }
 TinyLoggerTest >> testRecord2 [
 	| contents stream |
-	self skipInPharo6.
 	logger
 		removeAllLoggers;
 		addStdoutLogger;
@@ -554,13 +545,10 @@ TinyLoggerTest >> testTranscriptLoggers [
 TinyLoggerTest >> testValueDuringRestoresOriginalLogger [
 	"Do not use assert/deny:identicalTo: for compatibility with Pharo 6"
 
-	self assert: TinyCurrentLogger value == logger.
+	self assert: TinyCurrentLogger value identicalTo: logger.
 
-	TinyCurrentLogger
-		value: TinyLogger new
-		during: [ self deny: TinyCurrentLogger value == logger ].
-
-	self assert: TinyCurrentLogger value == logger
+	TinyCurrentLogger value: TinyLogger new during: [ self deny: TinyCurrentLogger value identicalTo: logger ].
+	self assert: TinyCurrentLogger value identicalTo: logger
 ]
 
 { #category : 'tests' }
