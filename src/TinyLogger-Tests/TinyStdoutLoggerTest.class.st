@@ -23,7 +23,6 @@ TinyStdoutLoggerTest >> testClearLog [
 TinyStdoutLoggerTest >> testIndentationString [
 
 	| stream |
-	self skipInPharo6.
 	stream := '' writeStream.
 	[
 		Stdio stub stdout willReturn: stream.
@@ -37,7 +36,6 @@ TinyStdoutLoggerTest >> testIndentationString [
 { #category : 'tests' }
 TinyStdoutLoggerTest >> testRecord [
 	| stream |
-	self skipInPharo6.
 	stream := '' writeStream.
 	[ Stdio stub stdout willReturn: stream.
 	logger record: 'This is a test'.
