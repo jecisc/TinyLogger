@@ -246,6 +246,8 @@ self record: [ String streamContents: [ :aStream | aStream nextPutAll: '{ someth
 [ String streamContents: [ :aStream | aStream nextPutAll: '{ something to compute }' ] ] record
 ```
 
+> #execute:recordedAs: works in the same way. It is possible to pass a block as a second parameter and if no logger is present, this block will not be executed.
+
 ## Use a logger other than the global logger
 
 In some cases we may not want to use the default logger for a part of the application.
