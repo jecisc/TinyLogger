@@ -227,6 +227,17 @@ TinyLoggerTest >> testExecuteRecordedAsBlock2 [
 ]
 
 { #category : 'tests' }
+TinyLoggerTest >> testExecuteRecordedAsBlockStillExecuteUserBlockIfNoLoggerIsPresent [
+
+	| log bool |
+	bool := false.
+	log := 'testFileForTinyLogger.log' asFileReference.
+	[
+		logger execute: [ bool := true ] recordedAs: [ 'this is a test' ].
+		self assert: bool ] ensure: [ (log isNotNil and: [ log exists ]) ifTrue: [ log ensureDelete ] ]
+]
+
+{ #category : 'tests' }
 TinyLoggerTest >> testExecuteRecordedAsKeepRightIndentation [
 
 	| contents stream errorDetected |
