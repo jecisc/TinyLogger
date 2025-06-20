@@ -8,6 +8,7 @@ A really small logger for Pharo applications.
   - [Installation](#installation)
   - [Quick start](#quick-start)
   - [Documentation](#documentation)
+    - [Migration](#migration)
   - [Version management](#version-management)
   - [Smalltalk versions compatibility](#smalltalk-versions-compatibility)
   - [Contact](#contact)
@@ -70,6 +71,10 @@ Documentation is split into separate links as follows:
 * [User documentation](documentation/UserGuide.md) 
 * [Developer documentation](documentation/DevelopmentGuide.md)
 
+### Migration
+
+- [Migrate from v1 to v2](documentation/v1toV2.md)
+
 ## Version management 
 
 This project use semantic versioning to define the releases. This means that each stable release of the project will be assigned a version number of the form `vX.Y.Z`. 
@@ -91,4 +96,4 @@ Thus, it should be safe to depend on a fixed major version and moving minor vers
 
 ## Contact
 
-If you have any questions or problems do not hesitate to open an issue or contact cyril (a) ferlicot.me 
+If you have any questions or problems do not hesitate to open an issue or contact cyril (a) ferlicot.fr
