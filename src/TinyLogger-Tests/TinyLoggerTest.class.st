@@ -191,9 +191,9 @@ TinyLoggerTest >> testExecuteRecordedAs2 [
 	self
 		assert: contents withUnixLineEndings
 		equals:
-			'No time : 	Begin: This is a new test
-No time : 		test
-No time : 	End: This is a new test
+			'No time: 	Begin: This is a new test
+No time: 		test
+No time: 	End: This is a new test
 ' withUnixLineEndings ]
 		ensure: [ Stdio recoverFromGHMutation.
 			stream close ]
@@ -245,11 +245,11 @@ TinyLoggerTest >> testExecuteRecordedAsKeepRightIndentation [
 	contents := Stdio stdout contents asString.
 	"Ensure we have the right indentation."
 	self assert: errorDetected.
-	self assert: contents withUnixLineEndings equals: 'No time : 	Begin: This is a new test
-No time : 	End with error: This is a new test. Error message: "Error: test"
-No time : 	Begin: This is a new test
-No time : 		test
-No time : 	End: This is a new test
+	self assert: contents withUnixLineEndings equals: 'No time: 	Begin: This is a new test
+No time: 	End with error: This is a new test. Error message: "Error: test"
+No time: 	Begin: This is a new test
+No time: 		test
+No time: 	End: This is a new test
 ' withUnixLineEndings ] ensure: [
 		Stdio recoverFromGHMutation.
 		stream close ]

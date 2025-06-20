@@ -33,7 +33,16 @@ TinyLeafLoggerTest >> setUp [
 { #category : 'tests' }
 TinyLeafLoggerTest >> testRecordPreambleOn [
 	parentLogger timestampFormatBlock: [ :s | s << 'this is a test' ].
-	self assert: (String streamContents: [ :s | logger recordPreambleOn: s]) equals: 'this is a test : '.
+	self assert: (String streamContents: [ :s | logger recordPreambleOn: s]) equals: 'this is a test: '.
 	parentLogger timestampFormatBlock: [ :s | s << 'this is a test2' ].
-	self assert: (String streamContents: [ :s | logger recordPreambleOn: s]) equals: 'this is a test2 : '
+	self assert: (String streamContents: [ :s | logger recordPreambleOn: s]) equals: 'this is a test2: '
+]
+
+{ #category : 'tests' }
+TinyLeafLoggerTest >> testRecordTimestampOn [
+
+	parentLogger timestampFormatBlock: [ :s | s << 'this is a test' ].
+	self assert: (String streamContents: [ :s | logger recordTimestampOn: s ]) equals: 'this is a test'.
+	parentLogger timestampFormatBlock: [ :s | s << 'this is a test2' ].
+	self assert: (String streamContents: [ :s | logger recordTimestampOn: s ]) equals: 'this is a test2'
 ]
