@@ -122,7 +122,7 @@ If you with to know all the loggers of a kind, you can use:
 By default, the preamble of the log will be a timestamp with a human readable format, e.g.: 
 
 ```
-2018-11-29T23:19:55.511775+01:00 : Test
+2018-11-29T23:19:55.511775+01:00: Test
 ```
 
 But this format is configurable. The `timestampFormatBlock:` method can be used with a parameter that is a block taking a stream as parameter and the timestamp (instance of `DateAndTime`) and use that to write the preamble on the stream.
@@ -138,7 +138,7 @@ TinyLogger default
 This will produce logs of this format:
 
 ```
-29 November 2018 00:06:30 : Test
+29 November 2018 00:06:30: Test
 ```
 
 #### Configure the identation string
@@ -153,9 +153,9 @@ self execute: [ 'Log' record ] recordedAs: 'Task'
 Will produce a log like this:
 
 ```
-2018-11-29T23:21:04.897775+01:00 : 	Begin: Task
-2018-11-29T23:21:04.900775+01:00 : 	  Log
-2018-11-29T23:21:04.909775+01:00 : 	End: Task
+2018-11-29T23:21:04.897775+01:00: 	Begin: Task
+2018-11-29T23:21:04.900775+01:00: 	  Log
+2018-11-29T23:21:04.909775+01:00: 	End: Task
 ```
 
 On the second line, the identation will use two spaces instead of a tab that is the default value.
@@ -189,13 +189,13 @@ self execute: [ 1 to: 5 do: [ :value | value asString record ] ] recordedAs: 'Ta
 Will produce a log like this:
 
 ```
-2018-11-29T23:21:04.897775+01:00 : 	Begin: Task with only one nesting.
-2018-11-29T23:21:04.900775+01:00 : 		1
-2018-11-29T23:21:04.902775+01:00 : 		2
-2018-11-29T23:21:04.904775+01:00 : 		3
-2018-11-29T23:21:04.906775+01:00 : 		4
-2018-11-29T23:21:04.908775+01:00 : 		5
-2018-11-29T23:21:04.909775+01:00 : 	End: Task with only one nesting.
+2018-11-29T23:21:04.897775+01:00: 	Begin: Task with only one nesting.
+2018-11-29T23:21:04.900775+01:00: 		1
+2018-11-29T23:21:04.902775+01:00: 		2
+2018-11-29T23:21:04.904775+01:00: 		3
+2018-11-29T23:21:04.906775+01:00: 		4
+2018-11-29T23:21:04.908775+01:00: 		5
+2018-11-29T23:21:04.909775+01:00: 	End: Task with only one nesting.
 ```
 
 It is also possible to nest them:
@@ -213,26 +213,26 @@ self execute: [
 It will produce this kind of output:
 
 ```
-2018-11-29T23:21:20.147775+01:00 : 	Begin: My first nest
-2018-11-29T23:21:20.151775+01:00 : 			Begin: My second nest
-2018-11-29T23:21:20.153775+01:00 : 				1
-2018-11-29T23:21:20.155775+01:00 : 			End: My second nest
-2018-11-29T23:21:20.157775+01:00 : 			Begin: My second nest
-2018-11-29T23:21:20.158775+01:00 : 				1
-2018-11-29T23:21:20.160775+01:00 : 				2
-2018-11-29T23:21:20.161775+01:00 : 			End: My second nest
-2018-11-29T23:21:20.163775+01:00 : 			Begin: My second nest
-2018-11-29T23:21:20.164775+01:00 : 				1
-2018-11-29T23:21:20.165775+01:00 : 				2
-2018-11-29T23:21:20.167775+01:00 : 				3
-2018-11-29T23:21:20.169775+01:00 : 			End: My second nest
-2018-11-29T23:21:20.171775+01:00 : 			Begin: My second nest
-2018-11-29T23:21:20.172775+01:00 : 				1
-2018-11-29T23:21:20.175775+01:00 : 				2
-2018-11-29T23:21:20.176775+01:00 : 				3
-2018-11-29T23:21:20.177775+01:00 : 				4
-2018-11-29T23:21:20.179775+01:00 : 			End: My second nest
-2018-11-29T23:21:20.180775+01:00 : 	End: My first nest
+2018-11-29T23:21:20.147775+01:00: 	Begin: My first nest
+2018-11-29T23:21:20.151775+01:00: 			Begin: My second nest
+2018-11-29T23:21:20.153775+01:00: 				1
+2018-11-29T23:21:20.155775+01:00: 			End: My second nest
+2018-11-29T23:21:20.157775+01:00: 			Begin: My second nest
+2018-11-29T23:21:20.158775+01:00: 				1
+2018-11-29T23:21:20.160775+01:00: 				2
+2018-11-29T23:21:20.161775+01:00: 			End: My second nest
+2018-11-29T23:21:20.163775+01:00: 			Begin: My second nest
+2018-11-29T23:21:20.164775+01:00: 				1
+2018-11-29T23:21:20.165775+01:00: 				2
+2018-11-29T23:21:20.167775+01:00: 				3
+2018-11-29T23:21:20.169775+01:00: 			End: My second nest
+2018-11-29T23:21:20.171775+01:00: 			Begin: My second nest
+2018-11-29T23:21:20.172775+01:00: 				1
+2018-11-29T23:21:20.175775+01:00: 				2
+2018-11-29T23:21:20.176775+01:00: 				3
+2018-11-29T23:21:20.177775+01:00: 				4
+2018-11-29T23:21:20.179775+01:00: 			End: My second nest
+2018-11-29T23:21:20.180775+01:00: 	End: My first nest
 ```
 
 ## Lazy recording

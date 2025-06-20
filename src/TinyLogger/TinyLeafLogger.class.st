@@ -97,9 +97,15 @@ TinyLeafLogger >> record: aString on: aStream [
 TinyLeafLogger >> recordPreambleOn: aStream [
 
 	<compilerOptions: #( #+ optionInlineTimesRepeat )>
-	self timestampFormatBlock cull: aStream cull: DateAndTime now.
-	aStream << ' : '.
+	self recordTimestampOn: aStream.
+	aStream << ': '.
 	self depth timesRepeat: [ aStream nextPutAll: self indentationString ]
+]
+
+{ #category : 'accessing' }
+TinyLeafLogger >> recordTimestampOn: aStream [
+
+	self timestampFormatBlock cull: aStream cull: DateAndTime now
 ]
 
 { #category : 'accessing' }
