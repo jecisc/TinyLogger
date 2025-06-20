@@ -57,6 +57,12 @@ TinyLeafLogger >> depth [
 ]
 
 { #category : 'accessing' }
+TinyLeafLogger >> indentExecutionBlock [
+
+	^ self parentLogger indentExecutionBlock
+]
+
+{ #category : 'accessing' }
 TinyLeafLogger >> indentationString [
 
 	^ self parentLogger indentationString

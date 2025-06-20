@@ -21,7 +21,8 @@ Public API and Key Messages
 - #addFileLoggerNamed: 		Add a logger on a file whose name is passed as parameter
 - #ensure: 						Variant of all previous #addX message. This one will add the new logger only if there is not equivalent logger already present
 - #timestampFormatBlock: 	Give as parameter a block taking a stream as parameter and writing the timestamp you want
-- #identationString: 			Allow to customize the identation string. By default it is a tab, but you can use spaces instead.
+- #indentationString: 			Allow to customize the identation string. By default it is a tab, but you can use spaces instead.
+- #indentExecutionBlock: 		Allow to add an extra indentation to block from #execute:recordedAs: .
 
 Examples
 --------------------
@@ -63,7 +64,8 @@ Examples
 	""Change the default timestamp format or identation string""
 	TinyLogger default
 		timestampFormatBlock: [ :aStream :timestamp | timestamp asDate printOn: aStream. aStream << ' '. ""Cannot use #space because of Stdio streams"" timestamp asTime print24: true on: aStream ];
-		identationString: '  '.
+		identationString: '  ';
+		indentExecutionBlock: true.
 ```
  
 Internal Representation and Key Implementation Points.
@@ -73,7 +75,8 @@ Internal Representation and Key Implementation Points.
 	depth:							<anInteger>		I record the depth level of the nesting.
 	loggersMap:					<aDictonary>		I am used to store the loggers. I keep for each kind of loggers a collection of their instances.
 	timestampFormatBlock:		<aBlock>			I am a block defining the way the timestamp should be written.
-	identationString				<aString>			I am a String used to ident logs.
+	identationString:				<aString>			I am a String used to ident logs.
+	indentExecutionBlock:			<aBoolean> 		Allow to add an extra indentation to block from #execute:recordedAs: .
 
 "
 Class {
@@ -83,7 +86,8 @@ Class {
 		'timestampFormatBlock',
 		'indentationString',
 		'depth',
-		'loggersMap'
+		'loggersMap',
+		'indentExecutionBlock'
 	],
 	#classVars : [
 		'Default'
@@ -195,25 +199,24 @@ TinyLogger >> execute: aBlock recordedAs: aBlockOrString [
 		              ifTrue: [ aBlockOrString value ]
 		              ifFalse: [ aBlockOrString ].
 	self hasLoggers ifFalse: [ ^ aBlock cull: logMessage ].
-
-	self increaseDepthLevel.
+	self indentExecutionBlock ifTrue: [ self increaseDepthLevel ].
 	self record: 'Begin: ' , logMessage.
 	self increaseDepthLevel.
 	[
-	[ result := aBlock cull: logMessage ]
-		on: Error
-		do: [ :exception | "If there is an error, we keep the message and pass it. The message will be used in the #ifCurtailed: to ensure we keep the right indentation and print a better result to the user."
-			errorMessage := exception printString.
-			exception pass ] ] ifCurtailed: [ "If there is an unexpected termination of the execution, print that there was an error."
-		self decreaseDepthLevel.
-		self record: 'End with error: ' , logMessage , '.' , (errorMessage
-				 ifNil: [ '' ]
-				 ifNotNil: [ ' Error message: "' , errorMessage , '"' ]).
-		self decreaseDepthLevel ].
+		[ result := aBlock cull: logMessage ]
+			on: Error
+			do: [ :exception | "If there is an error, we keep the message and pass it. The message will be used in the #ifCurtailed: to ensure we keep the right indentation and print a better result to the user."
+					errorMessage := exception printString.
+					exception pass ] ] ifCurtailed: [ "If there is an unexpected termination of the execution, print that there was an error."
+			self decreaseDepthLevel.
+			self record: 'End with error: ' , logMessage , '.' , (errorMessage
+					 ifNil: [ '' ]
+					 ifNotNil: [ ' Error message: "' , errorMessage , '"' ]).
+			self indentExecutionBlock ifTrue: [ self decreaseDepthLevel ] ].
 
 	self decreaseDepthLevel.
 	self record: 'End: ' , logMessage.
-	self decreaseDepthLevel.
+	self indentExecutionBlock ifTrue: [ self decreaseDepthLevel ].
 	^ result
 ]
 
@@ -230,6 +233,31 @@ TinyLogger >> hasLoggers [
 { #category : 'nesting' }
 TinyLogger >> increaseDepthLevel [
 	self depth: self depth + 1
+]
+
+{ #category : 'accessing' }
+TinyLogger >> indentExecutionBlock [
+	"By setting this to true, it will add an extra indentation to #execute:recordedAs:  blocks.
+	
+	Setting to true: 
+		
+		2018-11-29T23:21:04.897775+01:00: 	Begin: Task
+		2018-11-29T23:21:04.900775+01:00: 	  Log
+		2018-11-29T23:21:04.909775+01:00: 	End: Task
+	
+	Setting to false: 
+		
+		2018-11-29T23:21:04.897775+01:00: Begin: Task
+		2018-11-29T23:21:04.900775+01:00:   Log
+		2018-11-29T23:21:04.909775+01:00: End: Task
+	"
+	^ indentExecutionBlock
+]
+
+{ #category : 'accessing' }
+TinyLogger >> indentExecutionBlock: anObject [
+
+	indentExecutionBlock := anObject
 ]
 
 { #category : 'accessing' }
@@ -251,7 +279,8 @@ TinyLogger >> initialize [
 	self depth: 0.
 	self timestampFormatBlock: self defaultTimestampFormatBlock.
 	self loggersMap: Dictionary new.
-	self indentationString: String tab
+	self indentationString: String tab.
+	self indentExecutionBlock: false
 ]
 
 { #category : 'accessing' }
