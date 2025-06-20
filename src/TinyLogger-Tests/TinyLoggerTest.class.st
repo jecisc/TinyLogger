@@ -191,9 +191,9 @@ TinyLoggerTest >> testExecuteRecordedAs2 [
 	self
 		assert: contents withUnixLineEndings
 		equals:
-			'No time: 	Begin: This is a new test
-No time: 		test
-No time: 	End: This is a new test
+			'No time: Begin: This is a new test
+No time: 	test
+No time: End: This is a new test
 ' withUnixLineEndings ]
 		ensure: [ Stdio recoverFromGHMutation.
 			stream close ]
@@ -245,11 +245,11 @@ TinyLoggerTest >> testExecuteRecordedAsKeepRightIndentation [
 	contents := Stdio stdout contents asString.
 	"Ensure we have the right indentation."
 	self assert: errorDetected.
-	self assert: contents withUnixLineEndings equals: 'No time: 	Begin: This is a new test
-No time: 	End with error: This is a new test. Error message: "Error: test"
-No time: 	Begin: This is a new test
-No time: 		test
-No time: 	End: This is a new test
+	self assert: contents withUnixLineEndings equals: 'No time: Begin: This is a new test
+No time: End with error: This is a new test. Error message: "Error: test"
+No time: Begin: This is a new test
+No time: 	test
+No time: End: This is a new test
 ' withUnixLineEndings ] ensure: [
 		Stdio recoverFromGHMutation.
 		stream close ]
@@ -341,10 +341,10 @@ TinyLoggerTest >> testNestedExecuteRecordedAs [
 	contents := Stdio stdout contents asString.
 	self assert: bool1.
 	self assert: bool2.
-	self assert: (contents includesSubstring: '	Begin: Test1').
-	self assert: (contents includesSubstring: '	End: Test1').
-	self assert: (contents includesSubstring: '			Begin: Test2').
-	self assert: (contents includesSubstring: '			End: Test2') ]
+	self assert: (contents includesSubstring: 'Begin: Test1').
+	self assert: (contents includesSubstring: 'End: Test1').
+	self assert: (contents includesSubstring: '	Begin: Test2').
+	self assert: (contents includesSubstring: '	End: Test2') ]
 		ensure: [ Stdio recoverFromGHMutation.
 			stream close ]
 ]
@@ -561,4 +561,59 @@ TinyLoggerTest >> testWithDefaultLoggers [
 	logger withDefaultLoggers.
 	"Ensure the loggers are reset when this method is called"
 	self assert: logger loggers size equals: numberOfDefaultLoggers
+]
+
+{ #category : 'tests' }
+TinyLoggerTest >> testindentExecutionBlock [
+	| contents stream |
+	logger
+		timestampFormatBlock: [ :s | s nextPutAll: 'No time' ];
+		removeAllLoggers;
+		addStdoutLogger;
+		indentExecutionBlock: true.
+	stream := '' writeStream.
+	[ Stdio stub stdout willReturn: stream.
+	Object new execute: [ 'test' record ] recordedAs: 'This is a new test'.
+	contents := Stdio stdout contents asString.
+
+	"Ensure we have the right indentation."
+	self
+		assert: contents withUnixLineEndings
+		equals:
+			'No time: 	Begin: This is a new test
+No time: 		test
+No time: 	End: This is a new test
+' withUnixLineEndings ]
+		ensure: [ Stdio recoverFromGHMutation.
+			stream close ]
+]
+
+{ #category : 'tests' }
+TinyLoggerTest >> testindentExecutionBlockKeepRightIndentation [
+
+	| contents stream errorDetected |
+	errorDetected := false.
+	logger
+		timestampFormatBlock: [ :s | s nextPutAll: 'No time' ];
+		removeAllLoggers;
+		addStdoutLogger;
+		indentExecutionBlock: true.
+	stream := '' writeStream.
+	[
+	Stdio stub stdout willReturn: stream.
+	[ Object new execute: [ Error signal: 'test' ] recordedAs: 'This is a new test' ]
+		on: Error
+		do: [ errorDetected := true ].
+	Object new execute: [ 'test' record ] recordedAs: 'This is a new test'.
+	contents := Stdio stdout contents asString.
+	"Ensure we have the right indentation."
+	self assert: errorDetected.
+	self assert: contents withUnixLineEndings equals: 'No time: 	Begin: This is a new test
+No time: 	End with error: This is a new test. Error message: "Error: test"
+No time: 	Begin: This is a new test
+No time: 		test
+No time: 	End: This is a new test
+' withUnixLineEndings ] ensure: [
+		Stdio recoverFromGHMutation.
+		stream close ]
 ]
