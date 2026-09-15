@@ -1,7 +1,7 @@
-Extension { #name : 'FullBlockClosure' }
+Extension { #name : 'BlockClosure' }
 
 { #category : '*TinyLogger' }
-FullBlockClosure >> record [
+BlockClosure >> record [
 	"See comment of TinyLogger>>#record:"
 
 	self record: self
