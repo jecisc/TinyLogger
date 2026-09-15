@@ -57,10 +57,18 @@ Then write a message to the log using `record`:
 'Uh oh. Something happened.' record
 ```
 
-Or write a message to the log for the execution of an action using `execute:recordedAs:`:
+To record a message at a specific level, use `recordAtLevel:`. You can configure the logger's threshold with `level:`. Use `TinyOffLevel` to disable logging entirely. Levelled output uses a prefix such as `[WARN] The cache is nearly full`. `record:` records `INFO` messages without a level prefix.
 
 ```Smalltalk
-self execute: [ "Some code doing something" ] recordedAs: 'Launching bananas.'
+TinyLogger default level: TinyWarnLevel.
+'The cache is nearly full' recordAtLevel: TinyWarnLevel.
+```
+
+Write a message to the log for the execution of an action using `execute:recordedAs:` or `execute:recordedAs:atLevel:`:
+
+```Smalltalk
+self execute: [ "Some code doing something" ] recordedAs: 'Launching bananas.'.
+self execute: [ "Some code doing something" ] recordedAs: 'Launching bananas.' atLevel: TinyErrorLevel.
 ```
 
 Now, if you want to know more about the project, let's proceed on a more detailed documentation.

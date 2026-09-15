@@ -39,3 +39,8 @@ TinyTranscriptLogger >> open [
 TinyTranscriptLogger >> record: aString [
 	Transcript trace: (String streamContents: [ :s | self record: aString on: s ])
 ]
+
+{ #category : 'logging' }
+TinyTranscriptLogger >> record: aString atLevel: aTinyLogLevel [
+	Transcript trace: (String streamContents: [ :stream | self record: aString on: stream atLevel: aTinyLogLevel ])
+]

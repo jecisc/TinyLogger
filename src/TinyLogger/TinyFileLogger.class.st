@@ -54,8 +54,8 @@ TinyFileLogger class >> kind [
 { #category : 'instance creation' }
 TinyFileLogger class >> named: aString [
 	^ self new
-		fileName: aString;
-		yourself
+		  fileName: aString;
+		  yourself
 ]
 
 { #category : 'logging' }
@@ -102,4 +102,10 @@ TinyFileLogger >> open [
 { #category : 'logging' }
 TinyFileLogger >> record: aString [
 	self fileStreamDo: [ :aStream | self record: aString on: aStream ]
+]
+
+{ #category : 'logging' }
+TinyFileLogger >> record: aString atLevel: aTinyLogLevel [
+
+	self fileStreamDo: [ :aStream | self record: aString on: aStream atLevel: aTinyLogLevel ]
 ]

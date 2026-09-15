@@ -2,27 +2,30 @@
 Description
 --------------------
 
-I am the main entry point of the project. This project is build with a composite design pattern and I am the composite. I contains subclasses of TinyLeafLogger.
+I am the main entry point of the project. This project is build with a composite design pattern and I am the composite. I contain subclasses of TinyLeafLogger.
 
-I am a default instance that is used by default in the image when you send #record to a string for example. This instance should be configured by the user before been used (else it will do nothing). 
-It is also possible to create another instance with different loggers and to use it. You can also change the default logger objects will use to record logs with the `TinyCurrentLogger` dynamic variable (See example bellow). 
+I am a default instance that is used by default in the image when you send #record to a string for example. This instance should be configured by the user before use, or it will do nothing.
+It is also possible to create another instance with different loggers and to use it. You can also change the default logger objects will use to record logs with the `TinyCurrentLogger` dynamic variable (See example below).
 
-The user can configure the timestamp formating via the #timestampFormatBlock paramater.
+The user can configure the timestamp formatting via the #timestampFormatBlock parameter. Levelled records are formatted through #levelPrefixBlock, which receives a stream and a TinyLogLevel and defaults to `[LEVEL] `.
 
 Public API and Key Messages
 --------------------
 
-- #record: 						Log the parameter of the sub loggers
-- #clearLog 						Clear the output of the sub loggers
-- #execute:recordedAs: 		Execute a block and log the task when it beging and ends. This will increase the identation of the logging
-- #addStdoutLogger 			Add a logger on Stdout
-- #addTrascriptLogger 		Add a logger on the Transcript
-- #addFileLogger 				Add a logger that will log in a file named `TinyLogger.log`
-- #addFileLoggerNamed: 		Add a logger on a file whose name is passed as parameter
-- #ensure: 						Variant of all previous #addX message. This one will add the new logger only if there is not equivalent logger already present
-- #timestampFormatBlock: 	Give as parameter a block taking a stream as parameter and writing the timestamp you want
-- #indentationString: 			Allow to customize the identation string. By default it is a tab, but you can use spaces instead.
-- #indentExecutionBlock: 		Allow to add an extra indentation to block from #execute:recordedAs: .
+- #record:								Record an INFO message without a level prefix
+- #record:atLevel:					Record at a selected level with its configurable level prefix
+- #levelPrefixBlock:					Customize or suppress level markup independently of the timestamp
+- #clearLog								Clear the output of the sub loggers
+- #execute:recordedAs:				Execute a block and record the task without a level prefix
+- #execute:recordedAs:atLevel:	Execute a block and record the task at a selected level
+- #addStdoutLogger 					Add a logger on Stdout
+- #addTrascriptLogger				Add a logger on the Transcript
+- #addFileLogger						Add a logger that will log in a file named `TinyLogger.log`
+- #addFileLoggerNamed:				Add a logger on a file whose name is passed as parameter
+- #ensure:								Variant of all previous #addX message. This one will add the new logger only if there is not equivalent logger already present
+- #timestampFormatBlock:			Give as parameter a block taking a stream as parameter and writing the timestamp you want
+- #indentationString:				Allow to customize the identation string. By default it is a tab, but you can use spaces instead.
+- #indentExecutionBlock:			Allow to add an extra indentation to block from #execute:recordedAs: .
 
 Examples
 --------------------
@@ -34,40 +37,43 @@ Examples
 		addStdoutLogger;
 		addFileLoggerNamed: 'Test.log';
 		addFileLoggerNamed: 'MyOtherLog.log'.
-		
+
 	""Record a string via the default logger""
 	'My string' record.
 	TinyLogger default record: 'My string'.
-	
+	'My warning' recordAtLevel: TinyWarnLevel.
+	TinyLogger default record: 'An error occurred' atLevel: TinyErrorLevel.
+
 	""Record with nesting via the default logger""
-	self execute: [ 1 to: 10 do: [ :value | value asString record ] ] recordedAs: 'Task with only one nesting.'
-	
-	self execute: [ 
-		1 to: 10 do: [ :value1 | 
+	self execute: [ 1 to: 10 do: [ :value | value asString record ] ] recordedAs: 'Task with only one nesting.'.
+	self execute: [ self rebuildIndex ] recordedAs: 'Rebuilding index.' atLevel: TinyErrorLevel.
+
+	self execute: [
+		1 to: 10 do: [ :value1 |
 			self execute: [
 				1 to: value1 do: [ :value2 | value2 asString record ]
 				] recordedAs: 'My second nest'
 			 ]
 		 ] recordedAs: 'My first nest'.
-	
+
 	""Record with a non default logger""
 	TinyLogger new
 		addTranscriptLogger;
 		record: 'Test'.
-	
-	""Change the default logger Objects should use during the execution of a subpart of the system""	
-	TinyCurrentLogger value: (TinyLogger new addTranscriptLogger; yourself) during: [ 
+
+	""Change the default logger Objects should use during the execution of a subpart of the system""
+	TinyCurrentLogger value: (TinyLogger new addTranscriptLogger; yourself) during: [
 		'test' record.
 		TinyCurrentLogger value record: 'Test2'
-	]
-		
+	].
+
 	""Change the default timestamp format or identation string""
 	TinyLogger default
 		timestampFormatBlock: [ :aStream :timestamp | timestamp asDate printOn: aStream. aStream << ' '. ""Cannot use #space because of Stdio streams"" timestamp asTime print24: true on: aStream ];
-		identationString: '  ';
+		indentationString: '  ';
 		indentExecutionBlock: true.
 ```
- 
+
 Internal Representation and Key Implementation Points.
 --------------------
 
@@ -75,9 +81,8 @@ Internal Representation and Key Implementation Points.
 	depth:							<anInteger>		I record the depth level of the nesting.
 	loggersMap:					<aDictonary>		I am used to store the loggers. I keep for each kind of loggers a collection of their instances.
 	timestampFormatBlock:		<aBlock>			I am a block defining the way the timestamp should be written.
-	identationString:				<aString>			I am a String used to ident logs.
-	indentExecutionBlock:			<aBoolean> 		Allow to add an extra indentation to block from #execute:recordedAs: .
-
+	identationString:			<aString>			I am a String used to ident logs.
+	indentExecutionBlock:		<aBoolean> 		Allow to add an extra indentation to block from #execute:recordedAs:.
 "
 Class {
 	#name : 'TinyLogger',
@@ -87,7 +92,9 @@ Class {
 		'indentationString',
 		'depth',
 		'loggersMap',
-		'indentExecutionBlock'
+		'indentExecutionBlock',
+		'level',
+		'levelPrefixBlock'
 	],
 	#classVars : [
 		'Default'
@@ -151,6 +158,11 @@ TinyLogger >> decreaseDepthLevel [
 ]
 
 { #category : 'accessing' }
+TinyLogger >> defaultLevelPrefixBlock [
+	^ [ :aStream :aTinyLogLevel | aStream << '[' << aTinyLogLevel severity << '] ' ]
+]
+
+{ #category : 'accessing' }
 TinyLogger >> defaultTimestampFormatBlock [
 	^ [ :aStream :timestamp | aStream << timestamp asString ]
 ]
@@ -193,14 +205,30 @@ TinyLogger >> ensureTranscriptLogger [
 
 { #category : 'public API' }
 TinyLogger >> execute: aBlock recordedAs: aBlockOrString [
+	^ self
+		  execute: aBlock
+		  recordedAs: aBlockOrString
+		  atLevel: TinyInfoLevel
+		  recordingWith: [ :aString | self record: aString ]
+]
 
+{ #category : 'public API' }
+TinyLogger >> execute: aBlock recordedAs: aBlockOrString atLevel: aTinyLogLevel [
+	^ self
+		  execute: aBlock
+		  recordedAs: aBlockOrString
+		  atLevel: aTinyLogLevel
+		  recordingWith: [ :aString | self record: aString atLevel: aTinyLogLevel ]
+]
+
+{ #category : 'private' }
+TinyLogger >> execute: aBlock recordedAs: aBlockOrString atLevel: aTinyLogLevel recordingWith: aRecordingBlock [
 	| logMessage result errorMessage |
-	logMessage := aBlockOrString isBlock
-		              ifTrue: [ aBlockOrString value ]
-		              ifFalse: [ aBlockOrString ].
-	self hasLoggers ifFalse: [ ^ aBlock cull: logMessage ].
+	(self hasLoggers and: [ self isEnabledFor: aTinyLogLevel ]) ifFalse: [
+		^ self execute: aBlock withoutRecordingMessage: aBlockOrString ].
+	logMessage := self recordMessageFrom: aBlockOrString.
 	self indentExecutionBlock ifTrue: [ self increaseDepthLevel ].
-	self record: 'Begin: ' , logMessage.
+	aRecordingBlock value: 'Begin: ' , logMessage.
 	self increaseDepthLevel.
 	[
 		[ result := aBlock cull: logMessage ]
@@ -209,15 +237,21 @@ TinyLogger >> execute: aBlock recordedAs: aBlockOrString [
 					errorMessage := exception printString.
 					exception pass ] ] ifCurtailed: [ "If there is an unexpected termination of the execution, print that there was an error."
 			self decreaseDepthLevel.
-			self record: 'End with error: ' , logMessage , '.' , (errorMessage
-					 ifNil: [ '' ]
-					 ifNotNil: [ ' Error message: "' , errorMessage , '"' ]).
+			aRecordingBlock value:
+				'End with error: ' , logMessage , '.' , (errorMessage ifNil: [ '' ] ifNotNil: [ ' Error message: "' , errorMessage , '"' ]).
 			self indentExecutionBlock ifTrue: [ self decreaseDepthLevel ] ].
 
 	self decreaseDepthLevel.
-	self record: 'End: ' , logMessage.
+	aRecordingBlock value: 'End: ' , logMessage.
 	self indentExecutionBlock ifTrue: [ self decreaseDepthLevel ].
 	^ result
+]
+
+{ #category : 'private' }
+TinyLogger >> execute: aBlock withoutRecordingMessage: aBlockOrString [
+	^ aBlock numArgs = 0
+		  ifTrue: [ aBlock value ]
+		  ifFalse: [ aBlock cull: (self recordMessageFrom: aBlockOrString) ]
 ]
 
 { #category : 'accessing - loggers' }
@@ -256,37 +290,59 @@ TinyLogger >> indentExecutionBlock [
 
 { #category : 'accessing' }
 TinyLogger >> indentExecutionBlock: anObject [
-
 	indentExecutionBlock := anObject
 ]
 
 { #category : 'accessing' }
 TinyLogger >> indentationString [
-
 	^ indentationString
 ]
 
 { #category : 'accessing' }
 TinyLogger >> indentationString: aString [
-
 	indentationString := aString
 ]
 
 { #category : 'initialization' }
 TinyLogger >> initialize [
-
 	super initialize.
 	self depth: 0.
 	self timestampFormatBlock: self defaultTimestampFormatBlock.
+	self levelPrefixBlock: self defaultLevelPrefixBlock.
 	self loggersMap: Dictionary new.
 	self indentationString: String tab.
-	self indentExecutionBlock: false
+	self indentExecutionBlock: false.
+	self level: TinyInfoLevel
+]
+
+{ #category : 'testing' }
+TinyLogger >> isEnabledFor: aTinyLogLevel [
+	^ self level allows: aTinyLogLevel
+]
+
+{ #category : 'accessing' }
+TinyLogger >> level [
+	^ level
+]
+
+{ #category : 'accessing' }
+TinyLogger >> level: aTinyLogLevel [
+	level := aTinyLogLevel
+]
+
+{ #category : 'accessing' }
+TinyLogger >> levelPrefixBlock [
+	^ levelPrefixBlock
+]
+
+{ #category : 'accessing' }
+TinyLogger >> levelPrefixBlock: aBlock [
+	levelPrefixBlock := aBlock
 ]
 
 { #category : 'accessing' }
 TinyLogger >> loggers [
 	"Since the loggers variable contains a dictionary of loggers, here we faltten the dictonary."
-
 	^ self loggersMap values flatCollect: #yourself
 ]
 
@@ -302,16 +358,29 @@ TinyLogger >> loggersMap: anObject [
 
 { #category : 'public API' }
 TinyLogger >> record: aBlockOrString [
-	"If a block is provided, it is only evaluated if a logger is present.
+	"If a block is provided, it is only evaluated if a logger is present and its configured level accepts INFO.
 	The block must return a string that will be recorded."
+	| message |
+	(self hasLoggers and: [ self isEnabledFor: TinyInfoLevel ]) ifFalse: [ ^ self ].
+	message := self recordMessageFrom: aBlockOrString.
+	self loggers do: [ :each | each record: message ]
+]
 
-	| aString |
-	self hasLoggers ifFalse: [ ^ self ].
-	aString := aBlockOrString isBlock
-		           ifTrue: [ aBlockOrString value ]
-		           ifFalse: [ aBlockOrString ].
+{ #category : 'public API' }
+TinyLogger >> record: aBlockOrString atLevel: aTinyLogLevel [
+	"If a block is provided, it is only evaluated if a logger is present and the requested level is enabled.
+	The block must return a string that will be recorded."
+	| message |
+	(self hasLoggers and: [ self isEnabledFor: aTinyLogLevel ]) ifFalse: [ ^ self ].
+	message := self recordMessageFrom: aBlockOrString.
+	self loggers do: [ :each | each record: message atLevel: aTinyLogLevel ]
+]
 
-	self loggers do: [ :each | each record: aString ]
+{ #category : 'private' }
+TinyLogger >> recordMessageFrom: aBlockOrString [
+	^ aBlockOrString isBlock
+		  ifTrue: [ aBlockOrString value ]
+		  ifFalse: [ aBlockOrString ]
 ]
 
 { #category : 'public API' }
