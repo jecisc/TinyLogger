@@ -39,5 +39,5 @@ BaselineOfTinyLogger >> mocketry: spec [
 		baseline: 'Mocketry'
 		with: [ spec
 				loads: #('Core');
-				repository: 'github://dionisiydk/Mocketry:v7.0.2' ]
+				repository: 'github://dionisiydk/Mocketry:v7.0.3' ]
 ]
