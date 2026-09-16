@@ -107,6 +107,11 @@ TinyLoggerTest >> testCurrentLogger [
 ]
 
 { #category : 'tests' }
+TinyLoggerTest >> testDefaultLevelIsInfo [
+	self assert: logger level identicalTo: TinyInfoLevel
+]
+
+{ #category : 'tests' }
 TinyLoggerTest >> testEnsureFileLogger [
 	logger removeAllLoggers.
 	self assert: logger loggers isEmpty.
@@ -200,6 +205,24 @@ No time: End: This is a new test
 ]
 
 { #category : 'tests' }
+TinyLoggerTest >> testExecuteRecordedAsAtLevelUsesLevelPrefix [
+
+	| contents stream didExecute |
+	didExecute := false.
+	logger addStdoutLogger.
+	stream := '' writeStream.
+	[
+		Stdio stub stdout willReturn: stream.
+		self execute: [ didExecute := true ] recordedAs: 'rebuilding index' atLevel: TinyErrorLevel.
+		contents := Stdio stdout contents asString.
+		self assert: didExecute.
+		self assert: (contents includesSubstring: '[ERROR] Begin: rebuilding index').
+		self assert: (contents includesSubstring: '[ERROR] End: rebuilding index') ] ensure: [
+			Stdio recoverFromGHMutation.
+			stream close ]
+]
+
+{ #category : 'tests' }
 TinyLoggerTest >> testExecuteRecordedAsBlock [
 	| log |
 	log := 'testFileForTinyLogger.log' asFileReference.
@@ -267,6 +290,22 @@ No time: End: This is a new test
 ]
 
 { #category : 'tests' }
+TinyLoggerTest >> testExecuteRecordedAsKeepsUnprefixedOutput [
+
+	| contents stream |
+	logger addStdoutLogger.
+	stream := '' writeStream.
+	[
+		Stdio stub stdout willReturn: stream.
+		self execute: [ ] recordedAs: 'legacy execution'.
+		contents := Stdio stdout contents asString.
+		self deny: (contents includesSubstring: '[INFO]').
+		self assert: (contents includesSubstring: 'Begin: legacy execution') ] ensure: [
+			Stdio recoverFromGHMutation.
+			stream close ]
+]
+
+{ #category : 'tests' }
 TinyLoggerTest >> testExecuteRecordedAsReturnBlockContent [
 	| contents stream bool |
 	bool := false.
@@ -298,6 +337,24 @@ TinyLoggerTest >> testFileLoggers [
 ]
 
 { #category : 'tests' }
+TinyLoggerTest >> testFilteredExecuteDescriptionBlockIsNotEvaluated [
+
+	logger
+		addStdoutLogger;
+		level: TinyWarnLevel.
+	self execute: [ ] recordedAs: [ self fail ] atLevel: TinyDebugLevel
+]
+
+{ #category : 'tests' }
+TinyLoggerTest >> testFilteredLogBlockIsNotEvaluated [
+
+	logger
+		addStdoutLogger;
+		level: TinyWarnLevel.
+	logger record: [ self fail ] atLevel: TinyDebugLevel
+]
+
+{ #category : 'tests' }
 TinyLoggerTest >> testHasLoggers [
 	self deny: logger hasLoggers.
 	logger addFileLogger.
@@ -321,6 +378,65 @@ TinyLoggerTest >> testIndentationString [
 		self assert: (contents includesSubstring: '--test') ] ensure: [
 			Stdio recoverFromGHMutation.
 			stream close ]
+]
+
+{ #category : 'tests' }
+TinyLoggerTest >> testLevelFiltersLessSevereMessages [
+
+	| contents stream |
+	logger
+		removeAllLoggers;
+		addStdoutLogger;
+		level: TinyWarnLevel.
+	stream := '' writeStream.
+	[
+		Stdio stub stdout willReturn: stream.
+		logger record: 'debug message' atLevel: TinyDebugLevel.
+		logger record: 'warning message' atLevel: TinyWarnLevel.
+		contents := Stdio stdout contents asString.
+		self deny: (contents includesSubstring: 'debug message').
+		self assert: (contents includesSubstring: '[WARN] warning message') ] ensure: [
+			Stdio recoverFromGHMutation.
+			stream close ]
+]
+
+{ #category : 'tests' }
+TinyLoggerTest >> testLevelPrefixCanBeCustomized [
+
+	| contents stream |
+	logger
+		addStdoutLogger;
+		levelPrefixBlock: [ :aStream :aTinyLogLevel | aStream << aTinyLogLevel severity << ': ' ].
+	stream := '' writeStream.
+	[
+		Stdio stub stdout willReturn: stream.
+		logger record: 'error message' atLevel: TinyErrorLevel.
+		contents := Stdio stdout contents asString.
+		self assert: (contents includesSubstring: 'ERROR: error message') ] ensure: [
+			Stdio recoverFromGHMutation.
+			stream close ]
+]
+
+{ #category : 'tests' }
+TinyLoggerTest >> testLevelSpecificLogBlockIsEvaluatedWhenEnabled [
+
+	| log |
+	log := 'testLevelSpecificLogBlockIsEvaluatedWhenEnabled.log' asFileReference.
+	[
+		logger
+			addFileLoggerNamed: log basename;
+			level: TinyDebugLevel.
+		logger record: [ 'debug message' ] atLevel: TinyDebugLevel.
+		self assert: log exists.
+		self assert: (log contents includesSubstring: 'debug message') ] ensure: [
+		(log isNotNil and: [ log exists ]) ifTrue: [ log ensureDelete ] ]
+]
+
+{ #category : 'tests' }
+TinyLoggerTest >> testLogLevelOrdering [
+	self assert: (TinyDebugLevel allows: TinyErrorLevel).
+	self deny: (TinyErrorLevel allows: TinyDebugLevel).
+	self deny: (TinyOffLevel allows: TinyFatalLevel)
 ]
 
 { #category : 'tests' }
@@ -358,6 +474,15 @@ TinyLoggerTest >> testNestedExecuteRecordedAs [
 	self assert: (contents includesSubstring: '	End: Test2') ]
 		ensure: [ Stdio recoverFromGHMutation.
 			stream close ]
+]
+
+{ #category : 'tests' }
+TinyLoggerTest >> testOffLevelSuppressesEveryLogBlock [
+
+	logger
+		addStdoutLogger;
+		level: TinyOffLevel.
+	logger record: [ self fail ] atLevel: TinyFatalLevel
 ]
 
 { #category : 'tests' }
@@ -413,6 +538,46 @@ TinyLoggerTest >> testRecord3 [
 ]
 
 { #category : 'tests' }
+TinyLoggerTest >> testRecordAtLevelBlockIsEvaluatedOnceForMultipleLoggers [
+
+	| evaluationCount |
+	evaluationCount := 0.
+	logger
+		addStdoutLogger;
+		addStdoutLogger.
+	logger
+		record: [
+				evaluationCount := evaluationCount + 1.
+				'warning message' ]
+		atLevel: TinyWarnLevel.
+	self assert: evaluationCount equals: 1
+]
+
+{ #category : 'tests' }
+TinyLoggerTest >> testRecordAtLevelBlockIsNotEvaluatedWhenFiltered [
+
+	logger
+		addStdoutLogger;
+		level: TinyWarnLevel.
+	[ self fail ] recordAtLevel: TinyDebugLevel
+]
+
+{ #category : 'tests' }
+TinyLoggerTest >> testRecordAtLevelUsesLevelPrefix [
+
+	| contents stream |
+	logger addStdoutLogger.
+	stream := '' writeStream.
+	[
+		Stdio stub stdout willReturn: stream.
+		'warning message' recordAtLevel: TinyWarnLevel.
+		contents := Stdio stdout contents asString.
+		self assert: (contents includesSubstring: '[WARN] warning message') ] ensure: [
+			Stdio recoverFromGHMutation.
+			stream close ]
+]
+
+{ #category : 'tests' }
 TinyLoggerTest >> testRecordBlock [
 	| log |
 	log := 'testFileForTinyLogger.log' asFileReference.
@@ -440,6 +605,20 @@ TinyLoggerTest >> testRecordBlock2 [
 ]
 
 { #category : 'tests' }
+TinyLoggerTest >> testRecordBlockIsEvaluatedOnceForMultipleLoggers [
+
+	| evaluationCount |
+	evaluationCount := 0.
+	logger
+		addStdoutLogger;
+		addStdoutLogger.
+	logger record: [
+			evaluationCount := evaluationCount + 1.
+			'message' ].
+	self assert: evaluationCount equals: 1
+]
+
+{ #category : 'tests' }
 TinyLoggerTest >> testRecordBlockReceiver [
 	| log |
 	log := 'testFileForTinyLogger.log' asFileReference.
@@ -464,6 +643,31 @@ TinyLoggerTest >> testRecordBlockReceiver2 [
 	self assert: (log contents includesSubstring: 'this is a test') ]
 		ensure: [ (log isNotNil and: [ log exists ])
 				ifTrue: [ log ensureDelete ] ]
+]
+
+{ #category : 'tests' }
+TinyLoggerTest >> testRecordHasNoLevelPrefix [
+
+	| contents stream |
+	logger addStdoutLogger.
+	stream := '' writeStream.
+	[
+		Stdio stub stdout willReturn: stream.
+		logger record: 'legacy message'.
+		contents := Stdio stdout contents asString.
+		self deny: (contents includesSubstring: '[INFO]').
+		self assert: (contents includesSubstring: 'legacy message') ] ensure: [
+			Stdio recoverFromGHMutation.
+			stream close ]
+]
+
+{ #category : 'tests' }
+TinyLoggerTest >> testRecordUsesInfoLevel [
+
+	logger
+		addStdoutLogger;
+		level: TinyWarnLevel.
+	logger record: [ self fail ]
 ]
 
 { #category : 'tests' }

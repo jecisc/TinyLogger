@@ -28,13 +28,10 @@ TinyStdoutLogger class >> kind [
 { #category : 'logging' }
 TinyStdoutLogger >> clearLog [
 	"We do nothing here since we cannot clear stdout"
-
-	
 ]
 
 { #category : 'opening' }
 TinyStdoutLogger >> open [
-
 	self inform: 'Cannot open STDOut logger.'
 ]
 
@@ -45,5 +42,13 @@ TinyStdoutLogger >> record: aString [
 	self record: aString on: stream.
 
 	"The flush is needed to send the record in the stdout."
+	stream flush
+]
+
+{ #category : 'logging' }
+TinyStdoutLogger >> record: aString atLevel: aTinyLogLevel [
+	| stream |
+	stream := Stdio stdout.
+	self record: aString on: stream atLevel: aTinyLogLevel.
 	stream flush
 ]

@@ -39,8 +39,25 @@ TinyLeafLoggerTest >> testRecordPreambleOn [
 ]
 
 { #category : 'tests' }
-TinyLeafLoggerTest >> testRecordTimestampOn [
+TinyLeafLoggerTest >> testRecordPreambleOnAtLevel [
+	parentLogger timestampFormatBlock: [ :stream | stream << 'timestamp' ].
+	self
+		assert: (String streamContents: [ :stream | logger recordPreambleOn: stream atLevel: TinyWarnLevel ])
+		equals: 'timestamp: [WARN] '
+]
 
+{ #category : 'tests' }
+TinyLeafLoggerTest >> testRecordPreambleUsesCustomLevelPrefix [
+	parentLogger
+		timestampFormatBlock: [ :stream | stream << 'timestamp' ];
+		levelPrefixBlock: [ :stream :level | stream << '<' << level severity asLowercase << '> ' ].
+	self
+		assert: (String streamContents: [ :stream | logger recordPreambleOn: stream atLevel: TinyErrorLevel ])
+		equals: 'timestamp: <error> '
+]
+
+{ #category : 'tests' }
+TinyLeafLoggerTest >> testRecordTimestampOn [
 	parentLogger timestampFormatBlock: [ :s | s << 'this is a test' ].
 	self assert: (String streamContents: [ :s | logger recordTimestampOn: s ]) equals: 'this is a test'.
 	parentLogger timestampFormatBlock: [ :s | s << 'this is a test2' ].

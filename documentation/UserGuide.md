@@ -13,13 +13,14 @@ For specific cases, a specialized logger can be used.
 		- [List the sub-loggers](#list-the-sub-loggers)
 	- [Record with your logger](#record-with-your-logger)
 		- [Record a single line log](#record-a-single-line-log)
+		- [Record at a level](#record-at-a-level)
 		- [Recording the execution of a task](#recording-the-execution-of-a-task)
 	- [Lazy recording](#lazy-recording)
 	- [Use a logger other than the global logger](#use-a-logger-other-than-the-global-logger)
 	- [Clear your logger](#clear-your-logger)
 	- [Further configurations](#further-configurations)
 		- [Configure the timestamp](#configure-the-timestamp)
-		- [Configure the identation string](#configure-the-identation-string)
+		- [Configure the indentation string](#configure-the-indentation-string)
 		- [Add extra indentation block](#add-extra-indentation-block)
 	- [Use special logger for tests](#use-special-logger-for-tests)
  
@@ -134,12 +135,64 @@ This will produce a log like this with the default `timestampFormatBlock`:
 2018-11-29T23:19:55.511775+01:00 : This is a string to log
 ```
 
-### Recording the execution of a task
+### Record at a level
 
-To record the execution of a task you can use the method `execute:recordedAs:`
+TinyLogger follows the common application-logger ordering:
+
+```
+TRACE < DEBUG < INFO < WARN < ERROR < FATAL
+```
+
+Each `TinyLogger` has a threshold, called its `level`. The default is `INFO`: an event is recorded when it is at the configured level or more severe. For example, a `WARN` threshold records `WARN`, `ERROR`, and `FATAL` events while discarding `TRACE`, `DEBUG`, and `INFO` events. `TinyOffLevel` disables all events.
 
 ```Smalltalk
-self execute: [ 1 to: 5 do: [ :value | value asString record ] ] recordedAs: 'Task with only one nesting.'
+| logger |
+logger := TinyLogger new
+	addFileLoggerNamed: 'application.log';
+	level: TinyWarnLevel;
+	yourself.
+
+logger record: 'This is discarded' atLevel: TinyDebugLevel.
+logger record: 'The cache is nearly full' atLevel: TinyWarnLevel.
+logger record: 'The request failed' atLevel: TinyErrorLevel.
+```
+
+The two recorded lines use the default level prefix:
+
+```
+2018-11-29T23:19:55.511775+01:00: [WARN] The cache is nearly full
+2018-11-29T23:19:55.511775+01:00: [ERROR] The request failed
+```
+
+**`record:` produces `INFO` events without a level prefix.**
+
+The logger also provides level-specific messages directly on objects:
+
+```Smalltalk
+'The cache is nearly full' recordAtLevel: TinyWarnLevel.
+[ self expensiveDiagnosticDescription ] recordAtLevel: TinyDebugLevel.
+'The request failed' recordAtLevel: TinyErrorLevel.
+```
+
+The timestamp and level prefix are independently configurable. By default, the prefix block writes `[LEVEL] `. It receives the output stream and the `TinyLogLevel`, so an application can use another convention or suppress the prefix:
+
+```Smalltalk
+logger levelPrefixBlock: [ :stream :level | stream << level severity << ' | ' ].
+```
+
+This produces lines such as:
+
+```
+2018-11-29T23:19:55.511775+01:00: WARN | The cache is nearly full
+```
+
+### Recording the execution of a task
+
+To record the execution of a task, you can use the method `execute:recordedAs:` or `execute:recordedAs:atLevel:`.
+
+```Smalltalk
+self execute: [ 1 to: 5 do: [ :value | value asString record ] ] recordedAs: 'Task with only one nesting.'.
+self execute: [ self rebuildIndex ] recordedAs: 'Rebuilding index.' atLevel: TinyErrorLevel.
 ```
 
 Will produce a log like this:
@@ -193,16 +246,18 @@ It will produce this kind of output:
 
 ## Lazy recording
 
-In some cases we might want to record things and it takes time to build the string to record. In that case, it is possible to use a block to do the recording, and this block will be executed if there is at least one logger registered. Like this, if no logger is set, the block will be ignored and the application will not slow down.
+In some cases we might want to record things and it takes time to build the string to record. In that case, it is possible to use a block to do the recording. The block is evaluated only when there is at least one logger registered and its configured level accepts the event. Like this, if logging is disabled or filtered, the block will be ignored and the application will not slow down.
 
 ```Smalltalk
 
 self record: [ String streamContents: [ :aStream | aStream nextPutAll: '{ something to compute }' ] ].
 
-[ String streamContents: [ :aStream | aStream nextPutAll: '{ something to compute }' ] ] record
+[ String streamContents: [ :aStream | aStream nextPutAll: '{ something to compute }' ] ] record.
+
+self execute: [ :debugMessage | self use: debugMessage ] recordedAs: [ '{ debug information }' ] atLevel: TinyDebugLevel.
 ```
 
-> #execute:recordedAs: works in the same way. It is possible to pass a block as a second parameter and if no logger is present, this block will not be executed.
+The description block of a levelled execution is evaluated only when its level is enabled, provided the execution block does not take the description as an argument. An execution block that takes that argument necessarily evaluates the description.
 
 ## Use a logger other than the global logger
 
@@ -260,12 +315,12 @@ This will produce logs of this format:
 29 November 2018 00:06:30: Test
 ```
 
-### Configure the identation string
+### Configure the indentation string
 
-By default using #`execute:recordedAs:` will use a tab for identation. It is possible to configure this using `#identationString:` to have, for example, spaces.
+By default using #`execute:recordedAs:` will use a tab for indentation. It is possible to configure this using `#indentationString:` to have, for example, spaces.
 
 ```Smalltalk
-TinyLogger default identationString: '  '. "Two spaces"
+TinyLogger default indentationString: '  '. "Two spaces"
 self execute: [ 'Log' record ] recordedAs: 'Task'
 ```
 
@@ -277,7 +332,7 @@ Will produce a log like this:
 2018-11-29T23:21:04.909775+01:00: 	End: Task
 ```
 
-On the second line, the identation will use two spaces instead of a tab that is the default value.
+On the second line, the indentation will use two spaces instead of a tab that is the default value.
 
 ### Add extra indentation block
 

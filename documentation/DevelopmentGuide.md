@@ -58,12 +58,22 @@ Since `TinyLogger` groups its loggers by kinds, you need to define a `kind` met
 	^ 'HTTP'
 ```
 
-Next step is to define the `record:` method to actually write the log. The superclass manages the preamble and formatting directly via the method `record:on:` that needs to be called in your `record:` method. 
+Next step is to define the `record:` method to actually write an unlevelled log. The superclass manages its preamble and formatting via `record:on:`.
 
 ```Smalltalk
 TinyHTTPLogger>>record: aString
 	ZnEasy post: self url data: (String streamContents: [ :s | self record: aString on: s ])
 ```
+
+To support TinyLogger's level-aware API and its configurable level prefix, also implement `record:atLevel:` using `record:on:atLevel:`:
+
+```Smalltalk
+TinyHTTPLogger>>record: aString atLevel: aTinyLogLevel
+	ZnEasy post: self url data: (String streamContents: [ :stream |
+		self record: aString on: stream atLevel: aTinyLogLevel ])
+```
+
+Existing custom leaf loggers remain compatible through the inherited `record:atLevel:` fallback, but that fallback intentionally uses their unlevelled `record:` implementation.
 
 At this point, our new logger is usable. You can add a new instance to your `TinyLogger` this way:
 
