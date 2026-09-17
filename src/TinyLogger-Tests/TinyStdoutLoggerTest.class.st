@@ -11,11 +11,13 @@ Class {
 
 { #category : 'helpers' }
 TinyStdoutLoggerTest >> actualClass [
+
 	^ TinyStdoutLogger
 ]
 
 { #category : 'tests' }
 TinyStdoutLoggerTest >> testClearLog [
+
 	self shouldnt: [ logger clearLog ] raise: Error
 ]
 
@@ -35,11 +37,13 @@ TinyStdoutLoggerTest >> testIndentationString [
 
 { #category : 'tests' }
 TinyStdoutLoggerTest >> testRecord [
+
 	| stream |
 	stream := '' writeStream.
-	[ Stdio stub stdout willReturn: stream.
-	logger record: 'This is a test'.
-	self assert: (stream contents asString lines last includesSubstring: 'This is a test') ]
-		ensure: [ Stdio recoverFromGHMutation.
+	[
+		Stdio stub stdout willReturn: stream.
+		logger record: 'This is a test'.
+		self assert: (stream contents asString lines last includesSubstring: 'This is a test') ] ensure: [
+			Stdio recoverFromGHMutation.
 			stream close ]
 ]

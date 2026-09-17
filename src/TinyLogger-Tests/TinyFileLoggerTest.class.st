@@ -14,27 +14,32 @@ Class {
 
 { #category : 'helpers' }
 TinyFileLoggerTest >> actualClass [
+
 	^ TinyFileLogger
 ]
 
 { #category : 'tests' }
 TinyFileLoggerTest >> fileNameNumber: number [
+
 	^ 'testFile' , number asString , 'ForTinyLogger.log'
 ]
 
 { #category : 'running' }
 TinyFileLoggerTest >> tearDown [
+
 	log ifNotNil: #ensureDelete.
 	super tearDown
 ]
 
 { #category : 'tests' }
 TinyFileLoggerTest >> testCanHaveDefaultFile [
+
 	self shouldnt: [ self actualClass new fileReference ] raise: Error
 ]
 
 { #category : 'tests' }
 TinyFileLoggerTest >> testClearLog [
+
 	log := (self fileNameNumber: 1) asFileReference.
 	logger := self actualClass for: parentLogger named: log basename.
 	logger record: 'this is a test'.
@@ -46,6 +51,7 @@ TinyFileLoggerTest >> testClearLog [
 
 { #category : 'tests' }
 TinyFileLoggerTest >> testFileName [
+
 	log := (self fileNameNumber: 4) asFileReference.
 	logger := self actualClass for: parentLogger named: log basename.
 	logger record: 'this is a test'.
@@ -69,6 +75,7 @@ TinyFileLoggerTest >> testIndentationString [
 
 { #category : 'tests' }
 TinyFileLoggerTest >> testLoggerCreatesFile [
+
 	log := (self fileNameNumber: 10) asFileReference.
 	logger := self actualClass for: parentLogger named: log basename.
 	self deny: log exists.
@@ -79,6 +86,7 @@ TinyFileLoggerTest >> testLoggerCreatesFile [
 
 { #category : 'tests' }
 TinyFileLoggerTest >> testRecord [
+
 	log := (self fileNameNumber: 1) asFileReference.
 	logger := self actualClass for: parentLogger named: log basename.
 	logger record: 'this is a test'.
@@ -90,6 +98,7 @@ TinyFileLoggerTest >> testRecord [
 
 { #category : 'tests' }
 TinyFileLoggerTest >> testRecordSetFileToTheEnd [
+
 	log := (self fileNameNumber: 1) asFileReference.
 	logger := self actualClass for: parentLogger named: log basename.
 	logger record: 'this is a test'.

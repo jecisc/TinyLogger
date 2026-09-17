@@ -40,22 +40,19 @@ TinyAbstractLogger >> << aString [
 { #category : 'logging' }
 TinyAbstractLogger >> clearLog [
 	"Whe called, this method should clear the previous logs"
-
 	self subclassResponsibility
 ]
 
 { #category : 'accessing' }
 TinyAbstractLogger >> indentExecutionBlock [
-
 	<ignoreForCoverage>
-	^ self subclassResponsibility
+	self subclassResponsibility
 ]
 
 { #category : 'accessing' }
 TinyAbstractLogger >> indentationString [
-
 	<ignoreForCoverage>
-	^ self subclassResponsibility
+	self subclassResponsibility
 ]
 
 { #category : 'logging' }
@@ -66,5 +63,5 @@ TinyAbstractLogger >> record: aString [
 { #category : 'accessing' }
 TinyAbstractLogger >> timestampFormatBlock [
 	<ignoreForCoverage>
-	^ self subclassResponsibility
+	self subclassResponsibility
 ]
