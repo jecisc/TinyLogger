@@ -16,6 +16,11 @@ Class {
 	#tag : 'Manifest'
 }
 
+{ #category : 'formatting' }
+ManifestTinyLogger class >> formatter [
+	^ ManifestBaselineOfTinyLogger formatter
+]
+
 { #category : 'code-critics' }
 ManifestTinyLogger class >> ruleTempsReadBeforeWrittenRuleV1FalsePositive [
 	^ #(#(#(#RGMethodDefinition #(#TinyLogger #execute:recordedAs: #false)) #'2022-06-02T15:28:59.459+02:00') )
