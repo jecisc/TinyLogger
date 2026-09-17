@@ -122,7 +122,6 @@ TinyLogger class >> reset [
 { #category : 'public API' }
 TinyLogger >> addFileLogger [
 	"Since no file name is passed as parameter, I will log in a file named `TinyLogger.log` next to the image."
-
 	self addLogger: TinyFileLogger new
 ]
 
@@ -133,7 +132,6 @@ TinyLogger >> addFileLoggerNamed: aString [
 
 { #category : 'public API' }
 TinyLogger >> addLogger: aLogger [
-
 	^ (self loggersMap at: aLogger kind ifAbsentPut: [ OrderedCollection new ]) add: (aLogger parentLogger: self)
 ]
 
@@ -180,17 +178,13 @@ TinyLogger >> depth: anObject [
 { #category : 'public API' }
 TinyLogger >> ensureFileLogger [
 	"Ensure a file logger to `TinyLogger.log` is in the logger. In case one already exists, does nothing."
-
 	self ensureFileLoggerNamed: TinyFileLogger defaultFileName
 ]
 
 { #category : 'public API' }
 TinyLogger >> ensureFileLoggerNamed: aString [
 	"Ensure a file logger to a file whose name is given as parameter is in the logger. In case one already exists, does nothing."
-
-	^ self fileLoggers
-		detect: [ :e | e fileName = aString ]
-		ifNone: [ self addFileLoggerNamed: aString ]
+	^ self fileLoggers detect: [ :e | e fileName = aString ] ifNone: [ self addFileLoggerNamed: aString ]
 ]
 
 { #category : 'public API' }

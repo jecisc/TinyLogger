@@ -15,3 +15,12 @@ Class {
 	#package : 'BaselineOfTinyLogger',
 	#tag : 'Manifest'
 }
+
+{ #category : 'formatting' }
+ManifestBaselineOfTinyLogger class >> formatter [
+	^ EFFormatter new installNewContext: (EFContext new
+			   maxLineLength: 130;
+			   numberOfNewLinesAfterMethodSignature: 1;
+			   numberOfNewLinesAfterMethodComment: 1;
+			   numberOfSpacesInsideArray: 0)
+]

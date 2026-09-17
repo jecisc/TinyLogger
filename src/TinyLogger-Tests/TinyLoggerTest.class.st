@@ -11,6 +11,7 @@ Class {
 
 { #category : 'helpers' }
 TinyLoggerTest >> actualClass [
+
 	^ TinyLogger
 ]
 
@@ -22,15 +23,17 @@ TinyLoggerTest >> performTest [
 
 { #category : 'running' }
 TinyLoggerTest >> setUp [
+
 	super setUp.
 	logger := TinyLogger new
 ]
 
 { #category : 'tests' }
 TinyLoggerTest >> testAddFileLogger [
+
 	logger removeAllLoggers.
 	self assert: logger loggers isEmpty.
-	
+
 	logger
 		addFileLogger;
 		addFileLogger.
@@ -40,9 +43,10 @@ TinyLoggerTest >> testAddFileLogger [
 
 { #category : 'tests' }
 TinyLoggerTest >> testAddFileLoggerNamed [
+
 	logger removeAllLoggers.
 	self assert: logger loggers isEmpty.
-	
+
 	logger addFileLoggerNamed: 'test.log'.
 	self assert: logger fileLoggers size equals: 1.
 	self assert: logger loggers anyOne fileName equals: 'test.log'
@@ -64,6 +68,7 @@ TinyLoggerTest >> testAddLogger [
 
 { #category : 'tests' }
 TinyLoggerTest >> testAddStdoutLogger [
+
 	logger removeAllLoggers.
 	self assert: logger loggers isEmpty.
 
@@ -76,9 +81,10 @@ TinyLoggerTest >> testAddStdoutLogger [
 
 { #category : 'tests' }
 TinyLoggerTest >> testAddTranscriptLogger [
+
 	logger removeAllLoggers.
 	self assert: logger loggers isEmpty.
-	
+
 	logger
 		addTranscriptLogger;
 		addTranscriptLogger.
@@ -88,6 +94,7 @@ TinyLoggerTest >> testAddTranscriptLogger [
 
 { #category : 'tests' }
 TinyLoggerTest >> testClearLog [
+
 	logger
 		addTranscriptLogger;
 		addFileLoggerNamed: 'testFileForTinyLogger.log';
@@ -102,17 +109,20 @@ TinyLoggerTest >> testClearLog [
 
 { #category : 'tests' }
 TinyLoggerTest >> testCurrentLogger [
+
 	self assert: TinyCurrentLogger value isNotNil.
 	self assert: TinyCurrentLogger value class equals: TinyLogger
 ]
 
 { #category : 'tests' }
 TinyLoggerTest >> testDefaultLevelIsInfo [
+
 	self assert: logger level identicalTo: TinyInfoLevel
 ]
 
 { #category : 'tests' }
 TinyLoggerTest >> testEnsureFileLogger [
+
 	logger removeAllLoggers.
 	self assert: logger loggers isEmpty.
 
@@ -127,6 +137,7 @@ TinyLoggerTest >> testEnsureFileLogger [
 
 { #category : 'tests' }
 TinyLoggerTest >> testEnsureFileLoggerNamed [
+
 	logger removeAllLoggers.
 	self assert: logger loggers isEmpty.
 
@@ -140,6 +151,7 @@ TinyLoggerTest >> testEnsureFileLoggerNamed [
 
 { #category : 'tests' }
 TinyLoggerTest >> testEnsureStdoutLogger [
+
 	logger removeAllLoggers.
 	self assert: logger loggers isEmpty.
 
@@ -152,9 +164,10 @@ TinyLoggerTest >> testEnsureStdoutLogger [
 
 { #category : 'tests' }
 TinyLoggerTest >> testEnsureTranscriptLogger [
+
 	logger removeAllLoggers.
 	self assert: logger loggers isEmpty.
-	
+
 	logger
 		ensureTranscriptLogger;
 		ensureTranscriptLogger.
@@ -164,43 +177,44 @@ TinyLoggerTest >> testEnsureTranscriptLogger [
 
 { #category : 'tests' }
 TinyLoggerTest >> testExecuteRecordedAs [
+
 	| contents stream bool |
 	bool := false.
 	logger
 		removeAllLoggers;
 		addStdoutLogger.
 	stream := '' writeStream.
-	[ Stdio stub stdout willReturn: stream.
-	logger execute: [ bool := true ] recordedAs: 'This is a new test'.
-	contents := Stdio stdout contents asString.
-	self assert: bool.
-	self assert: (contents includesSubstring: 'Begin: This is a new test').
-	self assert: (contents includesSubstring: 'End: This is a new test') ]
-		ensure: [ Stdio recoverFromGHMutation.
+	[
+		Stdio stub stdout willReturn: stream.
+		logger execute: [ bool := true ] recordedAs: 'This is a new test'.
+		contents := Stdio stdout contents asString.
+		self assert: bool.
+		self assert: (contents includesSubstring: 'Begin: This is a new test').
+		self assert: (contents includesSubstring: 'End: This is a new test') ] ensure: [
+			Stdio recoverFromGHMutation.
 			stream close ]
 ]
 
 { #category : 'tests' }
 TinyLoggerTest >> testExecuteRecordedAs2 [
+
 	| contents stream |
 	logger
 		timestampFormatBlock: [ :s | s nextPutAll: 'No time' ];
 		removeAllLoggers;
 		addStdoutLogger.
 	stream := '' writeStream.
-	[ Stdio stub stdout willReturn: stream.
-	Object new execute: [ 'test' record ] recordedAs: 'This is a new test'.
-	contents := Stdio stdout contents asString.
+	[
+		Stdio stub stdout willReturn: stream.
+		Object new execute: [ 'test' record ] recordedAs: 'This is a new test'.
+		contents := Stdio stdout contents asString.
 
-	"Ensure we have the right indentation."
-	self
-		assert: contents withUnixLineEndings
-		equals:
-			'No time: Begin: This is a new test
+		"Ensure we have the right indentation."
+		self assert: contents withUnixLineEndings equals: 'No time: Begin: This is a new test
 No time: 	test
 No time: End: This is a new test
-' withUnixLineEndings ]
-		ensure: [ Stdio recoverFromGHMutation.
+' withUnixLineEndings ] ensure: [
+			Stdio recoverFromGHMutation.
 			stream close ]
 ]
 
@@ -224,29 +238,28 @@ TinyLoggerTest >> testExecuteRecordedAsAtLevelUsesLevelPrefix [
 
 { #category : 'tests' }
 TinyLoggerTest >> testExecuteRecordedAsBlock [
+
 	| log |
 	log := 'testFileForTinyLogger.log' asFileReference.
 	[
-	logger execute: [  ] recordedAs: [ 'this is a test' ].
+		logger execute: [ ] recordedAs: [ 'this is a test' ].
 
-	self deny: log exists ]
-		ensure: [ (log isNotNil and: [ log exists ])
-				ifTrue: [ log ensureDelete ] ]
+		self deny: log exists ] ensure: [ (log isNotNil and: [ log exists ]) ifTrue: [ log ensureDelete ] ]
 ]
 
 { #category : 'tests' }
 TinyLoggerTest >> testExecuteRecordedAsBlock2 [
+
 	| log |
 	log := 'testFileForTinyLogger.log' asFileReference.
 	[
-	logger addFileLoggerNamed: log basename.
+		logger addFileLoggerNamed: log basename.
 
-	logger execute: [  ] recordedAs: [ 'this is a test' ].
+		logger execute: [ ] recordedAs: [ 'this is a test' ].
 
-	self assert: log exists.
-	self assert: (log contents includesSubstring: 'this is a test') ]
-		ensure: [ (log isNotNil and: [ log exists ])
-				ifTrue: [ log ensureDelete ] ]
+		self assert: log exists.
+		self assert: (log contents includesSubstring: 'this is a test') ] ensure: [
+		(log isNotNil and: [ log exists ]) ifTrue: [ log ensureDelete ] ]
 ]
 
 { #category : 'tests' }
@@ -271,22 +284,22 @@ TinyLoggerTest >> testExecuteRecordedAsKeepRightIndentation [
 		addStdoutLogger.
 	stream := '' writeStream.
 	[
-	Stdio stub stdout willReturn: stream.
-	[ Object new execute: [ Error signal: 'test' ] recordedAs: 'This is a new test' ]
-		on: Error
-		do: [ errorDetected := true ].
-	Object new execute: [ 'test' record ] recordedAs: 'This is a new test'.
-	contents := Stdio stdout contents asString.
-	"Ensure we have the right indentation."
-	self assert: errorDetected.
-	self assert: contents withUnixLineEndings equals: 'No time: Begin: This is a new test
+		Stdio stub stdout willReturn: stream.
+		[ Object new execute: [ Error signal: 'test' ] recordedAs: 'This is a new test' ]
+			on: Error
+			do: [ errorDetected := true ].
+		Object new execute: [ 'test' record ] recordedAs: 'This is a new test'.
+		contents := Stdio stdout contents asString.
+		"Ensure we have the right indentation."
+		self assert: errorDetected.
+		self assert: contents withUnixLineEndings equals: 'No time: Begin: This is a new test
 No time: End with error: This is a new test. Error message: "Error: test"
 No time: Begin: This is a new test
 No time: 	test
 No time: End: This is a new test
 ' withUnixLineEndings ] ensure: [
-		Stdio recoverFromGHMutation.
-		stream close ]
+			Stdio recoverFromGHMutation.
+			stream close ]
 ]
 
 { #category : 'tests' }
@@ -307,24 +320,27 @@ TinyLoggerTest >> testExecuteRecordedAsKeepsUnprefixedOutput [
 
 { #category : 'tests' }
 TinyLoggerTest >> testExecuteRecordedAsReturnBlockContent [
+
 	| contents stream bool |
 	bool := false.
 	logger
 		removeAllLoggers;
 		addStdoutLogger.
 	stream := '' writeStream.
-	[ Stdio stub stdout willReturn: stream.
-	bool := logger execute: [ true ] recordedAs: 'This is a new test'.
-	contents := Stdio stdout contents asString.
-	self assert: bool.
-	self assert: (contents includesSubstring: 'Begin: This is a new test').
-	self assert: (contents includesSubstring: 'End: This is a new test') ]
-		ensure: [ Stdio recoverFromGHMutation.
+	[
+		Stdio stub stdout willReturn: stream.
+		bool := logger execute: [ true ] recordedAs: 'This is a new test'.
+		contents := Stdio stdout contents asString.
+		self assert: bool.
+		self assert: (contents includesSubstring: 'Begin: This is a new test').
+		self assert: (contents includesSubstring: 'End: This is a new test') ] ensure: [
+			Stdio recoverFromGHMutation.
 			stream close ]
 ]
 
 { #category : 'tests' }
 TinyLoggerTest >> testFileLoggers [
+
 	logger
 		addTranscriptLogger;
 		addFileLoggerNamed: 'test.log';
@@ -356,6 +372,7 @@ TinyLoggerTest >> testFilteredLogBlockIsNotEvaluated [
 
 { #category : 'tests' }
 TinyLoggerTest >> testHasLoggers [
+
 	self deny: logger hasLoggers.
 	logger addFileLogger.
 	self assert: logger hasLoggers
@@ -434,6 +451,7 @@ TinyLoggerTest >> testLevelSpecificLogBlockIsEvaluatedWhenEnabled [
 
 { #category : 'tests' }
 TinyLoggerTest >> testLogLevelOrdering [
+
 	self assert: (TinyDebugLevel allows: TinyErrorLevel).
 	self deny: (TinyErrorLevel allows: TinyDebugLevel).
 	self deny: (TinyOffLevel allows: TinyFatalLevel)
@@ -441,6 +459,7 @@ TinyLoggerTest >> testLogLevelOrdering [
 
 { #category : 'tests' }
 TinyLoggerTest >> testLoggers [
+
 	logger
 		addTranscriptLogger;
 		addFileLoggerNamed: 'test.log';
@@ -453,6 +472,7 @@ TinyLoggerTest >> testLoggers [
 
 { #category : 'tests' }
 TinyLoggerTest >> testNestedExecuteRecordedAs [
+
 	| contents stream bool1 bool2 |
 	bool1 := false.
 	bool2 := false.
@@ -460,19 +480,21 @@ TinyLoggerTest >> testNestedExecuteRecordedAs [
 		removeAllLoggers;
 		addStdoutLogger.
 	stream := '' writeStream.
-	[ Stdio stub stdout willReturn: stream.
-	logger
-		execute: [ bool1 := true.
-			logger execute: [ bool2 := true ] recordedAs: 'Test2' ]
-		recordedAs: 'Test1'.
-	contents := Stdio stdout contents asString.
-	self assert: bool1.
-	self assert: bool2.
-	self assert: (contents includesSubstring: 'Begin: Test1').
-	self assert: (contents includesSubstring: 'End: Test1').
-	self assert: (contents includesSubstring: '	Begin: Test2').
-	self assert: (contents includesSubstring: '	End: Test2') ]
-		ensure: [ Stdio recoverFromGHMutation.
+	[
+		Stdio stub stdout willReturn: stream.
+		logger
+			execute: [
+					bool1 := true.
+					logger execute: [ bool2 := true ] recordedAs: 'Test2' ]
+			recordedAs: 'Test1'.
+		contents := Stdio stdout contents asString.
+		self assert: bool1.
+		self assert: bool2.
+		self assert: (contents includesSubstring: 'Begin: Test1').
+		self assert: (contents includesSubstring: 'End: Test1').
+		self assert: (contents includesSubstring: '	Begin: Test2').
+		self assert: (contents includesSubstring: '	End: Test2') ] ensure: [
+			Stdio recoverFromGHMutation.
 			stream close ]
 ]
 
@@ -487,6 +509,7 @@ TinyLoggerTest >> testOffLevelSuppressesEveryLogBlock [
 
 { #category : 'tests' }
 TinyLoggerTest >> testRecord [
+
 	| contents stream |
 	logger
 		removeAllLoggers;
@@ -494,17 +517,19 @@ TinyLoggerTest >> testRecord [
 		addStdoutLogger;
 		addTranscriptLogger.
 	stream := '' writeStream.
-	[ Stdio stub stdout willReturn: stream.
-	logger record: 'This is a new test'.
-	contents := Stdio stdout contents asString lines.
-	self assert: (contents last includesSubstring: 'This is a new test').
-	self assert: ((contents at: contents size - 1) includesSubstring: 'This is a new test') ]
-		ensure: [ Stdio recoverFromGHMutation.
+	[
+		Stdio stub stdout willReturn: stream.
+		logger record: 'This is a new test'.
+		contents := Stdio stdout contents asString lines.
+		self assert: (contents last includesSubstring: 'This is a new test').
+		self assert: ((contents at: contents size - 1) includesSubstring: 'This is a new test') ] ensure: [
+			Stdio recoverFromGHMutation.
 			stream close ]
 ]
 
 { #category : 'tests' }
 TinyLoggerTest >> testRecord2 [
+
 	| contents stream |
 	logger
 		removeAllLoggers;
@@ -512,29 +537,30 @@ TinyLoggerTest >> testRecord2 [
 		addStdoutLogger;
 		addTranscriptLogger.
 	stream := '' writeStream.
-	[ Stdio stub stdout willReturn: stream.
-	logger << 'This is a new test'.
-	contents := Stdio stdout contents asString lines.
-	self assert: (contents last includesSubstring: 'This is a new test').
-	self assert: ((contents at: contents size - 1) includesSubstring: 'This is a new test') ]
-		ensure: [ Stdio recoverFromGHMutation.
+	[
+		Stdio stub stdout willReturn: stream.
+		logger << 'This is a new test'.
+		contents := Stdio stdout contents asString lines.
+		self assert: (contents last includesSubstring: 'This is a new test').
+		self assert: ((contents at: contents size - 1) includesSubstring: 'This is a new test') ] ensure: [
+			Stdio recoverFromGHMutation.
 			stream close ]
 ]
 
 { #category : 'tests' }
 TinyLoggerTest >> testRecord3 [
+
 	| log |
-	log :=  'testFileForTinyLogger.log' asFileReference.
+	log := 'testFileForTinyLogger.log' asFileReference.
 	[
-	logger addFileLoggerNamed: log basename.
-	
-	'this is a test' record.
-	
-	self assert: log exists.
-	self assert: log contents lines isNotEmpty.
-	self assert: (log contents lines last includesSubstring: 'this is a test') ]
-		ensure: [ (log isNotNil and: [ log exists ])
-				ifTrue: [ log ensureDelete ] ]
+		logger addFileLoggerNamed: log basename.
+
+		'this is a test' record.
+
+		self assert: log exists.
+		self assert: log contents lines isNotEmpty.
+		self assert: (log contents lines last includesSubstring: 'this is a test') ] ensure: [
+		(log isNotNil and: [ log exists ]) ifTrue: [ log ensureDelete ] ]
 ]
 
 { #category : 'tests' }
@@ -579,29 +605,28 @@ TinyLoggerTest >> testRecordAtLevelUsesLevelPrefix [
 
 { #category : 'tests' }
 TinyLoggerTest >> testRecordBlock [
+
 	| log |
 	log := 'testFileForTinyLogger.log' asFileReference.
 	[
-	logger record: [ self fail ].
+		logger record: [ self fail ].
 
-	self deny: log exists ]
-		ensure: [ (log isNotNil and: [ log exists ])
-				ifTrue: [ log ensureDelete ] ]
+		self deny: log exists ] ensure: [ (log isNotNil and: [ log exists ]) ifTrue: [ log ensureDelete ] ]
 ]
 
 { #category : 'tests' }
 TinyLoggerTest >> testRecordBlock2 [
+
 	| log |
 	log := 'testFileForTinyLogger.log' asFileReference.
 	[
-	logger addFileLoggerNamed: log basename.
+		logger addFileLoggerNamed: log basename.
 
-	logger record: [ 'this is a test' ].
+		logger record: [ 'this is a test' ].
 
-	self assert: log exists.
-	self assert: (log contents includesSubstring: 'this is a test') ]
-		ensure: [ (log isNotNil and: [ log exists ])
-				ifTrue: [ log ensureDelete ] ]
+		self assert: log exists.
+		self assert: (log contents includesSubstring: 'this is a test') ] ensure: [
+		(log isNotNil and: [ log exists ]) ifTrue: [ log ensureDelete ] ]
 ]
 
 { #category : 'tests' }
@@ -620,29 +645,28 @@ TinyLoggerTest >> testRecordBlockIsEvaluatedOnceForMultipleLoggers [
 
 { #category : 'tests' }
 TinyLoggerTest >> testRecordBlockReceiver [
+
 	| log |
 	log := 'testFileForTinyLogger.log' asFileReference.
 	[
-	[ self fail ] record.
+		[ self fail ] record.
 
-	self deny: log exists ]
-		ensure: [ (log isNotNil and: [ log exists ])
-				ifTrue: [ log ensureDelete ] ]
+		self deny: log exists ] ensure: [ (log isNotNil and: [ log exists ]) ifTrue: [ log ensureDelete ] ]
 ]
 
 { #category : 'tests' }
 TinyLoggerTest >> testRecordBlockReceiver2 [
+
 	| log |
 	log := 'testFileForTinyLogger.log' asFileReference.
 	[
-	logger addFileLoggerNamed: log basename.
+		logger addFileLoggerNamed: log basename.
 
-	[ 'this is a test' ] record.
+		[ 'this is a test' ] record.
 
-	self assert: log exists.
-	self assert: (log contents includesSubstring: 'this is a test') ]
-		ensure: [ (log isNotNil and: [ log exists ])
-				ifTrue: [ log ensureDelete ] ]
+		self assert: log exists.
+		self assert: (log contents includesSubstring: 'this is a test') ] ensure: [
+		(log isNotNil and: [ log exists ]) ifTrue: [ log ensureDelete ] ]
 ]
 
 { #category : 'tests' }
@@ -672,6 +696,7 @@ TinyLoggerTest >> testRecordUsesInfoLevel [
 
 { #category : 'tests' }
 TinyLoggerTest >> testRemoveAllLoggers [
+
 	logger
 		addTranscriptLogger;
 		addFileLoggerNamed: 'test.log';
@@ -683,6 +708,7 @@ TinyLoggerTest >> testRemoveAllLoggers [
 
 { #category : 'tests' }
 TinyLoggerTest >> testRemoveFileLoggers [
+
 	logger
 		addTranscriptLogger;
 		addFileLoggerNamed: 'test.log';
@@ -714,6 +740,7 @@ TinyLoggerTest >> testRemoveLogger [
 
 { #category : 'tests' }
 TinyLoggerTest >> testRemoveStdoutLoggers [
+
 	logger
 		addStdoutLogger;
 		addStdoutLogger;
@@ -725,6 +752,7 @@ TinyLoggerTest >> testRemoveStdoutLoggers [
 
 { #category : 'tests' }
 TinyLoggerTest >> testRemoveTranscriptLoggers [
+
 	logger
 		addTranscriptLogger;
 		addTranscriptLogger;
@@ -736,6 +764,7 @@ TinyLoggerTest >> testRemoveTranscriptLoggers [
 
 { #category : 'tests' }
 TinyLoggerTest >> testStdoutLoggers [
+
 	logger
 		addStdoutLogger;
 		addStdoutLogger;
@@ -747,6 +776,7 @@ TinyLoggerTest >> testStdoutLoggers [
 
 { #category : 'tests' }
 TinyLoggerTest >> testTranscriptLoggers [
+
 	logger
 		addTranscriptLogger;
 		addTranscriptLogger;
@@ -768,6 +798,7 @@ TinyLoggerTest >> testValueDuringRestoresOriginalLogger [
 
 { #category : 'tests' }
 TinyLoggerTest >> testWithDefaultLoggers [
+
 	| numberOfDefaultLoggers |
 	logger withDefaultLoggers.
 	self assert: logger loggers isNotEmpty.
@@ -780,6 +811,7 @@ TinyLoggerTest >> testWithDefaultLoggers [
 
 { #category : 'tests' }
 TinyLoggerTest >> testindentExecutionBlock [
+
 	| contents stream |
 	logger
 		timestampFormatBlock: [ :s | s nextPutAll: 'No time' ];
@@ -787,19 +819,17 @@ TinyLoggerTest >> testindentExecutionBlock [
 		addStdoutLogger;
 		indentExecutionBlock: true.
 	stream := '' writeStream.
-	[ Stdio stub stdout willReturn: stream.
-	Object new execute: [ 'test' record ] recordedAs: 'This is a new test'.
-	contents := Stdio stdout contents asString.
+	[
+		Stdio stub stdout willReturn: stream.
+		Object new execute: [ 'test' record ] recordedAs: 'This is a new test'.
+		contents := Stdio stdout contents asString.
 
-	"Ensure we have the right indentation."
-	self
-		assert: contents withUnixLineEndings
-		equals:
-			'No time: 	Begin: This is a new test
+		"Ensure we have the right indentation."
+		self assert: contents withUnixLineEndings equals: 'No time: 	Begin: This is a new test
 No time: 		test
 No time: 	End: This is a new test
-' withUnixLineEndings ]
-		ensure: [ Stdio recoverFromGHMutation.
+' withUnixLineEndings ] ensure: [
+			Stdio recoverFromGHMutation.
 			stream close ]
 ]
 
@@ -815,20 +845,20 @@ TinyLoggerTest >> testindentExecutionBlockKeepRightIndentation [
 		indentExecutionBlock: true.
 	stream := '' writeStream.
 	[
-	Stdio stub stdout willReturn: stream.
-	[ Object new execute: [ Error signal: 'test' ] recordedAs: 'This is a new test' ]
-		on: Error
-		do: [ errorDetected := true ].
-	Object new execute: [ 'test' record ] recordedAs: 'This is a new test'.
-	contents := Stdio stdout contents asString.
-	"Ensure we have the right indentation."
-	self assert: errorDetected.
-	self assert: contents withUnixLineEndings equals: 'No time: 	Begin: This is a new test
+		Stdio stub stdout willReturn: stream.
+		[ Object new execute: [ Error signal: 'test' ] recordedAs: 'This is a new test' ]
+			on: Error
+			do: [ errorDetected := true ].
+		Object new execute: [ 'test' record ] recordedAs: 'This is a new test'.
+		contents := Stdio stdout contents asString.
+		"Ensure we have the right indentation."
+		self assert: errorDetected.
+		self assert: contents withUnixLineEndings equals: 'No time: 	Begin: This is a new test
 No time: 	End with error: This is a new test. Error message: "Error: test"
 No time: 	Begin: This is a new test
 No time: 		test
 No time: 	End: This is a new test
 ' withUnixLineEndings ] ensure: [
-		Stdio recoverFromGHMutation.
-		stream close ]
+			Stdio recoverFromGHMutation.
+			stream close ]
 ]

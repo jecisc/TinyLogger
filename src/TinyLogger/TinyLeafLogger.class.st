@@ -34,7 +34,6 @@ Class {
 
 { #category : 'instance creation' }
 TinyLeafLogger class >> for: aTinyLogger [
-
 	^ self new
 		  parentLogger: aTinyLogger;
 		  in: [ :logger | aTinyLogger addLogger: logger ];
@@ -50,7 +49,7 @@ TinyLeafLogger class >> isAbstract [
 { #category : 'accessing' }
 TinyLeafLogger class >> kind [
 	<ignoreForCoverage>
-	^ self subclassResponsibility
+	self subclassResponsibility
 ]
 
 { #category : 'accessing' }
@@ -117,7 +116,7 @@ TinyLeafLogger >> record: aString on: aStream atLevel: aTinyLogLevel [
 
 { #category : 'accessing' }
 TinyLeafLogger >> recordIndentationOn: aStream [
-	<compilerOptions: #( #+ optionInlineTimesRepeat )>
+	<compilerOptions: #(#+ optionInlineTimesRepeat)>
 	self depth timesRepeat: [ aStream nextPutAll: self indentationString ]
 ]
 

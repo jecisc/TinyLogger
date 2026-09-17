@@ -15,3 +15,9 @@ Class {
 	#package : 'TinyLogger-Tests',
 	#tag : 'Manifest'
 }
+
+{ #category : 'formatting' }
+ManifestTinyLoggerTests class >> formatter [
+
+	^ EFFormatter new installNewContext: (EFContext new maxLineLength: 130)
+]

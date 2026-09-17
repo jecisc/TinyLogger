@@ -28,6 +28,7 @@ TinyStdoutLogger class >> kind [
 { #category : 'logging' }
 TinyStdoutLogger >> clearLog [
 	"We do nothing here since we cannot clear stdout"
+	
 ]
 
 { #category : 'opening' }

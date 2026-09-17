@@ -16,17 +16,14 @@ Class {
 { #category : 'baselines' }
 BaselineOfTinyLogger >> baseline: spec [
 	<baseline>
-	spec
-		for: #common
-		do: [
-			"Dependencies"
+	spec for: #common do: [ "Dependencies"
 			self mocketry: spec.
-			
+
 			"Packages"
 			spec
 				package: 'TinyLogger';
 				package: 'TinyLogger-Tests' with: [ spec requires: #('TinyLogger' 'Mocketry') ].
-			
+
 			"Groups"
 			spec
 				group: 'Core' with: #('TinyLogger');
@@ -35,9 +32,8 @@ BaselineOfTinyLogger >> baseline: spec [
 
 { #category : 'dependencies' }
 BaselineOfTinyLogger >> mocketry: spec [
-	spec
-		baseline: 'Mocketry'
-		with: [ spec
+	spec baseline: 'Mocketry' with: [
+			spec
 				loads: #('Core');
 				repository: 'github://dionisiydk/Mocketry:v7.0.3' ]
 ]

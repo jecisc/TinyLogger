@@ -11,7 +11,6 @@ Class {
 
 { #category : 'as yet unclassified' }
 TinyOpenTerminalVisitor class >> openTerminalForFileLogger: aTinyFileLogger [
-
 	^ self new
 		  logger: aTinyFileLogger;
 		  visit
@@ -19,20 +18,16 @@ TinyOpenTerminalVisitor class >> openTerminalForFileLogger: aTinyFileLogger [
 
 { #category : 'accessing' }
 TinyOpenTerminalVisitor >> logger [
-
 	^ logger
 ]
 
 { #category : 'accessing' }
 TinyOpenTerminalVisitor >> logger: anObject [
-
 	logger := anObject
 ]
 
 { #category : 'accessing' }
 TinyOpenTerminalVisitor >> visitWindows: aPlatform [
-
 	LibC runCommand:
-		'start powershell -noexit -noprofil -command "& { Get-Content -wait '
-		, self logger fileReference pathString , ' }"'
+		'start powershell -noexit -noprofil -command "& { Get-Content -wait ' , self logger fileReference pathString , ' }"'
 ]
